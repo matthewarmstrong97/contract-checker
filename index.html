@@ -937,8 +937,8 @@ async function checkFreeStatus() {
     const { hasFree } = await res.json();
     isFreeUser = hasFree;
     updateCTAForFreeStatus();
-  } catch (e) {
-    isFreeUser = false;
+} catch (e) {
+    isFreeUser = true;
     updateCTAForFreeStatus();
   }
 }
