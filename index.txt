@@ -1,0 +1,1189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ContractCheck — Know Before You Sign</title>
+
+<!-- Fonts: Bebas Neue for headings, DM Sans for body -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- Stripe.js -->
+<script src="https://js.stripe.com/v3/"></script>
+
+<!-- jsPDF for download -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<style>
+  :root {
+    --yellow: #F5C800;
+    --yellow-dark: #D4AC00;
+    --charcoal: #1A1A1A;
+    --charcoal-mid: #2C2C2C;
+    --charcoal-light: #3D3D3D;
+    --steel: #5A5A5A;
+    --smoke: #EBEBEB;
+    --white: #FAFAFA;
+    --red: #E53E3E;
+    --orange: #ED8936;
+    --green: #38A169;
+    --blue: #3182CE;
+    --radius: 4px;
+    --radius-lg: 8px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--charcoal);
+    color: var(--white);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ─── NOISE TEXTURE OVERLAY ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 200px;
+  }
+
+  /* ─── HEADER ─── */
+  header {
+    position: relative;
+    z-index: 10;
+    border-bottom: 3px solid var(--yellow);
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+  }
+
+  .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 2px;
+    color: var(--yellow);
+  }
+
+  .logo span {
+    color: var(--white);
+  }
+
+  .price-badge {
+    background: var(--yellow);
+    color: var(--charcoal);
+    font-weight: 700;
+    font-size: 13px;
+    padding: 6px 14px;
+    border-radius: var(--radius);
+    letter-spacing: 0.5px;
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    position: relative;
+    z-index: 1;
+    padding: 56px 24px 48px;
+    max-width: 680px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .hero-eyebrow {
+    display: inline-block;
+    background: var(--charcoal-mid);
+    border: 1px solid var(--charcoal-light);
+    border-left: 3px solid var(--yellow);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--yellow);
+    padding: 6px 14px;
+    margin-bottom: 20px;
+  }
+
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(42px, 10vw, 72px);
+    line-height: 0.95;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+  }
+
+  .hero h1 em {
+    font-style: normal;
+    color: var(--yellow);
+    display: block;
+  }
+
+  .hero p {
+    color: #ABABAB;
+    font-size: 16px;
+    line-height: 1.65;
+    max-width: 480px;
+    margin: 0 auto 32px;
+  }
+
+  /* ─── TRUST STRIP ─── */
+  .trust-strip {
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 48px;
+  }
+
+  .trust-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #888;
+  }
+
+  .trust-item .icon {
+    color: var(--yellow);
+    font-size: 15px;
+  }
+
+  /* ─── MAIN CARD ─── */
+  .main-card {
+    position: relative;
+    z-index: 1;
+    max-width: 680px;
+    margin: 0 auto 32px;
+    padding: 0 24px;
+  }
+
+  .card {
+    background: var(--charcoal-mid);
+    border: 1px solid var(--charcoal-light);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  .card-header {
+    background: var(--charcoal-light);
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid #444;
+  }
+
+  .card-header h2 {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .card-step {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--yellow);
+    color: var(--charcoal);
+    font-size: 12px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .card-body {
+    padding: 24px;
+  }
+
+  /* ─── TABS ─── */
+  .tabs {
+    display: flex;
+    gap: 0;
+    margin-bottom: 20px;
+    border: 1px solid var(--charcoal-light);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .tab-btn {
+    flex: 1;
+    padding: 10px;
+    background: transparent;
+    border: none;
+    color: #888;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.5px;
+  }
+
+  .tab-btn.active {
+    background: var(--yellow);
+    color: var(--charcoal);
+  }
+
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* ─── TEXTAREA ─── */
+  textarea {
+    width: 100%;
+    background: var(--charcoal);
+    border: 2px solid var(--charcoal-light);
+    border-radius: var(--radius);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    padding: 16px;
+    resize: vertical;
+    min-height: 180px;
+    transition: border-color 0.2s;
+    outline: none;
+  }
+
+  textarea:focus { border-color: var(--yellow); }
+  textarea::placeholder { color: #555; }
+
+  /* ─── DROP ZONE ─── */
+  .drop-zone {
+    border: 2px dashed var(--charcoal-light);
+    border-radius: var(--radius);
+    padding: 40px 24px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    background: var(--charcoal);
+  }
+
+  .drop-zone:hover, .drop-zone.dragover {
+    border-color: var(--yellow);
+    background: rgba(245,200,0,0.05);
+  }
+
+  .drop-zone input[type="file"] {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+  }
+
+  .drop-icon {
+    font-size: 36px;
+    margin-bottom: 12px;
+    display: block;
+  }
+
+  .drop-zone p {
+    color: #888;
+    font-size: 14px;
+    margin: 0;
+  }
+
+  .drop-zone strong { color: var(--yellow); }
+
+  .file-selected {
+    margin-top: 12px;
+    background: rgba(245,200,0,0.1);
+    border: 1px solid rgba(245,200,0,0.3);
+    border-radius: var(--radius);
+    padding: 10px 14px;
+    font-size: 13px;
+    color: var(--yellow);
+    display: none;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* ─── CTA BUTTON ─── */
+  .cta-btn {
+    width: 100%;
+    background: var(--yellow);
+    color: var(--charcoal);
+    border: none;
+    border-radius: var(--radius);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 2px;
+    padding: 18px;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-btn:hover:not(:disabled) {
+    background: var(--yellow-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(245,200,0,0.25);
+  }
+
+  .cta-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .cta-btn .lock { font-size: 16px; }
+
+  /* ─── PAYMENT NOTICE ─── */
+  .payment-notice {
+    margin-top: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-size: 12px;
+    color: #666;
+  }
+
+  /* ─── PROGRESS / ANALYSIS SCREEN ─── */
+  #analysis-screen {
+    display: none;
+    position: relative;
+    z-index: 1;
+    max-width: 680px;
+    margin: 0 auto 32px;
+    padding: 0 24px;
+  }
+
+  .progress-card {
+    background: var(--charcoal-mid);
+    border: 1px solid var(--charcoal-light);
+    border-radius: var(--radius-lg);
+    padding: 40px 32px;
+    text-align: center;
+  }
+
+  .spinner {
+    width: 56px;
+    height: 56px;
+    border: 4px solid var(--charcoal-light);
+    border-top-color: var(--yellow);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 24px;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .progress-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+
+  .progress-subtitle {
+    color: #888;
+    font-size: 14px;
+    margin-bottom: 32px;
+  }
+
+  .progress-steps {
+    list-style: none;
+    text-align: left;
+    max-width: 360px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .progress-step {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+    color: #666;
+    transition: color 0.3s;
+  }
+
+  .progress-step.active { color: var(--white); }
+  .progress-step.done { color: var(--green); }
+
+  .step-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--charcoal-light);
+    flex-shrink: 0;
+    transition: background 0.3s;
+  }
+
+  .progress-step.active .step-dot {
+    background: var(--yellow);
+    box-shadow: 0 0 8px rgba(245,200,0,0.5);
+    animation: pulse 1s ease-in-out infinite;
+  }
+
+  .progress-step.done .step-dot { background: var(--green); }
+
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+  /* ─── REPORT SCREEN ─── */
+  #report-screen {
+    display: none;
+    position: relative;
+    z-index: 1;
+    max-width: 760px;
+    margin: 0 auto 32px;
+    padding: 0 24px;
+  }
+
+  .report-header {
+    background: var(--charcoal-mid);
+    border: 1px solid var(--charcoal-light);
+    border-radius: var(--radius-lg);
+    padding: 28px 32px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .report-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    letter-spacing: 1px;
+    color: var(--yellow);
+    margin-bottom: 4px;
+  }
+
+  .report-meta {
+    font-size: 13px;
+    color: #666;
+  }
+
+  .risk-summary {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .risk-pill {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+
+  .risk-pill.critical { background: rgba(229,62,62,0.15); color: #FC8181; border: 1px solid rgba(229,62,62,0.3); }
+  .risk-pill.high { background: rgba(237,137,54,0.15); color: #FBB98B; border: 1px solid rgba(237,137,54,0.3); }
+  .risk-pill.medium { background: rgba(245,200,0,0.15); color: var(--yellow); border: 1px solid rgba(245,200,0,0.3); }
+  .risk-pill.low { background: rgba(56,161,105,0.15); color: #68D391; border: 1px solid rgba(56,161,105,0.3); }
+
+  .report-content {
+    background: var(--charcoal-mid);
+    border: 1px solid var(--charcoal-light);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+
+  .report-body {
+    padding: 32px;
+    font-size: 15px;
+    line-height: 1.8;
+    color: #D0D0D0;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  .report-body h2, .report-body h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 1px;
+    margin: 28px 0 12px;
+    color: var(--white);
+    font-size: 22px;
+  }
+
+  .report-body strong { color: var(--white); }
+
+  /* Risk section coloring */
+  .section-critical { color: #FC8181; }
+  .section-warning { color: #FBB98B; }
+  .section-ok { color: #68D391; }
+  .section-question { color: #90CDF4; }
+
+  .download-btn {
+    width: 100%;
+    background: transparent;
+    border: 2px solid var(--yellow);
+    color: var(--yellow);
+    border-radius: var(--radius);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: 2px;
+    padding: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-bottom: 10px;
+  }
+
+  .download-btn:hover {
+    background: var(--yellow);
+    color: var(--charcoal);
+  }
+
+  .new-review-btn {
+    width: 100%;
+    background: var(--charcoal-light);
+    border: none;
+    color: #888;
+    border-radius: var(--radius);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .new-review-btn:hover { color: var(--white); background: #555; }
+
+  /* ─── HOW IT WORKS ─── */
+  .how-section {
+    position: relative;
+    z-index: 1;
+    max-width: 680px;
+    margin: 0 auto 48px;
+    padding: 0 24px;
+  }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--yellow);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--charcoal-light);
+  }
+
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 16px;
+  }
+
+  .step-card {
+    background: var(--charcoal-mid);
+    border: 1px solid var(--charcoal-light);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    position: relative;
+  }
+
+  .step-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 48px;
+    color: var(--charcoal-light);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .step-card h3 {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .step-card p {
+    font-size: 13px;
+    color: #777;
+    line-height: 1.5;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid var(--charcoal-light);
+    padding: 24px;
+    text-align: center;
+  }
+
+  .disclaimer {
+    font-size: 12px;
+    color: #555;
+    max-width: 560px;
+    margin: 0 auto 12px;
+    line-height: 1.6;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    font-size: 12px;
+    color: #555;
+  }
+
+  /* ─── ERROR ─── */
+  .error-msg {
+    background: rgba(229,62,62,0.1);
+    border: 1px solid rgba(229,62,62,0.3);
+    border-radius: var(--radius);
+    padding: 12px 16px;
+    font-size: 13px;
+    color: #FC8181;
+    margin-top: 12px;
+    display: none;
+  }
+
+  /* ─── MOBILE ─── */
+  @media (max-width: 480px) {
+    .hero { padding: 36px 20px 32px; }
+    .main-card, .how-section { padding: 0 16px; }
+    .card-body { padding: 20px 18px; }
+    .report-body { padding: 20px; }
+    .report-header { padding: 20px; }
+    .report-title { font-size: 28px; }
+    steps-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero, .main-card, .how-section {
+    animation: fadeUp 0.5s ease forwards;
+  }
+
+  .main-card { animation-delay: 0.1s; opacity: 0; }
+  .how-section { animation-delay: 0.2s; opacity: 0; }
+</style>
+</head>
+<body>
+
+<!-- ─── HEADER ─── -->
+<header>
+  <div class="logo">Contract<span>Check</span></div>
+  <div class="price-badge">$19 per review</div>
+</header>
+
+<!-- ─── HERO ─── -->
+<div class="hero">
+  <div class="hero-eyebrow">For NZ &amp; AU Subcontractors</div>
+  <h1>Know What You're<em>Signing.</em></h1>
+  <p>Upload your contract and get a plain-English risk report in under 2 minutes. We'll flag the dodgy clauses before you're locked in.</p>
+
+  <div class="trust-strip">
+    <div class="trust-item"><span class="icon">⚡</span> 2-min turnaround</div>
+    <div class="trust-item"><span class="icon">🛡️</span> NZ Construction Act checked</div>
+    <div class="trust-item"><span class="icon">🔒</span> Secure payment</div>
+    <div class="trust-item"><span class="icon">📱</span> Works on phone</div>
+  </div>
+</div>
+
+<!-- ─── UPLOAD CARD ─── -->
+<div class="main-card" id="upload-section">
+  <div class="card">
+    <div class="card-header">
+      <div class="card-step">1</div>
+      <h2>Paste or Upload Your Contract</h2>
+    </div>
+    <div class="card-body">
+
+      <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('paste')">📋 Paste Text</button>
+        <button class="tab-btn" onclick="switchTab('upload')">📄 Upload PDF</button>
+      </div>
+
+      <!-- Paste tab -->
+      <div class="tab-panel active" id="tab-paste">
+        <textarea id="contract-text" placeholder="Paste your contract here — the whole thing, or just the sections you're unsure about..."></textarea>
+      </div>
+
+      <!-- Upload tab -->
+      <div class="tab-panel" id="tab-upload">
+        <div class="drop-zone" id="drop-zone">
+          <input type="file" id="pdf-input" accept=".pdf" onchange="handleFileSelect(event)">
+          <span class="drop-icon">📄</span>
+          <p><strong>Drop your PDF here</strong> or click to browse</p>
+          <p style="font-size:12px;margin-top:6px;">PDF files only · Max 10MB</p>
+        </div>
+        <div class="file-selected" id="file-selected">
+          <span>📎</span>
+          <span id="file-name"></span>
+        </div>
+      </div>
+
+      <div class="error-msg" id="error-msg"></div>
+
+      <button class="cta-btn" id="pay-btn" onclick="startPayment()">
+        <span class="lock">🔒</span>
+        Review My Contract — $19
+      </button>
+
+      <div class="payment-notice">
+        🔐 Powered by Stripe · Secure checkout
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── ANALYSIS PROGRESS ─── -->
+<div id="analysis-screen">
+  <div class="progress-card">
+    <div class="spinner"></div>
+    <div class="progress-title">Reviewing Your Contract</div>
+    <div class="progress-subtitle" id="progress-subtitle">This takes about 60–90 seconds...</div>
+
+    <ul class="progress-steps">
+      <li class="progress-step" id="step-extract">
+        <div class="step-dot"></div>
+        Extracting clauses from document
+      </li>
+      <li class="progress-step" id="step-risk">
+        <div class="step-dot"></div>
+        Assessing risks &amp; NZ Act compliance
+      </li>
+      <li class="progress-step" id="step-report">
+        <div class="step-dot"></div>
+        Writing your plain-English report
+      </li>
+    </ul>
+  </div>
+</div>
+
+<!-- ─── REPORT ─── -->
+<div id="report-screen">
+  <div class="report-header">
+    <div>
+      <div class="report-title">Your Contract Report</div>
+      <div class="report-meta" id="report-meta">Generated just now</div>
+    </div>
+    <div class="risk-summary" id="risk-summary"></div>
+  </div>
+
+  <div class="report-content">
+    <div class="report-body" id="report-body"></div>
+  </div>
+
+  <button class="download-btn" onclick="downloadPDF()">⬇ Download PDF Report</button>
+  <button class="new-review-btn" onclick="resetApp()">Start a new review</button>
+</div>
+
+<!-- ─── HOW IT WORKS ─── -->
+<div class="how-section" id="how-section">
+  <div class="section-label">How it works</div>
+  <div class="steps-grid">
+    <div class="step-card">
+      <div class="step-num">01</div>
+      <h3>Paste or upload</h3>
+      <p>Your contract text or PDF goes in — the whole thing or just the tricky bits.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-num">02</div>
+      <h3>Secure payment</h3>
+      <p>$19 via Stripe. One-off, no subscription, no account needed.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-num">03</div>
+      <h3>AI reads it</h3>
+      <p>Three layers of analysis against NZ Construction Contract Act 2002.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-num">04</div>
+      <h3>Get your report</h3>
+      <p>Plain English. What's dodgy, what's fine, what to ask about.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <p class="disclaimer">⚠️ AI-assisted review only — not legal advice. ContractCheck helps you understand your contract but doesn't replace a qualified lawyer. For complex disputes or high-value contracts, please consult a construction law specialist.</p>
+  <div class="footer-links">
+    <span>© 2025 ContractCheck</span>
+    <span>·</span>
+    <span>NZ &amp; AU Tradespeople</span>
+  </div>
+</footer>
+
+
+<script>
+// ─────────────────────────────────────────────
+// CONFIG — pulled from Vercel env vars via meta tags
+// In production these are injected server-side.
+// For local dev, set them directly below.
+// ─────────────────────────────────────────────
+const CONFIG = {
+  stripePublishableKey: document.querySelector('meta[name="stripe-pk"]')?.content || 'STRIPE_PUBLISHABLE_KEY',
+  backendUrl: window.location.origin,  // same domain (Vercel serverless functions)
+};
+
+// ─── STATE ───
+let activeTab = 'paste';
+let selectedFile = null;
+let contractContent = '';
+let reportText = '';
+let clauseData = [];
+
+// ─── TAB SWITCHING ───
+function switchTab(tab) {
+  activeTab = tab;
+  document.querySelectorAll('.tab-btn').forEach((b, i) => {
+    b.classList.toggle('active', (i === 0 && tab === 'paste') || (i === 1 && tab === 'upload'));
+  });
+  document.getElementById('tab-paste').classList.toggle('active', tab === 'paste');
+  document.getElementById('tab-upload').classList.toggle('active', tab === 'upload');
+}
+
+// ─── FILE HANDLING ───
+function handleFileSelect(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  if (file.size > 10 * 1024 * 1024) {
+    showError('File too large. Please upload a PDF under 10MB.');
+    return;
+  }
+  selectedFile = file;
+  document.getElementById('file-name').textContent = file.name;
+  document.getElementById('file-selected').style.display = 'flex';
+}
+
+// Drag and drop
+const dz = document.getElementById('drop-zone');
+dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('dragover'); });
+dz.addEventListener('dragleave', () => dz.classList.remove('dragover'));
+dz.addEventListener('drop', e => {
+  e.preventDefault();
+  dz.classList.remove('dragover');
+  const file = e.dataTransfer.files[0];
+  if (file && file.type === 'application/pdf') {
+    selectedFile = file;
+    document.getElementById('file-name').textContent = file.name;
+    document.getElementById('file-selected').style.display = 'flex';
+  }
+});
+
+// ─── READ PDF AS BASE64 ───
+async function readFileAsBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result.split(',')[1]);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+// ─── EXTRACT TEXT FROM PDF (client-side via API) ───
+async function extractPDFText(file) {
+  // We'll send the PDF to our backend for extraction
+  const b64 = await readFileAsBase64(file);
+  return b64; // backend handles extraction
+}
+
+// ─── ERROR DISPLAY ───
+function showError(msg) {
+  const el = document.getElementById('error-msg');
+  el.textContent = msg;
+  el.style.display = 'block';
+  setTimeout(() => el.style.display = 'none', 6000);
+}
+
+// ─── PROGRESS STEPS ───
+function setStep(stepId, state) {
+  // state: 'active' | 'done' | 'pending'
+  const el = document.getElementById(stepId);
+  el.classList.remove('active', 'done');
+  if (state !== 'pending') el.classList.add(state);
+}
+
+// ─── PAYMENT FLOW ───
+async function startPayment() {
+  // Validate input
+  const text = document.getElementById('contract-text').value.trim();
+
+  if (activeTab === 'paste' && !text) {
+    showError('Please paste your contract text first.');
+    return;
+  }
+  if (activeTab === 'upload' && !selectedFile) {
+    showError('Please select a PDF file to upload.');
+    return;
+  }
+
+  const btn = document.getElementById('pay-btn');
+  btn.disabled = true;
+  btn.textContent = 'Opening checkout...';
+
+  try {
+    // Store contract content for after payment
+    if (activeTab === 'paste') {
+      contractContent = text;
+      sessionStorage.setItem('contractContent', text);
+      sessionStorage.setItem('contractType', 'text');
+    } else {
+      const b64 = await readFileAsBase64(selectedFile);
+      sessionStorage.setItem('contractContent', b64);
+      sessionStorage.setItem('contractType', 'pdf');
+      sessionStorage.setItem('contractFileName', selectedFile.name);
+    }
+
+    // Create Stripe checkout session
+    const res = await fetch(`${CONFIG.backendUrl}/api/create-checkout`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ returnUrl: window.location.href }),
+    });
+
+    if (!res.ok) throw new Error('Failed to create checkout session');
+    const { url } = await res.json();
+    window.location.href = url;
+
+  } catch (err) {
+    console.error(err);
+    showError('Payment setup failed. Please try again.');
+    btn.disabled = false;
+    btn.innerHTML = '<span class="lock">🔒</span> Review My Contract — $19';
+  }
+}
+
+// ─── CHECK IF RETURNING FROM STRIPE ───
+async function checkPaymentReturn() {
+  const params = new URLSearchParams(window.location.search);
+  const sessionId = params.get('session_id');
+  if (!sessionId) return;
+
+  // Clean up URL
+  window.history.replaceState({}, '', window.location.pathname);
+
+  // Retrieve saved contract
+  const savedContent = sessionStorage.getItem('contractContent');
+  const savedType = sessionStorage.getItem('contractType');
+
+  if (!savedContent) {
+    showError('Session expired. Please paste your contract again.');
+    return;
+  }
+
+  // Verify payment
+  try {
+    const res = await fetch(`${CONFIG.backendUrl}/api/verify-payment?session_id=${sessionId}`);
+    if (!res.ok) throw new Error('Payment not verified');
+    const { paid } = await res.json();
+    if (!paid) throw new Error('Payment incomplete');
+  } catch (err) {
+    showError('Could not verify payment. Please contact support.');
+    return;
+  }
+
+  // Clean up session
+  sessionStorage.removeItem('contractContent');
+  sessionStorage.removeItem('contractType');
+  sessionStorage.removeItem('contractFileName');
+
+  // Start analysis
+  startAnalysis(savedContent, savedType);
+}
+
+// ─── SHOW ANALYSIS SCREEN ───
+function showAnalysisScreen() {
+  document.getElementById('upload-section').style.display = 'none';
+  document.getElementById('how-section').style.display = 'none';
+  document.getElementById('analysis-screen').style.display = 'block';
+  setStep('step-extract', 'active');
+  setStep('step-risk', 'pending');
+  setStep('step-report', 'pending');
+}
+
+// ─── THREE-PASS ANALYSIS ───
+async function startAnalysis(content, type) {
+  showAnalysisScreen();
+
+  try {
+    // Call our backend which orchestrates the 3-pass Claude analysis
+    setStep('step-extract', 'active');
+
+    const res = await fetch(`${CONFIG.backendUrl}/api/analyze`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ content, type }),
+    });
+
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.error || 'Analysis failed');
+    }
+
+    // Stream progress updates or get the full result
+    const result = await res.json();
+
+    setStep('step-extract', 'done');
+    setStep('step-risk', 'done');
+    setStep('step-report', 'done');
+
+    setTimeout(() => showReport(result), 500);
+
+  } catch (err) {
+    console.error(err);
+    document.getElementById('analysis-screen').style.display = 'none';
+    document.getElementById('upload-section').style.display = 'block';
+    document.getElementById('how-section').style.display = 'block';
+    showError(`Analysis failed: ${err.message}. Please try again or contact support.`);
+  }
+}
+
+// ─── DISPLAY REPORT ───
+function showReport(result) {
+  document.getElementById('analysis-screen').style.display = 'none';
+  document.getElementById('report-screen').style.display = 'block';
+
+  // Meta
+  const now = new Date();
+  document.getElementById('report-meta').textContent =
+    `Generated ${now.toLocaleDateString('en-NZ', { day:'numeric', month:'long', year:'numeric' })} at ${now.toLocaleTimeString('en-NZ', { hour:'2-digit', minute:'2-digit' })}`;
+
+  // Risk summary pills
+  const counts = result.riskCounts || {};
+  const pillsHtml = [
+    counts.critical ? `<div class="risk-pill critical">🚨 ${counts.critical} Critical</div>` : '',
+    counts.high     ? `<div class="risk-pill high">⚠️ ${counts.high} High</div>` : '',
+    counts.medium   ? `<div class="risk-pill medium">⚡ ${counts.medium} Medium</div>` : '',
+    counts.low      ? `<div class="risk-pill low">✅ ${counts.low} Low</div>` : '',
+  ].join('');
+  document.getElementById('risk-summary').innerHTML = pillsHtml;
+
+  // Report body — render with section coloring
+  reportText = result.report || '';
+  clauseData = result.clauses || [];
+  renderReport(reportText);
+
+  // Scroll to report
+  document.getElementById('report-screen').scrollIntoView({ behavior: 'smooth' });
+}
+
+function renderReport(text) {
+  // Colorise section headings
+  const colored = text
+    .replace(/(CRITICAL ISSUES|🚨[^\n]*)/g, '<span class="section-critical">$1</span>')
+    .replace(/(THINGS TO WATCH|⚠️[^\n]*)/g, '<span class="section-warning">$1</span>')
+    .replace(/(LOOKS FINE|✅[^\n]*)/g, '<span class="section-ok">$1</span>')
+    .replace(/(QUESTIONS TO ASK|❓[^\n]*)/g, '<span class="section-question">$1</span>');
+
+  document.getElementById('report-body').innerHTML = colored;
+}
+
+// ─── DOWNLOAD PDF ───
+async function downloadPDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ unit: 'mm', format: 'a4' });
+
+  const margin = 20;
+  const pageWidth = 210;
+  const usableWidth = pageWidth - margin * 2;
+  let y = margin;
+
+  // Title
+  doc.setFillColor(245, 200, 0);
+  doc.rect(0, 0, 210, 20, 'F');
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(16);
+  doc.setTextColor(26, 26, 26);
+  doc.text('ContractCheck — AI Contract Review', margin, 13);
+
+  y = 30;
+  doc.setTextColor(26, 26, 26);
+  doc.setFontSize(9);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(100);
+  doc.text(`Generated: ${new Date().toLocaleString('en-NZ')}`, margin, y);
+
+  y += 10;
+  doc.setTextColor(26, 26, 26);
+  doc.setFontSize(11);
+  doc.setFont('helvetica', 'normal');
+
+  // Strip HTML tags for PDF
+  const plainText = reportText.replace(/<[^>]*>/g, '');
+  const lines = doc.splitTextToSize(plainText, usableWidth);
+
+  lines.forEach(line => {
+    if (y > 275) {
+      doc.addPage();
+      y = margin;
+    }
+
+    // Style section headers
+    if (line.includes('THE BOTTOM LINE') || line.includes('CRITICAL ISSUES') ||
+        line.includes('THINGS TO WATCH') || line.includes('LOOKS FINE') ||
+        line.includes('QUESTIONS TO ASK') || line.includes('PLAIN-ENGLISH SUMMARY')) {
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(12);
+    } else {
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(10);
+    }
+
+    doc.text(line, margin, y);
+    y += doc.getLineHeight() * 0.4;
+  });
+
+  // Disclaimer footer on last page
+  doc.setFontSize(8);
+  doc.setTextColor(150);
+  doc.text('AI-assisted review only — not legal advice. Consult a qualified lawyer for legal guidance.', margin, 290);
+
+  doc.save('ContractCheck-Report.pdf');
+}
+
+// ─── RESET ───
+function resetApp() {
+  document.getElementById('report-screen').style.display = 'none';
+  document.getElementById('upload-section').style.display = 'block';
+  document.getElementById('how-section').style.display = 'block';
+  document.getElementById('contract-text').value = '';
+  document.getElementById('file-selected').style.display = 'none';
+  selectedFile = null;
+  contractContent = '';
+  reportText = '';
+  const btn = document.getElementById('pay-btn');
+  btn.disabled = false;
+  btn.innerHTML = '<span class="lock">🔒</span> Review My Contract — $19';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ─── INIT ───
+checkPaymentReturn();
+</script>
+</body>
+</html>
