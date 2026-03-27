@@ -1,0 +1,12 @@
+{
+  "name": "before-you-sign",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.38.0",
+    "stripe": "^16.0.0"
+  },
+  "engines": {
+    "node": ">=18.x"
+  }
+}
