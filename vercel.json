@@ -6,31 +6,3 @@
     "api/check-free.js": { "maxDuration": 10 }
   }
 }
-```
-4. Commit changes
-
----
-
-**Step 3 — Create the 4 API files**
-
-For each one: **Add file** → **Create new file**
-
-When naming the file, type the folder and filename together like this: `api/check-free.js` — GitHub will automatically create the `api` folder.
-
-**File 1:** `api/check-free.js` — paste the contents of the check-free.js file I gave you
-
-**File 2:** `api/create-checkout.js` — paste create-checkout.js
-
-**File 3:** `api/verify-payment.js` — paste verify-payment.js
-
-**File 4:** `api/analyze.js` — paste analyze.js
-
-Commit after each one.
-
----
-
-**Step 4 — Test**
-
-After the last commit, wait 60 seconds for Vercel to redeploy, then visit:
-```
-https://www.beforeyousign.nz/api/check-free
