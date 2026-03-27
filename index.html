@@ -6,7 +6,7 @@
 <title>Before You Sign — AI Contract Review for NZ Tradespeople</title>
 <meta name="description" content="Upload your subcontract and get a clear breakdown of where you could lose money, get paid late, or take on unfair risk. Built for NZ subcontractors.">
 
-<!-- ── ANALYTICS ── -->
+<!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-MC0ER8M6F2"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -14,6 +14,7 @@
   gtag('js', new Date());
   gtag('config', 'G-MC0ER8M6F2');
 </script>
+<!-- Microsoft Clarity -->
 <script type="text/javascript">
   (function(c,l,a,r,i,t,y){
     c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
@@ -29,530 +30,277 @@
 
 <style>
 :root {
-  --yellow: #F5C800;
-  --yellow-dark: #D4AC00;
-  --yellow-glow: rgba(245,200,0,0.15);
-  --charcoal: #141414;
-  --charcoal-mid: #1F1F1F;
-  --charcoal-light: #2A2A2A;
-  --charcoal-border: #333;
-  --steel: #555;
-  --muted: #888;
-  --dim: #AAAAAA;
-  --white: #F8F8F8;
-  --red: #E53E3E;
-  --red-bg: rgba(229,62,62,0.12);
-  --orange: #ED8936;
-  --orange-bg: rgba(237,137,54,0.12);
-  --green: #38A169;
-  --green-bg: rgba(56,161,105,0.12);
-  --blue: #4299E1;
-  --blue-bg: rgba(66,153,225,0.12);
-  --r: 4px;
-  --r-lg: 8px;
-  --r-xl: 12px;
-  --shadow: 0 4px 24px rgba(0,0,0,0.4);
+  --yellow: #F5C800; --yellow-dark: #D4AC00; --yellow-glow: rgba(245,200,0,0.15);
+  --charcoal: #141414; --charcoal-mid: #1F1F1F; --charcoal-light: #2A2A2A;
+  --charcoal-border: #333; --steel: #555; --muted: #888; --dim: #AAAAAA; --white: #F8F8F8;
+  --red: #E53E3E; --red-bg: rgba(229,62,62,0.12);
+  --orange: #ED8936; --orange-bg: rgba(237,137,54,0.12);
+  --green: #38A169; --green-bg: rgba(56,161,105,0.12);
+  --blue: #4299E1; --blue-bg: rgba(66,153,225,0.12);
+  --r: 4px; --r-lg: 8px; --r-xl: 12px;
 }
-
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html { scroll-behavior: smooth; }
-body {
-  font-family: 'DM Sans', sans-serif;
-  background: var(--charcoal);
-  color: var(--white);
-  overflow-x: hidden;
-  line-height: 1.6;
-}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--charcoal);color:var(--white);overflow-x:hidden;line-height:1.6}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opacity:0.025;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:200px}
 
-body::before {
-  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
-  opacity:0.025;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size:200px;
-}
+/* HEADER */
+header{position:sticky;top:0;z-index:100;background:rgba(20,20,20,0.95);backdrop-filter:blur(12px);border-bottom:2px solid var(--yellow);padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:60px}
+.logo{display:flex;align-items:baseline;gap:12px}
+.logo-before-you{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:2px;color:#FAFAFA;white-space:nowrap}
+.logo-sign{font-family:'Brush Script MT',cursive;font-size:36px;color:#F5C800;border-bottom:2px solid #F5C800;line-height:1;padding-bottom:2px;white-space:nowrap}
+.header-right{display:flex;align-items:center;gap:12px}
+.free-badge{background:var(--green-bg);border:1px solid rgba(56,161,105,0.4);color:#68D391;font-size:11px;font-weight:700;letter-spacing:0.5px;padding:5px 12px;border-radius:20px;white-space:nowrap}
+.price-badge{background:var(--yellow);color:var(--charcoal);font-weight:700;font-size:12px;padding:5px 12px;border-radius:var(--r);white-space:nowrap}
 
-/* ── HEADER ── */
-header {
-  position:sticky;top:0;z-index:100;
-  background:rgba(20,20,20,0.95);
-  backdrop-filter:blur(12px);
-  border-bottom:2px solid var(--yellow);
-  padding:0 24px;
-  display:flex;align-items:center;justify-content:space-between;
-  height:60px;
-}
+/* FREE BANNER */
+.free-banner{background:linear-gradient(135deg,rgba(56,161,105,0.15),rgba(56,161,105,0.05));border-bottom:1px solid rgba(56,161,105,0.3);padding:12px 24px;text-align:center;font-size:14px;color:#68D391;display:flex;align-items:center;justify-content:center;gap:8px;position:relative;z-index:1}
+.free-banner strong{color:#9AE6B4}
 
-/* ── LOGO ── */
-.logo {
-  display: flex;
-  align-items: baseline;
-  gap: 12px;
-}
-.logo-before-you {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 28px;
-  letter-spacing: 2px;
-  color: #FAFAFA;
-  white-space: nowrap;
-}
-.logo-sign {
-  font-family: 'Brush Script MT', cursive;
-  font-size: 36px;
-  color: #F5C800;
-  border-bottom: 2px solid #F5C800;
-  line-height: 1;
-  padding-bottom: 2px;
-  white-space: nowrap;
-}
+/* HERO */
+.hero{position:relative;z-index:1;padding:64px 24px 56px;max-width:740px;margin:0 auto;text-align:center;animation:fadeUp 0.5s ease forwards}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;background:var(--charcoal-mid);border:1px solid var(--charcoal-border);border-left:3px solid var(--yellow);font-size:11px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--yellow);padding:6px 16px;margin-bottom:24px}
+.hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(38px,9vw,74px);line-height:0.92;letter-spacing:0.5px;margin-bottom:24px}
+.hero h1 .line-1{display:block;color:var(--white);font-weight:700}
+.hero h1 .line-2{color:var(--yellow);display:block;font-weight:700}
+.hero-sub{color:var(--dim);font-size:17px;line-height:1.65;max-width:520px;margin:0 auto 14px}
+.sample-link{display:inline-flex;align-items:center;gap:6px;color:var(--yellow);font-size:13px;font-weight:600;cursor:pointer;margin-bottom:28px;border-bottom:1px dashed rgba(245,200,0,0.4);padding-bottom:2px;transition:opacity 0.2s;background:none;border-top:none;border-left:none;border-right:none;font-family:'DM Sans',sans-serif}
+.sample-link:hover{opacity:0.75}
+.trust-bar{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-bottom:40px}
+.trust-item{display:flex;align-items:center;gap:7px;background:var(--charcoal-mid);border:1px solid var(--charcoal-border);border-radius:20px;padding:7px 14px;font-size:12px;font-weight:600;color:var(--dim)}
 
-.header-right { display:flex; align-items:center; gap:12px; }
+/* SECTION */
+.section{position:relative;z-index:1;padding:0 24px}
+.section-inner{max-width:740px;margin:0 auto}
+.section-label{font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--yellow);margin-bottom:28px;display:flex;align-items:center;gap:12px}
+.section-label::after{content:'';flex:1;height:1px;background:var(--charcoal-border)}
 
-.free-badge {
-  background:var(--green-bg);
-  border:1px solid rgba(56,161,105,0.4);
-  color:#68D391;
-  font-size:11px;font-weight:700;
-  letter-spacing:0.5px;
-  padding:5px 12px;border-radius:20px;
-  white-space:nowrap;
-}
+/* UPLOAD */
+.upload-section{margin-bottom:48px;animation:fadeUp 0.5s 0.1s ease both}
+.card{background:var(--charcoal-mid);border:1px solid var(--charcoal-border);border-radius:var(--r-xl);overflow:hidden}
+.card-header{background:var(--charcoal-light);padding:16px 24px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--charcoal-border)}
+.card-header h2{font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase}
+.card-step{width:24px;height:24px;border-radius:50%;background:var(--yellow);color:var(--charcoal);font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.card-body{padding:24px}
+.tabs{display:flex;margin-bottom:20px;border:1px solid var(--charcoal-border);border-radius:var(--r);overflow:hidden}
+.tab-btn{flex:1;padding:10px;background:transparent;border:none;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.2s}
+.tab-btn.active{background:var(--yellow);color:var(--charcoal)}
+.tab-panel{display:none}.tab-panel.active{display:block}
+textarea{width:100%;background:var(--charcoal);border:2px solid var(--charcoal-border);border-radius:var(--r);color:var(--white);font-family:'DM Sans',sans-serif;font-size:14px;line-height:1.6;padding:16px;resize:vertical;min-height:180px;transition:border-color 0.2s;outline:none}
+textarea:focus{border-color:var(--yellow)}
+textarea::placeholder{color:#444}
+.drop-zone{border:2px dashed var(--charcoal-border);border-radius:var(--r);padding:40px 24px;text-align:center;cursor:pointer;transition:all 0.2s;position:relative;background:var(--charcoal)}
+.drop-zone:hover,.drop-zone.dragover{border-color:var(--yellow);background:var(--yellow-glow)}
+.drop-zone input[type="file"]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.drop-icon{font-size:36px;margin-bottom:12px;display:block}
+.drop-zone p{color:var(--muted);font-size:14px}
+.drop-zone strong{color:var(--yellow)}
+.file-selected{margin-top:12px;background:rgba(245,200,0,0.08);border:1px solid rgba(245,200,0,0.25);border-radius:var(--r);padding:10px 14px;font-size:13px;color:var(--yellow);display:none;align-items:center;gap:8px}
+.trade-selector{margin-top:16px}
+.trade-selector label{display:block;font-size:12px;font-weight:600;color:var(--muted);letter-spacing:0.5px;margin-bottom:8px;text-transform:uppercase}
+.trade-selector select{width:100%;background:var(--charcoal);border:2px solid var(--charcoal-border);border-radius:var(--r);color:var(--white);font-family:'DM Sans',sans-serif;font-size:14px;padding:12px 36px 12px 14px;cursor:pointer;outline:none;transition:border-color 0.2s;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
+.trade-selector select:focus{border-color:var(--yellow)}
+.trade-selector select option{background:var(--charcoal-mid)}
+.privacy-line{margin-top:14px;text-align:center;font-size:12px;color:var(--steel);display:flex;align-items:center;justify-content:center;gap:6px}
+.cta-btn{width:100%;background:var(--yellow);color:var(--charcoal);border:none;border-radius:var(--r);font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;padding:18px;cursor:pointer;transition:all 0.2s;margin-top:20px;display:flex;align-items:center;justify-content:center;gap:10px}
+.cta-btn:hover:not(:disabled){background:var(--yellow-dark);transform:translateY(-1px);box-shadow:0 8px 28px rgba(245,200,0,0.3)}
+.cta-btn:disabled{opacity:0.45;cursor:not-allowed;transform:none}
+.payment-notice{margin-top:14px;display:flex;align-items:center;justify-content:center;gap:6px;font-size:12px;color:var(--steel)}
+.error-msg{background:var(--red-bg);border:1px solid rgba(229,62,62,0.3);border-radius:var(--r);padding:12px 16px;font-size:13px;color:#FC8181;margin-top:12px;display:none}
 
-.price-badge {
-  background:var(--yellow);color:var(--charcoal);
-  font-weight:700;font-size:12px;
-  padding:5px 12px;border-radius:var(--r);
-  letter-spacing:0.3px;white-space:nowrap;
-}
+/* ANALYSIS */
+#analysis-screen{display:none;position:relative;z-index:1;max-width:680px;margin:0 auto 32px;padding:0 24px}
+.progress-card{background:var(--charcoal-mid);border:1px solid var(--charcoal-border);border-radius:var(--r-xl);padding:48px 32px;text-align:center}
+.spinner{width:52px;height:52px;border:4px solid var(--charcoal-border);border-top-color:var(--yellow);border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 24px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.progress-title{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:1px;margin-bottom:8px}
+.progress-subtitle{color:var(--muted);font-size:14px;margin-bottom:32px}
+.progress-steps{list-style:none;text-align:left;max-width:340px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+.progress-step{display:flex;align-items:center;gap:12px;font-size:14px;color:var(--steel);transition:color 0.3s}
+.progress-step.active{color:var(--white)}.progress-step.done{color:var(--green)}
+.step-dot{width:10px;height:10px;border-radius:50%;background:var(--charcoal-border);flex-shrink:0;transition:background 0.3s}
+.progress-step.active .step-dot{background:var(--yellow);box-shadow:0 0 8px rgba(245,200,0,0.5);animation:pulse 1s ease-in-out infinite}
+.progress-step.done .step-dot{background:var(--green)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
 
-/* ── FREE BANNER ── */
-.free-banner {
-  background: linear-gradient(135deg, rgba(56,161,105,0.15), rgba(56,161,105,0.05));
-  border-bottom: 1px solid rgba(56,161,105,0.3);
-  padding: 12px 24px;
-  text-align: center;
-  font-size: 14px;
-  color: #68D391;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  position: relative;
-  z-index: 1;
-}
-.free-banner strong { color: #9AE6B4; }
+/* REPORT SCREEN */
+#report-screen{display:none;position:relative;z-index:1;max-width:800px;margin:0 auto 32px;padding:0 24px}
+.report-header{background:var(--charcoal-mid);border:1px solid var(--charcoal-border);border-radius:var(--r-xl);padding:28px 32px;margin-bottom:16px}
+.report-top-row{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:16px}
+.report-title{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:1px;color:var(--yellow);margin-bottom:4px}
+.report-meta{font-size:13px;color:var(--steel)}
+.risk-summary{display:flex;gap:8px;flex-wrap:wrap;align-items:flex-start}
+.risk-pill{padding:5px 12px;border-radius:16px;font-size:11px;font-weight:700;letter-spacing:0.5px}
+.risk-pill.critical{background:var(--red-bg);color:#FC8181;border:1px solid rgba(229,62,62,0.3)}
+.risk-pill.high{background:var(--orange-bg);color:#F6AD55;border:1px solid rgba(237,137,54,0.3)}
+.risk-pill.medium{background:rgba(245,200,0,0.1);color:var(--yellow);border:1px solid rgba(245,200,0,0.3)}
+.risk-pill.low{background:var(--green-bg);color:#68D391;border:1px solid rgba(56,161,105,0.3)}
 
-/* ── HERO ── */
-.hero {
-  position:relative;z-index:1;
-  padding:64px 24px 56px;
-  max-width:740px;margin:0 auto;
-  text-align:center;
-}
+/* Risk score */
+.risk-score-block{background:var(--charcoal-light);border:1px solid var(--charcoal-border);border-radius:var(--r-lg);padding:16px 20px;margin-bottom:16px;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.risk-score-label{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+.risk-score-number{font-family:'Bebas Neue',sans-serif;font-size:42px;line-height:1}
+.risk-score-bar-wrap{flex:1;min-width:120px;height:8px;background:var(--charcoal-border);border-radius:4px;overflow:hidden}
+.risk-score-bar{height:100%;width:0;border-radius:4px;transition:width 1.2s ease}
+.risk-score-desc{font-size:12px;color:var(--muted);margin-top:6px;flex-basis:100%}
 
-.hero-eyebrow {
-  display:inline-flex;align-items:center;gap:8px;
-  background:var(--charcoal-mid);
-  border:1px solid var(--charcoal-border);
-  border-left:3px solid var(--yellow);
-  font-size:11px;font-weight:600;letter-spacing:2.5px;
-  text-transform:uppercase;color:var(--yellow);
-  padding:6px 16px;margin-bottom:24px;
-}
+/* Verdict */
+.verdict-block{display:flex;align-items:center;gap:14px;padding:16px 20px;border-radius:var(--r-lg)}
+.verdict-block.safe{background:var(--green-bg);border:1px solid rgba(56,161,105,0.35)}
+.verdict-block.caution{background:var(--orange-bg);border:1px solid rgba(237,137,54,0.35)}
+.verdict-block.danger{background:var(--red-bg);border:1px solid rgba(229,62,62,0.35)}
+.verdict-icon{font-size:28px;flex-shrink:0}
+.verdict-text h3{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;margin-bottom:4px}
+.verdict-block.safe .verdict-text h3{color:#68D391}
+.verdict-block.caution .verdict-text h3{color:#F6AD55}
+.verdict-block.danger .verdict-text h3{color:#FC8181}
+.verdict-text p{font-size:13px;color:var(--dim)}
 
-.hero h1 {
-  font-family:'Bebas Neue',sans-serif;
-  font-size:clamp(38px,9vw,74px);
-  line-height:0.92;letter-spacing:0.5px;
-  margin-bottom:24px;
-  font-weight:700;
-}
+.report-content{background:var(--charcoal-mid);border:1px solid var(--charcoal-border);border-radius:var(--r-xl);overflow:hidden;margin-bottom:16px}
+.report-body{padding:24px}
 
-.hero h1 .line-1 {
-  display:block;
-  color:var(--white);
-}
+/* RENDERED REPORT */
+.rs-section{margin-bottom:16px}
+.rs-header{padding:10px 16px;font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:1.5px;border-radius:var(--r) var(--r) 0 0;display:flex;align-items:center;gap:8px}
+.rs-body{padding:16px;background:rgba(0,0,0,0.2);border-radius:0 0 var(--r) var(--r);border:1px solid var(--charcoal-border);border-top:none}
+.rs-verdict .rs-header{background:rgba(245,200,0,0.1);border-left:4px solid var(--yellow);color:var(--yellow)}
+.rs-cost .rs-header{background:rgba(245,200,0,0.08);border-left:4px solid var(--yellow);color:var(--yellow)}
+.rs-critical .rs-header{background:var(--red-bg);border-left:4px solid var(--red);color:#FC8181}
+.rs-warning .rs-header{background:var(--orange-bg);border-left:4px solid var(--orange);color:#F6AD55}
+.rs-ok .rs-header{background:var(--green-bg);border-left:4px solid var(--green);color:#68D391}
+.rs-questions .rs-header{background:var(--blue-bg);border-left:4px solid var(--blue);color:#90CDF4}
+.rs-summary .rs-header{background:rgba(80,80,80,0.2);border-left:4px solid var(--steel);color:var(--muted)}
+.rs-p{font-size:14px;color:var(--dim);line-height:1.7;margin-bottom:10px}
+.rs-p:last-child{margin-bottom:0}
+.rs-none{font-size:13px;color:var(--steel);font-style:italic}
+.rs-list{list-style:none;display:flex;flex-direction:column;gap:8px;padding:0}
+.rs-list li{font-size:14px;color:var(--dim);line-height:1.6;padding-left:18px;position:relative}
+.rs-list li::before{content:'•';position:absolute;left:4px;color:var(--yellow)}
+.issue-card{border-left:4px solid var(--charcoal-border);padding:14px 16px;margin-bottom:12px;background:var(--charcoal-mid);border-radius:0 var(--r) var(--r) 0}
+.issue-card.critical{border-left-color:var(--red)}
+.issue-card.warning{border-left-color:var(--orange)}
+.issue-card.ok{border-left-color:var(--green)}
+.issue-card.default{border-left-color:var(--charcoal-border)}
+.issue-num{font-size:10px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.issue-title{font-size:14px;font-weight:700;color:var(--white);margin-bottom:8px}
+.issue-text{font-size:13px;color:var(--dim);line-height:1.65}
+.neg-script{background:#0D0D0D;border-left:4px solid var(--yellow);border-radius:0 var(--r) var(--r) 0;padding:14px 56px 14px 16px;margin-top:12px;position:relative}
+.neg-label{font-size:10px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--yellow);margin-bottom:6px}
+.neg-text{font-size:13px;color:#D4B83A;font-style:italic;line-height:1.6}
+.copy-btn{position:absolute;top:10px;right:10px;background:var(--charcoal-light);border:1px solid var(--charcoal-border);color:var(--yellow);font-size:10px;font-weight:700;letter-spacing:0.5px;padding:5px 10px;border-radius:var(--r);cursor:pointer;transition:all 0.2s;text-transform:uppercase;font-family:'DM Sans',sans-serif}
+.copy-btn:hover{background:var(--yellow);color:var(--charcoal);border-color:var(--yellow)}
+.copy-btn.copied{background:var(--green);border-color:var(--green);color:white}
+.rs-actions{background:linear-gradient(135deg,rgba(245,200,0,0.08),rgba(245,200,0,0.03));border:1px solid rgba(245,200,0,0.2);border-radius:var(--r-xl);padding:20px 24px;margin-top:20px}
+.rs-actions-title{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:1px;color:var(--yellow);margin-bottom:14px}
+.rs-action-list{list-style:none;display:flex;flex-direction:column;gap:10px;padding:0}
+.rs-action-list li{font-size:14px;color:var(--dim);line-height:1.6;padding-left:28px;position:relative}
+.rs-action-list li::before{content:attr(data-n);position:absolute;left:0;font-family:'Bebas Neue',sans-serif;font-size:16px;color:var(--yellow);line-height:1.3}
 
-.hero h1 .line-2 {
-  color:var(--yellow);
-  display:block;
-  margin-top:8px;
-}
+/* Upsell */
+.upsell-prompt{display:none;background:linear-gradient(135deg,rgba(245,200,0,0.1),rgba(245,200,0,0.04));border:1px solid rgba(245,200,0,0.25);border-radius:var(--r-xl);padding:24px 28px;margin-bottom:16px;text-align:center}
+.upsell-prompt h3{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;color:var(--yellow);margin-bottom:8px}
+.upsell-prompt p{font-size:14px;color:var(--dim)}
+.download-btn{width:100%;background:transparent;border:2px solid var(--yellow);color:var(--yellow);border-radius:var(--r);font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px;padding:14px;cursor:pointer;transition:all 0.2s;margin-bottom:10px}
+.download-btn:hover{background:var(--yellow);color:var(--charcoal)}
+.new-review-btn{width:100%;background:var(--charcoal-light);border:none;color:var(--muted);border-radius:var(--r);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;padding:12px;cursor:pointer;transition:all 0.2s}
+.new-review-btn:hover{color:var(--white);background:#444}
 
-.hero-sub {
-  color:var(--dim);font-size:17px;
-  line-height:1.65;max-width:520px;margin:0 auto 40px;
-}
+/* HOME SECTIONS */
+.traps-section,.verdict-section,.example-section,.why-section,.pricing-section,.how-section,.contact-section{margin-bottom:72px}
+.traps-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px}
+.trap-card{background:var(--charcoal-mid);border:1px solid var(--charcoal-border);border-radius:var(--r-lg);padding:20px;transition:border-color 0.2s,transform 0.2s}
+.trap-card:hover{border-color:var(--yellow);transform:translateY(-2px)}
+.trap-icon{font-size:24px;margin-bottom:12px;display:block}
+.trap-card h3{font-size:14px;font-weight:700;margin-bottom:6px}
+.trap-card p{font-size:12px;color:var(--muted);line-height:1.5}
+.verdict-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.verdict-card{border-radius:var(--r-xl);padding:28px 24px;border:2px solid transparent;position:relative;overflow:hidden}
+.verdict-card::before{content:'';position:absolute;inset:0;opacity:0.04;background:currentColor}
+.verdict-safe{background:var(--green-bg);border-color:rgba(56,161,105,0.35)}
+.verdict-caution{background:var(--orange-bg);border-color:rgba(237,137,54,0.35)}
+.verdict-no{background:var(--red-bg);border-color:rgba(229,62,62,0.35)}
+.verdict-emoji{font-size:32px;margin-bottom:12px;display:block}
+.verdict-label{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;margin-bottom:8px}
+.verdict-safe .verdict-label{color:#68D391}
+.verdict-caution .verdict-label{color:#F6AD55}
+.verdict-no .verdict-label{color:#FC8181}
+.verdict-desc{font-size:13px;color:var(--dim);line-height:1.5}
+.example-report{background:var(--charcoal-mid);border:1px solid var(--charcoal-border);border-radius:var(--r-xl);overflow:hidden}
+.example-header{background:var(--charcoal-light);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--charcoal-border);flex-wrap:wrap;gap:12px}
+.example-title{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:1px;color:var(--yellow)}
+.example-pills{display:flex;gap:8px;flex-wrap:wrap}
+.ex-pill{font-size:11px;font-weight:700;padding:4px 10px;border-radius:12px}
+.ex-pill.critical{background:var(--red-bg);color:#FC8181;border:1px solid rgba(229,62,62,0.3)}
+.ex-pill.high{background:var(--orange-bg);color:#F6AD55;border:1px solid rgba(237,137,54,0.3)}
+.ex-pill.ok{background:var(--green-bg);color:#68D391;border:1px solid rgba(56,161,105,0.3)}
+.example-body{padding:24px}
+.ex-verdict{display:inline-flex;align-items:center;gap:8px;background:var(--red-bg);border:1px solid rgba(229,62,62,0.3);border-radius:var(--r);padding:12px 18px;margin-bottom:20px;font-size:14px;font-weight:700;color:#FC8181}
+.ex-section{margin-bottom:20px}
+.ex-section-title{font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.ex-item{background:var(--charcoal);border:1px solid var(--charcoal-border);border-radius:var(--r);padding:14px 16px;margin-bottom:8px;font-size:13px;line-height:1.55;color:var(--dim)}
+.ex-item strong{color:var(--white);display:block;margin-bottom:4px}
+.ex-item .negotiation{margin-top:10px;background:rgba(66,153,225,0.1);border:1px solid rgba(66,153,225,0.2);border-radius:var(--r);padding:10px 12px;color:#90CDF4;font-size:12px;font-style:italic}
+.ex-item .negotiation::before{content:'💬 ';font-style:normal}
+.ex-cost{background:rgba(245,200,0,0.08);border:1px solid rgba(245,200,0,0.2);border-radius:var(--r);padding:14px 16px;font-size:13px}
+.ex-cost ul{list-style:none;display:flex;flex-direction:column;gap:6px}
+.ex-cost li{color:var(--yellow);padding-left:20px;position:relative}
+.ex-cost li::before{content:'💸';position:absolute;left:0}
+.why-card{background:var(--charcoal-mid);border:1px solid var(--charcoal-border);border-left:4px solid var(--yellow);border-radius:var(--r-xl);padding:36px 32px;max-width:620px}
+.why-card p{font-size:15px;line-height:1.8;color:var(--dim);margin-bottom:14px}
+.why-card p:last-child{margin-bottom:0;color:var(--white);font-weight:500}
+.pricing-simple{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;max-width:560px}
+.pricing-card{background:var(--charcoal-mid);border:1px solid var(--charcoal-border);border-radius:var(--r-xl);padding:28px 24px;transition:border-color 0.2s,transform 0.2s}
+.pricing-card:hover{border-color:var(--yellow);transform:translateY(-2px)}
+.pricing-card.featured{border-color:var(--yellow);background:linear-gradient(135deg,rgba(245,200,0,0.06),var(--charcoal-mid))}
+.pricing-name{font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+.pricing-price{font-family:'Bebas Neue',sans-serif;font-size:42px;letter-spacing:1px;color:var(--white);line-height:1;margin-bottom:4px}
+.pricing-price span{font-size:18px;color:var(--muted)}
+.pricing-period{font-size:12px;color:var(--muted);margin-bottom:20px}
+.pricing-cta{width:100%;background:transparent;border:1px solid var(--charcoal-border);color:var(--dim);border-radius:var(--r);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;padding:11px;cursor:pointer;transition:all 0.2s}
+.pricing-card.featured .pricing-cta{background:var(--yellow);border-color:var(--yellow);color:var(--charcoal);font-weight:700}
+.pricing-cta:hover{background:var(--yellow);border-color:var(--yellow);color:var(--charcoal)}
+.steps-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px}
+.step-card{background:var(--charcoal-mid);border:1px solid var(--charcoal-border);border-radius:var(--r-xl);padding:22px}
+.step-num{font-family:'Bebas Neue',sans-serif;font-size:48px;color:var(--charcoal-border);line-height:1;margin-bottom:10px}
+.step-card h3{font-size:14px;font-weight:700;margin-bottom:6px}
+.step-card p{font-size:13px;color:var(--muted);line-height:1.5}
+.contact-card{background:var(--charcoal-mid);border:1px solid var(--charcoal-border);border-radius:var(--r-xl);padding:28px 32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+.contact-card h3{font-size:15px;font-weight:700;margin-bottom:4px}
+.contact-card p{font-size:13px;color:var(--muted)}
+.contact-link{background:var(--charcoal-light);border:1px solid var(--charcoal-border);color:var(--yellow);font-size:14px;font-weight:600;padding:11px 20px;border-radius:var(--r);text-decoration:none;transition:all 0.2s;white-space:nowrap}
+.contact-link:hover{background:var(--yellow);color:var(--charcoal)}
+footer{position:relative;z-index:1;border-top:1px solid var(--charcoal-border);padding:28px 24px;text-align:center}
+.disclaimer{font-size:13px;color:var(--muted);max-width:600px;margin:0 auto 14px;line-height:1.65;background:var(--red-bg);border:1px solid rgba(229,62,62,0.2);border-radius:var(--r);padding:12px 16px}
+.footer-links{display:flex;gap:16px;justify-content:center;font-size:12px;color:#555}
 
-/* ── TRUST BAR ── */
-.trust-bar {
-  display:flex;flex-wrap:wrap;justify-content:center;
-  gap:6px;margin-bottom:56px;
-}
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.87);z-index:500;overflow-y:auto;padding:24px}
+.modal-overlay.open{display:flex;align-items:flex-start;justify-content:center}
+.modal-content{background:var(--charcoal-mid);border:1px solid var(--charcoal-border);border-radius:var(--r-xl);max-width:780px;width:100%;margin:auto}
+.modal-header{background:var(--charcoal-light);padding:16px 24px;display:flex;justify-content:space-between;align-items:flex-start;border-bottom:1px solid var(--charcoal-border);border-radius:var(--r-xl) var(--r-xl) 0 0;gap:12px}
+.modal-header-title{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;color:var(--yellow)}
+.modal-header-sub{font-size:12px;color:var(--muted);margin-top:3px}
+.modal-close{background:none;border:none;color:var(--muted);font-size:22px;cursor:pointer;line-height:1;padding:0 4px;flex-shrink:0}
+.modal-close:hover{color:var(--white)}
+.modal-body{padding:28px;max-height:82vh;overflow-y:auto}
 
-.trust-item {
-  display:flex;align-items:center;gap:7px;
-  background:var(--charcoal-mid);
-  border:1px solid var(--charcoal-border);
-  border-radius:20px;
-  padding:7px 14px;
-  font-size:12px;font-weight:600;color:var(--dim);
-}
-.trust-item .ti-icon { font-size:14px; }
-
-/* ── SECTION WRAPPER ── */
-.section { position:relative;z-index:1;padding:0 24px; }
-.section-inner { max-width:740px;margin:0 auto; }
-.section-inner.wide { max-width:960px; }
-
-.section-label {
-  font-size:11px;font-weight:700;letter-spacing:3px;
-  text-transform:uppercase;color:var(--yellow);
-  margin-bottom:28px;
-  display:flex;align-items:center;gap:12px;
-}
-.section-label::after {
-  content:'';flex:1;height:1px;background:var(--charcoal-border);
-}
-
-/* ── COMMON TRAPS ── */
-.traps-section { margin-bottom:72px; }
-.traps-grid {
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-  gap:14px;
-}
-.trap-card {
-  background:var(--charcoal-mid);
-  border:1px solid var(--charcoal-border);
-  border-radius:var(--r-lg);
-  padding:20px;
-  transition:border-color 0.2s,transform 0.2s;
-}
-.trap-card:hover { border-color:var(--yellow);transform:translateY(-2px); }
-.trap-icon { font-size:24px;margin-bottom:12px;display:block; }
-.trap-card h3 { font-size:14px;font-weight:700;margin-bottom:6px; }
-.trap-card p { font-size:12px;color:var(--muted);line-height:1.5; }
-
-/* ── VERDICT PREVIEW ── */
-.verdict-section { margin-bottom:72px; }
-.verdict-cards {
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:16px;
-}
-.verdict-card {
-  border-radius:var(--r-xl);padding:28px 24px;
-  border:2px solid transparent;
-  position:relative;overflow:hidden;
-}
-.verdict-card::before {
-  content:'';position:absolute;inset:0;opacity:0.04;background:currentColor;
-}
-.verdict-safe { background:var(--green-bg);border-color:rgba(56,161,105,0.35); }
-.verdict-caution { background:var(--orange-bg);border-color:rgba(237,137,54,0.35); }
-.verdict-no { background:var(--red-bg);border-color:rgba(229,62,62,0.35); }
-.verdict-emoji { font-size:32px;margin-bottom:12px;display:block; }
-.verdict-label { font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;margin-bottom:8px; }
-.verdict-safe .verdict-label { color:#68D391; }
-.verdict-caution .verdict-label { color:#F6AD55; }
-.verdict-no .verdict-label { color:#FC8181; }
-.verdict-desc { font-size:13px;color:var(--dim);line-height:1.5; }
-
-/* ── EXAMPLE REPORT ── */
-.example-section { margin-bottom:72px; }
-.example-report {
-  background:var(--charcoal-mid);
-  border:1px solid var(--charcoal-border);
-  border-radius:var(--r-xl);
-  overflow:hidden;
-}
-.example-header {
-  background:var(--charcoal-light);
-  padding:16px 24px;
-  display:flex;align-items:center;justify-content:space-between;
-  border-bottom:1px solid var(--charcoal-border);
-  flex-wrap:wrap;gap:12px;
-}
-.example-title { font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:1px;color:var(--yellow); }
-.example-pills { display:flex;gap:8px;flex-wrap:wrap; }
-.ex-pill { font-size:11px;font-weight:700;padding:4px 10px;border-radius:12px; }
-.ex-pill.critical { background:var(--red-bg);color:#FC8181;border:1px solid rgba(229,62,62,0.3); }
-.ex-pill.high { background:var(--orange-bg);color:#F6AD55;border:1px solid rgba(237,137,54,0.3); }
-.ex-pill.ok { background:var(--green-bg);color:#68D391;border:1px solid rgba(56,161,105,0.3); }
-.example-body { padding:24px; }
-.ex-verdict {
-  display:inline-flex;align-items:center;gap:8px;
-  background:var(--red-bg);border:1px solid rgba(229,62,62,0.3);
-  border-radius:var(--r);padding:12px 18px;margin-bottom:20px;
-  font-size:14px;font-weight:700;color:#FC8181;
-}
-.ex-section { margin-bottom:20px; }
-.ex-section-title {
-  font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase;
-  color:var(--muted);margin-bottom:10px;display:flex;align-items:center;gap:8px;
-}
-.ex-item {
-  background:var(--charcoal);border:1px solid var(--charcoal-border);
-  border-radius:var(--r);padding:14px 16px;margin-bottom:8px;
-  font-size:13px;line-height:1.55;color:var(--dim);
-}
-.ex-item strong { color:var(--white);display:block;margin-bottom:4px;font-size:13px; }
-.ex-item .negotiation {
-  margin-top:10px;
-  background:rgba(66,153,225,0.1);border:1px solid rgba(66,153,225,0.2);
-  border-radius:var(--r);padding:10px 12px;
-  color:#90CDF4;font-size:12px;font-style:italic;
-}
-.ex-item .negotiation::before { content:'💬 '; font-style:normal; }
-.ex-cost {
-  background:rgba(245,200,0,0.08);border:1px solid rgba(245,200,0,0.2);
-  border-radius:var(--r);padding:14px 16px;font-size:13px;
-}
-.ex-cost ul { list-style:none;display:flex;flex-direction:column;gap:6px; }
-.ex-cost li { color:var(--yellow);padding-left:16px;position:relative; }
-.ex-cost li::before { content:'💸';position:absolute;left:0; }
-
-/* ── WHY THIS EXISTS ── */
-.why-section { margin-bottom:72px; }
-.why-card {
-  background:var(--charcoal-mid);border:1px solid var(--charcoal-border);
-  border-left:4px solid var(--yellow);border-radius:var(--r-xl);
-  padding:36px 32px;max-width:620px;
-}
-.why-card p { font-size:15px;line-height:1.8;color:var(--dim);margin-bottom:14px; }
-.why-card p:last-child { margin-bottom:0;color:var(--white);font-weight:500; }
-
-/* ── PRICING ── */
-.pricing-section { margin-bottom:72px; }
-.pricing-simple {
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:16px;
-  max-width:520px;
-}
-.pricing-card {
-  background:var(--charcoal-mid);border:1px solid var(--charcoal-border);
-  border-radius:var(--r-xl);padding:28px 24px;
-  transition:border-color 0.2s,transform 0.2s;
-}
-.pricing-card:hover { border-color:var(--yellow);transform:translateY(-2px); }
-.pricing-card.featured {
-  border-color:var(--yellow);
-  background:linear-gradient(135deg,rgba(245,200,0,0.06),var(--charcoal-mid));
-}
-.pricing-name { font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:12px; }
-.pricing-price { font-family:'Bebas Neue',sans-serif;font-size:42px;letter-spacing:1px;color:var(--white);line-height:1;margin-bottom:4px; }
-.pricing-price span { font-size:18px;color:var(--muted); }
-.pricing-period { font-size:13px;color:var(--dim);margin-bottom:20px;line-height:1.5; }
-.pricing-cta {
-  width:100%;background:transparent;border:1px solid var(--charcoal-border);
-  color:var(--dim);border-radius:var(--r);
-  font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;
-  padding:11px;cursor:pointer;transition:all 0.2s;
-}
-.pricing-card.featured .pricing-cta { background:var(--yellow);border-color:var(--yellow);color:var(--charcoal);font-weight:700; }
-.pricing-cta:hover { background:var(--yellow);border-color:var(--yellow);color:var(--charcoal); }
-
-/* ── TRADE TYPE SELECTOR ── */
-.trade-select-wrap { margin-top:20px;margin-bottom:0; }
-.trade-select-wrap label {
-  display:block;font-size:13px;font-weight:600;
-  color:var(--dim);margin-bottom:8px;
-}
-.trade-select {
-  width:100%;
-  background:var(--charcoal);border:2px solid var(--charcoal-border);
-  border-radius:var(--r);color:var(--white);
-  font-family:'DM Sans',sans-serif;font-size:14px;
-  padding:11px 36px 11px 14px;cursor:pointer;
-  transition:border-color 0.2s;outline:none;appearance:none;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-  background-repeat:no-repeat;background-position:right 14px center;
-}
-.trade-select:focus { border-color:var(--yellow); }
-.trade-select option { background:var(--charcoal-mid); }
-
-/* ── MAIN UPLOAD CARD ── */
-.upload-section { margin-bottom:48px; }
-.card { background:var(--charcoal-mid);border:1px solid var(--charcoal-border);border-radius:var(--r-xl);overflow:hidden; }
-.card-header {
-  background:var(--charcoal-light);padding:16px 24px;
-  display:flex;align-items:center;gap:10px;
-  border-bottom:1px solid var(--charcoal-border);
-}
-.card-header h2 { font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase; }
-.card-step {
-  width:24px;height:24px;border-radius:50%;
-  background:var(--yellow);color:var(--charcoal);
-  font-size:12px;font-weight:800;
-  display:flex;align-items:center;justify-content:center;flex-shrink:0;
-}
-.card-body { padding:24px; }
-
-.tabs {
-  display:flex;gap:0;margin-bottom:20px;
-  border:1px solid var(--charcoal-border);border-radius:var(--r);overflow:hidden;
-}
-.tab-btn {
-  flex:1;padding:10px;background:transparent;border:none;
-  color:var(--muted);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.2s;
-}
-.tab-btn.active { background:var(--yellow);color:var(--charcoal); }
-
-.tab-panel { display:none; }
-.tab-panel.active { display:block; }
-
-textarea {
-  width:100%;background:var(--charcoal);border:2px solid var(--charcoal-border);
-  border-radius:var(--r);color:var(--white);font-family:'DM Sans',sans-serif;
-  font-size:14px;line-height:1.6;padding:16px;resize:vertical;min-height:180px;
-  transition:border-color 0.2s;outline:none;
-}
-textarea:focus { border-color:var(--yellow); }
-textarea::placeholder { color:#444; }
-
-.drop-zone {
-  border:2px dashed var(--charcoal-border);border-radius:var(--r);
-  padding:40px 24px;text-align:center;cursor:pointer;transition:all 0.2s;
-  position:relative;background:var(--charcoal);
-}
-.drop-zone:hover,.drop-zone.dragover { border-color:var(--yellow);background:var(--yellow-glow); }
-.drop-zone input[type="file"] { position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%; }
-.drop-icon { font-size:36px;margin-bottom:12px;display:block; }
-.drop-zone p { color:var(--muted);font-size:14px; }
-.drop-zone strong { color:var(--yellow); }
-.file-selected {
-  margin-top:12px;background:rgba(245,200,0,0.08);
-  border:1px solid rgba(245,200,0,0.25);border-radius:var(--r);
-  padding:10px 14px;font-size:13px;color:var(--yellow);
-  display:none;align-items:center;gap:8px;
-}
-
-.cta-btn {
-  width:100%;background:var(--yellow);color:var(--charcoal);
-  border:none;border-radius:var(--r);font-family:'Bebas Neue',sans-serif;
-  font-size:22px;letter-spacing:2px;padding:18px;cursor:pointer;transition:all 0.2s;
-  margin-top:20px;display:flex;align-items:center;justify-content:center;gap:10px;
-  position:relative;overflow:hidden;
-}
-.cta-btn:hover:not(:disabled) { background:var(--yellow-dark);transform:translateY(-1px);box-shadow:0 8px 28px rgba(245,200,0,0.3); }
-.cta-btn:disabled { opacity:0.45;cursor:not-allowed;transform:none; }
-
-.payment-notice { margin-top:14px;display:flex;align-items:center;justify-content:center;gap:6px;font-size:12px;color:var(--steel); }
-
-.error-msg {
-  background:var(--red-bg);border:1px solid rgba(229,62,62,0.3);
-  border-radius:var(--r);padding:12px 16px;
-  font-size:13px;color:#FC8181;margin-top:12px;display:none;
-}
-
-/* ── ANALYSIS SCREEN ── */
-#analysis-screen { display:none;position:relative;z-index:1;max-width:680px;margin:0 auto 32px;padding:0 24px; }
-.progress-card { background:var(--charcoal-mid);border:1px solid var(--charcoal-border);border-radius:var(--r-xl);padding:48px 32px;text-align:center; }
-.spinner { width:52px;height:52px;border:4px solid var(--charcoal-border);border-top-color:var(--yellow);border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 24px; }
-@keyframes spin { to { transform:rotate(360deg); } }
-.progress-title { font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:1px;margin-bottom:8px; }
-.progress-subtitle { color:var(--muted);font-size:14px;margin-bottom:32px; }
-.progress-steps { list-style:none;text-align:left;max-width:340px;margin:0 auto;display:flex;flex-direction:column;gap:14px; }
-.progress-step { display:flex;align-items:center;gap:12px;font-size:14px;color:var(--steel);transition:color 0.3s; }
-.progress-step.active { color:var(--white); }
-.progress-step.done { color:var(--green); }
-.step-dot { width:10px;height:10px;border-radius:50%;background:var(--charcoal-border);flex-shrink:0;transition:background 0.3s; }
-.progress-step.active .step-dot { background:var(--yellow);box-shadow:0 0 8px rgba(245,200,0,0.5);animation:pulse 1s ease-in-out infinite; }
-.progress-step.done .step-dot { background:var(--green); }
-@keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.3} }
-
-/* ── REPORT SCREEN ── */
-#report-screen { display:none;position:relative;z-index:1;max-width:800px;margin:0 auto 32px;padding:0 24px; }
-.report-header { background:var(--charcoal-mid);border:1px solid var(--charcoal-border);border-radius:var(--r-xl);padding:28px 32px;margin-bottom:16px; }
-.report-top-row { display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:20px; }
-.report-title { font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:1px;color:var(--yellow);margin-bottom:4px; }
-.report-meta { font-size:13px;color:var(--steel); }
-.risk-summary { display:flex;gap:8px;flex-wrap:wrap;align-items:flex-start; }
-.risk-pill { padding:5px 12px;border-radius:16px;font-size:11px;font-weight:700;letter-spacing:0.5px; }
-.risk-pill.critical { background:var(--red-bg);color:#FC8181;border:1px solid rgba(229,62,62,0.3); }
-.risk-pill.high { background:var(--orange-bg);color:#F6AD55;border:1px solid rgba(237,137,54,0.3); }
-.risk-pill.medium { background:rgba(245,200,0,0.1);color:var(--yellow);border:1px solid rgba(245,200,0,0.3); }
-.risk-pill.low { background:var(--green-bg);color:#68D391;border:1px solid rgba(56,161,105,0.3); }
-
-.verdict-block { display:flex;align-items:center;gap:14px;padding:16px 20px;border-radius:var(--r-lg);margin-bottom:0; }
-.verdict-block.safe { background:var(--green-bg);border:1px solid rgba(56,161,105,0.35); }
-.verdict-block.caution { background:var(--orange-bg);border:1px solid rgba(237,137,54,0.35); }
-.verdict-block.danger { background:var(--red-bg);border:1px solid rgba(229,62,62,0.35); }
-.verdict-icon { font-size:28px;flex-shrink:0; }
-.verdict-text h3 { font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;margin-bottom:4px; }
-.verdict-block.safe .verdict-text h3 { color:#68D391; }
-.verdict-block.caution .verdict-text h3 { color:#F6AD55; }
-.verdict-block.danger .verdict-text h3 { color:#FC8181; }
-.verdict-text p { font-size:13px;color:var(--dim); }
-
-.report-content { background:var(--charcoal-mid);border:1px solid var(--charcoal-border);border-radius:var(--r-xl);overflow:hidden;margin-bottom:16px; }
-.report-body { padding:32px;font-size:14px;line-height:1.85;color:var(--dim);white-space:pre-wrap;word-break:break-word; }
-
-.download-btn { width:100%;background:transparent;border:2px solid var(--yellow);color:var(--yellow);border-radius:var(--r);font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px;padding:14px;cursor:pointer;transition:all 0.2s;margin-bottom:10px; }
-.download-btn:hover { background:var(--yellow);color:var(--charcoal); }
-
-.new-review-btn { width:100%;background:var(--charcoal-light);border:none;color:var(--muted);border-radius:var(--r);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;padding:12px;cursor:pointer;transition:all 0.2s; }
-.new-review-btn:hover { color:var(--white);background:#444; }
-
-.upsell-prompt {
-  display:none;
-  background:linear-gradient(135deg,rgba(245,200,0,0.1),rgba(245,200,0,0.04));
-  border:1px solid rgba(245,200,0,0.25);border-radius:var(--r-xl);
-  padding:24px 28px;margin-bottom:16px;text-align:center;
-}
-.upsell-prompt h3 { font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;color:var(--yellow);margin-bottom:8px; }
-.upsell-prompt p { font-size:14px;color:var(--dim); }
-
-/* ── HOW IT WORKS ── */
-.how-section { margin-bottom:72px; }
-.steps-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px; }
-.step-card { background:var(--charcoal-mid);border:1px solid var(--charcoal-border);border-radius:var(--r-xl);padding:22px; }
-.step-num { font-family:'Bebas Neue',sans-serif;font-size:48px;color:var(--charcoal-border);line-height:1;margin-bottom:10px; }
-.step-card h3 { font-size:14px;font-weight:700;margin-bottom:6px; }
-.step-card p { font-size:13px;color:var(--muted);line-height:1.5; }
-
-/* ── CONTACT ── */
-.contact-section { margin-bottom:72px; }
-.contact-card { background:var(--charcoal-mid);border:1px solid var(--charcoal-border);border-radius:var(--r-xl);padding:28px 32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px; }
-.contact-card h3 { font-size:15px;font-weight:700;margin-bottom:4px; }
-.contact-card p { font-size:13px;color:var(--muted); }
-.contact-link { background:var(--charcoal-light);border:1px solid var(--charcoal-border);color:var(--yellow);font-size:14px;font-weight:600;padding:11px 20px;border-radius:var(--r);text-decoration:none;transition:all 0.2s;white-space:nowrap; }
-.contact-link:hover { background:var(--yellow);color:var(--charcoal); }
-
-/* ── FOOTER ── */
-footer { position:relative;z-index:1;border-top:1px solid var(--charcoal-border);padding:28px 24px;text-align:center; }
-.disclaimer {
-  font-size:13px;color:var(--dim);max-width:600px;margin:0 auto 16px;line-height:1.7;
-  background:rgba(229,62,62,0.06);border:1px solid rgba(229,62,62,0.2);
-  border-radius:var(--r-lg);padding:14px 18px;
-}
-.footer-links { display:flex;gap:16px;justify-content:center;font-size:12px;color:#555; }
-
-/* ── ANIMATIONS ── */
-@keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
-.hero { animation:fadeUp 0.5s ease forwards; }
-.upload-section { animation:fadeUp 0.5s 0.1s ease both; }
-
-/* ── MOBILE ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 @media(max-width:600px){
-  .hero{padding:40px 20px 36px;}
-  .section{padding:0 16px;}
-  .card-body{padding:18px 16px;}
-  .report-body{padding:20px;}
-  .report-header{padding:20px;}
-  .why-card{padding:24px 20px;}
-  .contact-card{flex-direction:column;}
-  header{padding:0 16px;}
-  .free-badge{display:none;}
-  .logo-before-you{font-size:22px;}
-  .logo-sign{font-size:28px;}
+  .hero{padding:40px 20px 36px}
+  .section{padding:0 16px}
+  .card-body{padding:18px 16px}
+  .report-body{padding:16px}
+  .report-header{padding:20px}
+  .why-card{padding:24px 20px}
+  .contact-card{flex-direction:column}
+  header{padding:0 16px}
+  .free-badge{display:none}
+  .risk-score-block{flex-direction:column;align-items:flex-start;gap:10px}
 }
 </style>
 </head>
 <body>
 
-<!-- ─── HEADER ─── -->
 <header>
   <div class="logo">
     <span class="logo-before-you">BEFORE YOU</span>
@@ -564,29 +312,26 @@ footer { position:relative;z-index:1;border-top:1px solid var(--charcoal-border)
   </div>
 </header>
 
-<!-- ─── FREE BANNER ─── -->
 <div class="free-banner" id="free-banner">
   🎉 <strong>First contract check free</strong> — no payment needed.
 </div>
 
-<!-- ─── HERO ─── -->
 <div class="hero">
   <div class="hero-eyebrow">🇳🇿 Built for NZ Subcontractors</div>
   <h1>
     <span class="line-1">KNOW WHAT YOU'RE SIGNING</span>
     <span class="line-2">BEFORE IT'S TOO LATE</span>
   </h1>
-  <p class="hero-sub">Upload your subcontract and get a clear breakdown of where you could lose money, get paid late, or take on unfair risk. Built for NZ subcontractors.</p>
-
+  <p class="hero-sub">Upload your subcontract and get a clear breakdown of where you could lose money, get paid late, or take on unfair risk.</p>
+  <button class="sample-link" onclick="openSampleModal()">👁 See a sample report</button>
   <div class="trust-bar">
-    <div class="trust-item"><span class="ti-icon">⚡</span> Fast turnaround</div>
-    <div class="trust-item"><span class="ti-icon">🛠</span> Built for NZ tradies</div>
-    <div class="trust-item"><span class="ti-icon">🇳🇿</span> Checked against NZ construction law</div>
-    <div class="trust-item"><span class="ti-icon">🔒</span> Secure &amp; private</div>
+    <div class="trust-item">⚡ 2-minute turnaround</div>
+    <div class="trust-item">🛠 Built for NZ tradies</div>
+    <div class="trust-item">🇳🇿 Checked against NZ law</div>
+    <div class="trust-item">🔒 Secure &amp; private</div>
   </div>
 </div>
 
-<!-- ─── UPLOAD CARD ─── -->
 <div class="section upload-section" id="upload-section">
   <div class="section-inner">
     <div class="card">
@@ -599,11 +344,9 @@ footer { position:relative;z-index:1;border-top:1px solid var(--charcoal-border)
           <button class="tab-btn active" onclick="switchTab('paste')">📋 Paste Text</button>
           <button class="tab-btn" onclick="switchTab('upload')">📄 Upload PDF</button>
         </div>
-
         <div class="tab-panel active" id="tab-paste">
           <textarea id="contract-text" placeholder="Paste your contract here — the whole thing, or just the sections you're not sure about..."></textarea>
         </div>
-
         <div class="tab-panel" id="tab-upload">
           <div class="drop-zone" id="drop-zone">
             <input type="file" id="pdf-input" accept=".pdf" onchange="handleFileSelect(event)">
@@ -611,42 +354,33 @@ footer { position:relative;z-index:1;border-top:1px solid var(--charcoal-border)
             <p><strong>Drop your PDF here</strong> or click to browse</p>
             <p style="font-size:12px;margin-top:6px;color:#555">PDF files only · Max 10MB</p>
           </div>
-          <div class="file-selected" id="file-selected">
-            <span>📎</span><span id="file-name"></span>
-          </div>
+          <div class="file-selected" id="file-selected"><span>📎</span><span id="file-name"></span></div>
         </div>
-
-        <!-- ── TRADE TYPE SELECTOR ── -->
-        <div class="trade-select-wrap">
-          <label for="trade-type">What type of work is this for? <span style="color:var(--steel);font-weight:400;">(optional — helps personalise your analysis)</span></label>
-          <select id="trade-type" class="trade-select">
-            <option value="">Select your trade...</option>
-            <option value="Builder">Builder</option>
-            <option value="Electrician">Electrician</option>
-            <option value="Plumber">Plumber</option>
-            <option value="Painter">Painter</option>
-            <option value="Roofer">Roofer</option>
-            <option value="General subcontractor">General subcontractor</option>
-            <option value="Other">Other</option>
+        <div class="trade-selector">
+          <label for="trade-type">What type of work is this for? <span style="color:var(--steel);font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label>
+          <select id="trade-type">
+            <option value="">Select your trade…</option>
+            <option>Builder</option>
+            <option>Electrician</option>
+            <option>Plumber</option>
+            <option>Painter</option>
+            <option>Roofer</option>
+            <option>General subcontractor</option>
+            <option>Other</option>
           </select>
         </div>
-
         <div class="error-msg" id="error-msg"></div>
-
         <button class="cta-btn" id="pay-btn" onclick="startPayment()">
           <span>🔒</span>
           <span id="cta-label">Review My Contract — Free</span>
         </button>
-
-        <div class="payment-notice" id="payment-notice">
-          ✓ First review free · Then NZD $29 per review · Powered by Stripe
-        </div>
+        <div class="payment-notice" id="payment-notice">✓ First review free · Then NZD $29 · Powered by Stripe</div>
+        <div class="privacy-line">🔒 Your contract is not stored after analysis — deleted immediately once your report is generated.</div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ─── ANALYSIS SCREEN ─── -->
 <div id="analysis-screen">
   <div class="progress-card">
     <div class="spinner"></div>
@@ -660,7 +394,6 @@ footer { position:relative;z-index:1;border-top:1px solid var(--charcoal-border)
   </div>
 </div>
 
-<!-- ─── REPORT SCREEN ─── -->
 <div id="report-screen">
   <div class="report-header">
     <div class="report-top-row">
@@ -670,12 +403,22 @@ footer { position:relative;z-index:1;border-top:1px solid var(--charcoal-border)
       </div>
       <div class="risk-summary" id="risk-summary"></div>
     </div>
+    <div class="risk-score-block" id="risk-score-block" style="display:none">
+      <div>
+        <div class="risk-score-label">Risk Score</div>
+        <div class="risk-score-number" id="risk-score-number">0<span style="font-size:20px;color:var(--muted)">/100</span></div>
+      </div>
+      <div style="flex:1;min-width:140px">
+        <div class="risk-score-bar-wrap"><div class="risk-score-bar" id="risk-score-bar"></div></div>
+        <div class="risk-score-desc" id="risk-score-desc"></div>
+      </div>
+    </div>
     <div id="verdict-block"></div>
   </div>
 
   <div id="upsell-prompt" class="upsell-prompt">
-    <h3>Need another review?</h3>
-    <p>Your first check was free. Additional reviews are NZD $29 each — no account needed.</p>
+    <h3>Need more checks?</h3>
+    <p>Further reviews are NZD $29 each. <a href="mailto:hello@beforeyousign.nz" style="color:var(--yellow);text-decoration:none">Contact us</a> with any questions.</p>
   </div>
 
   <div class="report-content">
@@ -686,65 +429,33 @@ footer { position:relative;z-index:1;border-top:1px solid var(--charcoal-border)
   <button class="new-review-btn" onclick="resetApp()">Start a new review</button>
 </div>
 
-<!-- ─── COMMON TRAPS ─── -->
+<!-- COMMON TRAPS -->
 <div class="section traps-section" id="traps-section">
   <div class="section-inner">
     <div class="section-label">Common traps we flag</div>
     <div class="traps-grid">
-      <div class="trap-card">
-        <span class="trap-icon">💰</span>
-        <h3>"Pay When Paid" Clauses</h3>
-        <p>You don't get paid until they do. If the client goes bust or disputes, you're last in line.</p>
-      </div>
-      <div class="trap-card">
-        <span class="trap-icon">🔒</span>
-        <h3>Retention Traps</h3>
-        <p>Your money locked for months with no clear release date or process.</p>
-      </div>
-      <div class="trap-card">
-        <span class="trap-icon">📐</span>
-        <h3>Vague Scope</h3>
-        <p>You end up doing extra work for free because the scope was never pinned down.</p>
-      </div>
-      <div class="trap-card">
-        <span class="trap-icon">⚡</span>
-        <h3>Liability Traps</h3>
-        <p>You pay for things outside your control — clauses that expose you for other trades' work.</p>
-      </div>
-      <div class="trap-card">
-        <span class="trap-icon">📅</span>
-        <h3>Delayed Payment Terms</h3>
-        <p>60 or 90-day payment terms buried in the fine print. Serious cashflow problems.</p>
-      </div>
+      <div class="trap-card"><span class="trap-icon">💰</span><h3>"Pay When Paid" Clauses</h3><p>You don't get paid until they do. If the client goes bust, you're last in line.</p></div>
+      <div class="trap-card"><span class="trap-icon">🔒</span><h3>Retention Traps</h3><p>Your money locked for months with no clear release date or conditions.</p></div>
+      <div class="trap-card"><span class="trap-icon">📐</span><h3>Vague Scope</h3><p>If scope isn't specific, you end up doing extra work for free.</p></div>
+      <div class="trap-card"><span class="trap-icon">⚡</span><h3>Liability Traps</h3><p>You pay for things outside your control — damage caused by others on site.</p></div>
+      <div class="trap-card"><span class="trap-icon">📅</span><h3>Delayed Payment Terms</h3><p>60 or 90-day payment terms hidden in the fine print. Serious cashflow problems.</p></div>
     </div>
   </div>
 </div>
 
-<!-- ─── VERDICT PREVIEW ─── -->
+<!-- VERDICT PREVIEW -->
 <div class="section verdict-section">
   <div class="section-inner">
     <div class="section-label">What your verdict looks like</div>
     <div class="verdict-cards">
-      <div class="verdict-card verdict-safe">
-        <span class="verdict-emoji">🟢</span>
-        <div class="verdict-label">SAFE TO SIGN</div>
-        <p class="verdict-desc">Standard clauses, fair payment terms, nothing that puts you at unusual risk. Sign with confidence.</p>
-      </div>
-      <div class="verdict-card verdict-caution">
-        <span class="verdict-emoji">🟡</span>
-        <div class="verdict-label">PROCEED WITH CAUTION</div>
-        <p class="verdict-desc">A few clauses worth pushing back on. We'll give you the exact words to use in the conversation.</p>
-      </div>
-      <div class="verdict-card verdict-no">
-        <span class="verdict-emoji">🔴</span>
-        <div class="verdict-label">DO NOT SIGN</div>
-        <p class="verdict-desc">Serious risk to your money or liability. We'll tell you exactly why and what to do next.</p>
-      </div>
+      <div class="verdict-card verdict-safe"><span class="verdict-emoji">🟢</span><div class="verdict-label">SAFE TO SIGN</div><p class="verdict-desc">Standard clauses, fair payment terms. Sign with confidence.</p></div>
+      <div class="verdict-card verdict-caution"><span class="verdict-emoji">🟡</span><div class="verdict-label">PROCEED WITH CAUTION</div><p class="verdict-desc">A few clauses worth pushing back on. We give you the exact words to use.</p></div>
+      <div class="verdict-card verdict-no"><span class="verdict-emoji">🔴</span><div class="verdict-label">DO NOT SIGN</div><p class="verdict-desc">Serious risk to your money or liability. We'll tell you exactly what to do.</p></div>
     </div>
   </div>
 </div>
 
-<!-- ─── EXAMPLE REPORT ─── -->
+<!-- EXAMPLE REPORT -->
 <div class="section example-section">
   <div class="section-inner">
     <div class="section-label">Example report output</div>
@@ -759,28 +470,25 @@ footer { position:relative;z-index:1;border-top:1px solid var(--charcoal-border)
       </div>
       <div class="example-body">
         <div class="ex-verdict">🔴 DO NOT SIGN — two clauses expose you to unlimited liability</div>
-
         <div class="ex-section">
           <div class="ex-section-title">🚨 Critical Issues</div>
           <div class="ex-item">
-            <strong>Unlimited Liability Clause (Clause 14.3)</strong>
-            If anything goes wrong on site, you're personally liable with no cap. The head contractor can come after you for the full project value — even for problems that weren't your fault.
+            <strong>1. Unlimited Liability Clause (Clause 14.3)</strong>
+            You're personally liable with no cap — even for damage caused by other trades.
             <div class="negotiation">"I'm happy to accept liability for my own work, but I need a cap — let's set it at the value of my subcontract. Can we add that to clause 14.3?"</div>
           </div>
           <div class="ex-item">
-            <strong>Pay When Paid (Clause 8.1)</strong>
-            You only get paid when the head contractor gets paid by the client. Under the NZ Construction Contracts Act 2002, this clause may be unenforceable — but you'd have to fight for it.
-            <div class="negotiation">"Clause 8.1 looks like a pay-when-paid clause which conflicts with my rights under the CCA 2002. Can we change it to net-30 from invoice date?"</div>
+            <strong>2. Pay When Paid (Clause 8.1)</strong>
+            You only get paid when the head contractor gets paid. May be unenforceable under CCA 2002 — but you'd have to fight for it.
+            <div class="negotiation">"Clause 8.1 conflicts with my rights under the CCA 2002. Can we change it to net-30 from invoice date?"</div>
           </div>
         </div>
-
         <div class="ex-section">
           <div class="ex-section-title">💸 What This Could Cost You</div>
           <div class="ex-cost">
             <ul>
-              <li>Liability clause: potentially unlimited — could exceed the contract value</li>
+              <li>Liability clause: potentially unlimited — could exceed contract value</li>
               <li>Late payment: up to 90 days on a $80k job = $3,600+ in financing costs</li>
-              <li>Vague scope: could mean 20–30 hours of uncosted extra work</li>
             </ul>
           </div>
         </div>
@@ -789,465 +497,565 @@ footer { position:relative;z-index:1;border-top:1px solid var(--charcoal-border)
   </div>
 </div>
 
-<!-- ─── WHY THIS EXISTS ─── -->
+<!-- WHY THIS EXISTS -->
 <div class="section why-section">
   <div class="section-inner">
     <div class="section-label">Why this exists</div>
     <div class="why-card">
-      <p>Most subcontractors don't get contracts reviewed — not because they don't want to, but because it's expensive and slow.</p>
-      <p>This gives you a fast way to spot risks before you're locked in.</p>
+      <p>Most subcontractors don't get contracts reviewed — not because they don't want to, but because it's expensive and slow. A lawyer costs $350 an hour. Most tradies don't call one before signing.</p>
+      <p>Before You Sign gives you a fast way to spot risks before you're locked in — in plain English, in under 2 minutes.</p>
     </div>
   </div>
 </div>
 
-<!-- ─── PRICING ─── -->
+<!-- PRICING -->
 <div class="section pricing-section">
   <div class="section-inner">
     <div class="section-label">Pricing</div>
     <div class="pricing-simple">
       <div class="pricing-card featured">
-        <div class="pricing-name">First check</div>
+        <div class="pricing-name">First Check</div>
         <div class="pricing-price">Free</div>
-        <div class="pricing-period">No payment details needed. Full report, same as paid.</div>
-        <button class="pricing-cta" onclick="document.getElementById('upload-section').scrollIntoView({behavior:'smooth'})">Start free review ↑</button>
+        <div class="pricing-period">no payment needed</div>
+        <button class="pricing-cta" onclick="document.getElementById('upload-section').scrollIntoView({behavior:'smooth'})">Try it now — it's free</button>
       </div>
       <div class="pricing-card">
-        <div class="pricing-name">After that</div>
+        <div class="pricing-name">Additional Reviews</div>
         <div class="pricing-price">$29<span> NZD</span></div>
-        <div class="pricing-period">per review, no account needed. Pay securely via Stripe.</div>
-        <button class="pricing-cta" onclick="document.getElementById('upload-section').scrollIntoView({behavior:'smooth'})">Get a review ↑</button>
+        <div class="pricing-period">per review, no account needed</div>
+        <button class="pricing-cta" onclick="document.getElementById('upload-section').scrollIntoView({behavior:'smooth'})">Upload a contract</button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ─── HOW IT WORKS ─── -->
+<!-- HOW IT WORKS -->
 <div class="section how-section" id="how-section">
   <div class="section-inner">
     <div class="section-label">How it works</div>
     <div class="steps-grid">
-      <div class="step-card">
-        <div class="step-num">01</div>
-        <h3>Paste or upload</h3>
-        <p>Your contract text or PDF. The whole thing or just the tricky bits.</p>
-      </div>
-      <div class="step-card">
-        <div class="step-num">02</div>
-        <h3>Select your trade</h3>
-        <p>Optional — helps personalise the risk analysis to your type of work.</p>
-      </div>
-      <div class="step-card">
-        <div class="step-num">03</div>
-        <h3>AI reads it</h3>
-        <p>Three-pass analysis — extract, risk-score, then plain-English report.</p>
-      </div>
-      <div class="step-card">
-        <div class="step-num">04</div>
-        <h3>Get your verdict</h3>
-        <p>Green, yellow, or red — with negotiation scripts and cost estimates.</p>
-      </div>
+      <div class="step-card"><div class="step-num">01</div><h3>Paste or upload</h3><p>Your contract text or PDF.</p></div>
+      <div class="step-card"><div class="step-num">02</div><h3>First one's free</h3><p>No payment on your first review. $29 NZD via Stripe after that.</p></div>
+      <div class="step-card"><div class="step-num">03</div><h3>AI reads it</h3><p>Three-pass analysis: extract, risk-score, plain-English report.</p></div>
+      <div class="step-card"><div class="step-num">04</div><h3>Get your verdict</h3><p>Green, yellow, or red — with negotiation scripts and cost estimates.</p></div>
     </div>
   </div>
 </div>
 
-<!-- ─── CONTACT ─── -->
+<!-- CONTACT -->
 <div class="section contact-section">
   <div class="section-inner">
     <div class="contact-card">
-      <div>
-        <h3>Questions? Get in touch.</h3>
-        <p>Drop us a line any time.</p>
-      </div>
+      <div><h3>Questions? Get in touch.</h3><p>Drop us a line any time.</p></div>
       <a href="mailto:hello@beforeyousign.nz" class="contact-link">✉ hello@beforeyousign.nz</a>
     </div>
   </div>
 </div>
 
-<!-- ─── FOOTER ─── -->
 <footer>
   <p class="disclaimer">⚠️ AI-assisted review only — not legal advice. Always consult a qualified lawyer for complex contracts or disputes.</p>
   <div class="footer-links">
     <span>© 2025 Before You Sign</span>
     <span>·</span>
-    <a href="mailto:hello@beforeyousign.nz" style="color:#555;text-decoration:none;">hello@beforeyousign.nz</a>
+    <a href="mailto:hello@beforeyousign.nz" style="color:#555;text-decoration:none">hello@beforeyousign.nz</a>
     <span>·</span>
     <span>beforeyousign.nz</span>
   </div>
 </footer>
 
+<!-- SAMPLE REPORT MODAL -->
+<div class="modal-overlay" id="sample-modal" onclick="handleModalClick(event)">
+  <div class="modal-content">
+    <div class="modal-header">
+      <div>
+        <div class="modal-header-title">Sample Report — Commercial Fit-Out Subcontract</div>
+        <div class="modal-header-sub">Builder · This is what you'll receive. Generated 28 March 2025.</div>
+      </div>
+      <button class="modal-close" onclick="closeSampleModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="risk-score-block" style="margin-bottom:20px">
+        <div><div class="risk-score-label">Risk Score</div><div class="risk-score-number">72<span style="font-size:20px;color:var(--muted)">/100</span></div></div>
+        <div style="flex:1;min-width:140px">
+          <div class="risk-score-bar-wrap"><div class="risk-score-bar" style="width:72%;background:var(--red)"></div></div>
+          <div class="risk-score-desc" style="margin-top:6px">High risk — 2 critical clauses, 3 high-risk clauses</div>
+        </div>
+      </div>
+      <div class="verdict-block danger" style="margin-bottom:20px">
+        <span class="verdict-icon">🔴</span>
+        <div class="verdict-text"><h3>DO NOT SIGN</h3><p>Two clauses expose you to unlimited personal liability and the payment terms likely violate the Construction Contracts Act 2002.</p></div>
+      </div>
+      <div class="rs-section rs-critical">
+        <div class="rs-header">🚨 CRITICAL ISSUES</div>
+        <div class="rs-body">
+          <div class="issue-card critical">
+            <div class="issue-num">Issue 1</div>
+            <div class="issue-title">Unlimited Liability Clause (Clause 14.3)</div>
+            <div class="issue-text">If anything goes wrong on site, you're personally liable with no cap. The head contractor can pursue you for the full project value — even for damage caused by other trades. On a $500k project, this clause could wipe you out.<br><br><strong>Financial impact:</strong> Potentially unlimited — could exceed the value of your subcontract many times over.<br><strong>NZ law:</strong> Contract and Commercial Law Act 2017.</div>
+            <div class="neg-script" id="sample-neg-1"><div class="neg-label">💬 Say this:</div><div class="neg-text">"I'm happy to accept liability for my own work, but I need a cap on clause 14.3 — let's set it at the value of my subcontract. That's standard practice. Can we add that wording?"</div><button class="copy-btn" onclick="copyScript('sample-neg-1')">Copy</button></div>
+          </div>
+          <div class="issue-card critical">
+            <div class="issue-num">Issue 2</div>
+            <div class="issue-title">Pay When Paid (Clause 8.1)</div>
+            <div class="issue-text">You only get paid when the head contractor receives payment from the client. The NZ Construction Contracts Act 2002 makes pay-when-paid clauses unenforceable in most cases — but you'd need to challenge it.<br><br><strong>Financial impact:</strong> On a $60k job with 90-day client terms, you could be out of pocket for 3+ months — roughly $3,500 in financing costs.</div>
+            <div class="neg-script" id="sample-neg-2"><div class="neg-label">💬 Say this:</div><div class="neg-text">"Clause 8.1 looks like a pay-when-paid clause, which conflicts with my rights under the CCA 2002. I need payment within 20 working days of my invoice, regardless of when you're paid. Can we change this?"</div><button class="copy-btn" onclick="copyScript('sample-neg-2')">Copy</button></div>
+          </div>
+        </div>
+      </div>
+      <div class="rs-section rs-warning" style="margin-top:12px">
+        <div class="rs-header">⚠️ THINGS TO WATCH</div>
+        <div class="rs-body">
+          <div class="issue-card warning">
+            <div class="issue-num">Issue 3</div>
+            <div class="issue-title">Retention — No Release Date (Clause 11.2)</div>
+            <div class="issue-text">5% retention with no specified release date beyond "practical completion at the head contractor's discretion."<br><br><strong>Financial impact:</strong> On a $60k subcontract, that's $3,000 held indefinitely.</div>
+            <div class="neg-script" id="sample-neg-3"><div class="neg-label">💬 Say this:</div><div class="neg-text">"Can we add a specific release date to clause 11.2? I'd like 50% at practical completion and the remainder 12 months after."</div><button class="copy-btn" onclick="copyScript('sample-neg-3')">Copy</button></div>
+          </div>
+        </div>
+      </div>
+      <div class="rs-section rs-ok" style="margin-top:12px">
+        <div class="rs-header">✅ LOOKS FINE</div>
+        <div class="rs-body">
+          <ul class="rs-list">
+            <li>Scope of work is clearly defined in Schedule A — no ambiguity</li>
+            <li>Insurance requirements are standard (public liability $2M, Building Act 2004)</li>
+            <li>Dispute resolution follows standard NZ construction practice</li>
+            <li>H&amp;S obligations align with WorkSafe NZ guidelines</li>
+          </ul>
+        </div>
+      </div>
+      <div class="rs-section rs-questions" style="margin-top:12px">
+        <div class="rs-header">❓ QUESTIONS TO ASK BEFORE SIGNING</div>
+        <div class="rs-body">
+          <ul class="rs-list">
+            <li>Who is the end client and what are their payment terms to you?</li>
+            <li>Can we agree a specific practical completion date in writing?</li>
+            <li>Has clause 14.3 been negotiated with other subcontractors on this project?</li>
+          </ul>
+        </div>
+      </div>
+      <div class="rs-section rs-summary" style="margin-top:12px">
+        <div class="rs-header">📋 PLAIN ENGLISH SUMMARY</div>
+        <div class="rs-body"><p class="rs-p">This contract has two serious problems. The liability clause has no cap and the payment clause likely violates the CCA 2002. The scope and insurance sections are fine. Push back on clauses 14.3 and 8.1 before proceeding.</p></div>
+      </div>
+      <div class="rs-actions" style="margin-top:12px">
+        <div class="rs-actions-title">📌 WHAT TO DO NOW</div>
+        <ol class="rs-action-list">
+          <li data-n="1.">Do not sign this contract in its current form.</li>
+          <li data-n="2.">Send the negotiation scripts above to the head contractor and request changes in writing.</li>
+          <li data-n="3.">If they refuse to negotiate, consider walking away or consulting a construction lawyer before proceeding.</li>
+        </ol>
+      </div>
+      <div style="margin-top:20px;padding:12px 16px;background:var(--red-bg);border:1px solid rgba(229,62,62,0.2);border-radius:var(--r);font-size:12px;color:var(--muted);text-align:center">⚠️ AI-assisted review only — not legal advice. Always consult a qualified lawyer for complex contracts or disputes.</div>
+    </div>
+  </div>
+</div>
 
 <script>
-// ─────────────────────────────────────────────────────────────────
-// CONFIG
-// ─────────────────────────────────────────────────────────────────
-const CONFIG = {
-  backendUrl: window.location.origin,
-  priceNZD: 2900,
-};
+const CONFIG = { backendUrl: window.location.origin, priceNZD: 2900 };
+let activeTab = 'paste', selectedFile = null, reportText = '', isFreeUser = false, currentVerdict = 'safe';
 
-// ─── EXTENDED PROMPT CONFIG FOR THREE-PASS ANALYSIS ───
-// These strings are sent to /api/analyze so the backend can
-// incorporate them into Pass 2 and Pass 3 of the Claude prompts.
-// Update your api/analyze.js handler to use these fields.
-const PASS2_EXTRA_FIELDS = `
-For each clause identified, include these additional fields:
-- financial_impact: plain English estimate of what this clause could cost the subcontractor (specific dollar ranges where possible)
-- negotiation_tip: exact wording the subcontractor can use to push back on this clause
-- tradie_impact: real-world consequence explained simply — what actually happens on site or to cashflow
-- legal_context: the most relevant NZ legislation (Construction Contracts Act 2002, Contract and Commercial Law Act 2017, Fair Trading Act 1986, Building Act 2004)
-`;
-
-const PASS2_PRIORITY_INSTRUCTION = `
-Always prioritise identifying risks that could cost the subcontractor money, delay payment, or increase liability. Consider risks related to: unfair contract terms, liability exposure, scope ambiguity, payment delays or withholding, retention misuse, and common NZ construction industry practices.
-`;
-
-const PASS3_REPORT_STRUCTURE = `
-Structure the report in this exact order:
-
-🔴/🟡/🟢 FINAL VERDICT
-[One of: SAFE TO SIGN / PROCEED WITH CAUTION / DO NOT SIGN]
-[One plain-English sentence explaining why]
-
-💸 WHAT THIS COULD COST YOU
-[Bullet points of financial risks in plain English with estimated dollar amounts where possible]
-
-🚨 CRITICAL ISSUES
-[Each issue must include a 💬 negotiation script with exact words to say]
-
-⚠️ THINGS TO WATCH
-
-✅ LOOKS FINE
-
-❓ QUESTIONS TO ASK BEFORE SIGNING
-
-📋 PLAIN ENGLISH SUMMARY
-`;
-
-// ─── STATE ───
-let activeTab = 'paste';
-let selectedFile = null;
-let reportText = '';
-let isFreeUser = false;
-
-// ─── CHECK FREE STATUS ON LOAD ───
+// FREE CHECK
 async function checkFreeStatus() {
   try {
     const res = await fetch(`${CONFIG.backendUrl}/api/check-free`);
-    if (!res.ok) return;
+    if (!res.ok) throw new Error();
     const { hasFree } = await res.json();
     isFreeUser = hasFree;
-    updateCTAForFreeStatus();
-} catch (e) {
-    isFreeUser = true;
-    updateCTAForFreeStatus();
+  } catch(e) {
+    isFreeUser = true; // fail open
   }
+  updateCTAForFreeStatus();
 }
 
 function updateCTAForFreeStatus() {
   const label = document.getElementById('cta-label');
   const notice = document.getElementById('payment-notice');
-  const freeBanner = document.getElementById('free-banner');
+  const banner = document.getElementById('free-banner');
   if (isFreeUser) {
     label.textContent = 'Review My Contract — Free';
     notice.textContent = '✓ First review free · No payment needed';
-    freeBanner.style.display = 'flex';
+    banner.style.display = 'flex';
   } else {
     label.textContent = 'Review My Contract — NZD $29';
     notice.textContent = '🔐 Powered by Stripe · Secure checkout · NZD $29';
-    freeBanner.style.display = 'none';
+    banner.style.display = 'none';
   }
 }
 
-// ─── TAB SWITCHING ───
+// TABS
 function switchTab(tab) {
   activeTab = tab;
-  document.querySelectorAll('.tab-btn').forEach((b, i) => {
-    b.classList.toggle('active', (i===0&&tab==='paste')||(i===1&&tab==='upload'));
-  });
+  document.querySelectorAll('.tab-btn').forEach((b,i) => b.classList.toggle('active',(i===0&&tab==='paste')||(i===1&&tab==='upload')));
   document.getElementById('tab-paste').classList.toggle('active', tab==='paste');
   document.getElementById('tab-upload').classList.toggle('active', tab==='upload');
 }
 
-// ─── FILE HANDLING ───
+// FILE
 function handleFileSelect(e) {
-  const file = e.target.files[0];
-  if (!file) return;
+  const file = e.target.files[0]; if (!file) return;
   if (file.size > 10*1024*1024) { showError('File too large. Max 10MB.'); return; }
   selectedFile = file;
   document.getElementById('file-name').textContent = file.name;
   document.getElementById('file-selected').style.display = 'flex';
 }
-
 const dz = document.getElementById('drop-zone');
 dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('dragover'); });
 dz.addEventListener('dragleave', () => dz.classList.remove('dragover'));
 dz.addEventListener('drop', e => {
   e.preventDefault(); dz.classList.remove('dragover');
-  const file = e.dataTransfer.files[0];
-  if (file && file.type==='application/pdf') {
-    selectedFile = file;
-    document.getElementById('file-name').textContent = file.name;
-    document.getElementById('file-selected').style.display = 'flex';
-  }
+  const f = e.dataTransfer.files[0];
+  if (f && f.type==='application/pdf') { selectedFile=f; document.getElementById('file-name').textContent=f.name; document.getElementById('file-selected').style.display='flex'; }
 });
-
 async function readFileAsBase64(file) {
-  return new Promise((resolve, reject) => {
-    const r = new FileReader();
-    r.onload = () => resolve(r.result.split(',')[1]);
-    r.onerror = reject;
-    r.readAsDataURL(file);
-  });
+  return new Promise((res,rej) => { const r=new FileReader(); r.onload=()=>res(r.result.split(',')[1]); r.onerror=rej; r.readAsDataURL(file); });
 }
+function showError(msg) { const el=document.getElementById('error-msg'); el.textContent=msg; el.style.display='block'; setTimeout(()=>el.style.display='none',7000); }
+function setStep(id,state) { const el=document.getElementById(id); el.classList.remove('active','done'); if(state!=='pending') el.classList.add(state); }
 
-function showError(msg) {
-  const el = document.getElementById('error-msg');
-  el.textContent = msg; el.style.display = 'block';
-  setTimeout(() => el.style.display = 'none', 7000);
-}
-
-// ─── PROGRESS ───
-function setStep(id, state) {
-  const el = document.getElementById(id);
-  el.classList.remove('active','done');
-  if (state !== 'pending') el.classList.add(state);
-}
-
-// ─── START PAYMENT / FREE FLOW ───
+// PAYMENT
 async function startPayment() {
   const text = document.getElementById('contract-text').value.trim();
   if (activeTab==='paste' && !text) { showError('Please paste your contract text first.'); return; }
   if (activeTab==='upload' && !selectedFile) { showError('Please select a PDF file.'); return; }
-
   const btn = document.getElementById('pay-btn');
   btn.disabled = true;
   btn.querySelector('#cta-label').textContent = 'Getting started...';
-
-  const tradeType = document.getElementById('trade-type').value;
-
+  const tradeType = document.getElementById('trade-type').value || 'General subcontractor';
   try {
-    if (activeTab==='paste') {
-      sessionStorage.setItem('contractContent', text);
-      sessionStorage.setItem('contractType', 'text');
-    } else {
-      const b64 = await readFileAsBase64(selectedFile);
-      sessionStorage.setItem('contractContent', b64);
-      sessionStorage.setItem('contractType', 'pdf');
-    }
+    if (activeTab==='paste') { sessionStorage.setItem('contractContent', text); sessionStorage.setItem('contractType','text'); }
+    else { const b64=await readFileAsBase64(selectedFile); sessionStorage.setItem('contractContent',b64); sessionStorage.setItem('contractType','pdf'); }
     sessionStorage.setItem('tradeType', tradeType);
-
     if (isFreeUser) {
-      const content = sessionStorage.getItem('contractContent');
-      const type = sessionStorage.getItem('contractType');
-      startAnalysis(content, type, true, tradeType);
+      startAnalysis(sessionStorage.getItem('contractContent'), sessionStorage.getItem('contractType'), true, tradeType);
     } else {
-      const res = await fetch(`${CONFIG.backendUrl}/api/create-checkout`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ returnUrl: window.location.href }),
-      });
+      const res = await fetch(`${CONFIG.backendUrl}/api/create-checkout`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({returnUrl:window.location.href}) });
       if (!res.ok) throw new Error('Checkout failed');
       const { url } = await res.json();
       window.location.href = url;
     }
-  } catch (err) {
-    console.error(err);
-    showError('Something went wrong. Please try again.');
-    btn.disabled = false;
-    btn.querySelector('#cta-label').textContent = isFreeUser ? 'Review My Contract — Free' : 'Review My Contract — NZD $29';
+  } catch(err) {
+    console.error(err); showError('Something went wrong. Please try again.');
+    btn.disabled=false; btn.querySelector('#cta-label').textContent = isFreeUser ? 'Review My Contract — Free' : 'Review My Contract — NZD $29';
   }
 }
 
-// ─── CHECK RETURNING FROM STRIPE ───
 async function checkPaymentReturn() {
   const params = new URLSearchParams(window.location.search);
-  const sessionId = params.get('session_id');
-  const cancelled = params.get('cancelled');
-
-  if (cancelled) { window.history.replaceState({}, '', window.location.pathname); return; }
+  const sessionId = params.get('session_id'), cancelled = params.get('cancelled');
+  if (cancelled) { window.history.replaceState({},'',window.location.pathname); return; }
   if (!sessionId) return;
-
-  window.history.replaceState({}, '', window.location.pathname);
-
-  const content = sessionStorage.getItem('contractContent');
-  const type = sessionStorage.getItem('contractType');
-  const tradeType = sessionStorage.getItem('tradeType') || '';
+  window.history.replaceState({},'',window.location.pathname);
+  const content=sessionStorage.getItem('contractContent'), type=sessionStorage.getItem('contractType'), tradeType=sessionStorage.getItem('tradeType')||'';
   if (!content) { showError('Session expired. Please paste your contract again.'); return; }
-
   try {
-    const res = await fetch(`${CONFIG.backendUrl}/api/verify-payment?session_id=${sessionId}`);
-    if (!res.ok) throw new Error('Verify failed');
-    const { paid } = await res.json();
-    if (!paid) throw new Error('Not paid');
-  } catch {
-    showError('Could not verify payment. Please contact hello@beforeyousign.nz');
-    return;
-  }
-
-  sessionStorage.removeItem('contractContent');
-  sessionStorage.removeItem('contractType');
-  sessionStorage.removeItem('tradeType');
+    const res=await fetch(`${CONFIG.backendUrl}/api/verify-payment?session_id=${sessionId}`);
+    if (!res.ok) throw new Error(); const { paid }=await res.json(); if (!paid) throw new Error();
+  } catch { showError('Could not verify payment. Contact hello@beforeyousign.nz'); return; }
+  sessionStorage.removeItem('contractContent'); sessionStorage.removeItem('contractType'); sessionStorage.removeItem('tradeType');
   startAnalysis(content, type, false, tradeType);
 }
 
-// ─── SHOW ANALYSIS SCREEN ───
+// ANALYSIS
 function showAnalysisScreen() {
   document.getElementById('upload-section').style.display = 'none';
   document.getElementById('how-section').style.display = 'none';
-  const traps = document.getElementById('traps-section');
-  if (traps) traps.style.display = 'none';
+  const t=document.getElementById('traps-section'); if(t) t.style.display='none';
   document.getElementById('analysis-screen').style.display = 'block';
-  setStep('step-extract','active');
-  setStep('step-risk','pending');
-  setStep('step-report','pending');
+  setStep('step-extract','active'); setStep('step-risk','pending'); setStep('step-report','pending');
 }
 
-// ─── THREE-PASS ANALYSIS ───
 async function startAnalysis(content, type, wasFree, tradeType) {
   showAnalysisScreen();
   try {
     const res = await fetch(`${CONFIG.backendUrl}/api/analyze`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        content,
-        type,
-        wasFree,
-        tradeType: tradeType || '',
-        // Extended prompt config — backend should incorporate these into Pass 2 and Pass 3
-        pass2ExtraFields: PASS2_EXTRA_FIELDS,
-        pass2PriorityInstruction: PASS2_PRIORITY_INSTRUCTION,
-        pass3ReportStructure: PASS3_REPORT_STRUCTURE,
-      }),
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ content, type, wasFree, tradeType }),
     });
-    if (!res.ok) { const e = await res.json(); throw new Error(e.error || 'Analysis failed'); }
+    if (!res.ok) { const e=await res.json(); throw new Error(e.error||'Analysis failed'); }
     const result = await res.json();
-
-    setStep('step-extract','done');
-    setStep('step-risk','done');
-    setStep('step-report','done');
-
+    setStep('step-extract','done'); setStep('step-risk','done'); setStep('step-report','done');
     setTimeout(() => showReport(result, wasFree), 500);
-  } catch (err) {
+  } catch(err) {
     console.error(err);
     document.getElementById('analysis-screen').style.display = 'none';
     document.getElementById('upload-section').style.display = 'block';
     document.getElementById('how-section').style.display = 'block';
-    const traps = document.getElementById('traps-section');
-    if (traps) traps.style.display = 'block';
+    const t=document.getElementById('traps-section'); if(t) t.style.display='block';
     showError(`Analysis failed: ${err.message}`);
-    const btn = document.getElementById('pay-btn');
-    btn.disabled = false;
+    const btn=document.getElementById('pay-btn'); btn.disabled=false;
     btn.querySelector('#cta-label').textContent = isFreeUser ? 'Review My Contract — Free' : 'Review My Contract — NZD $29';
   }
 }
 
-// ─── DISPLAY REPORT ───
+// SHOW REPORT
 function showReport(result, wasFree) {
   document.getElementById('analysis-screen').style.display = 'none';
   document.getElementById('report-screen').style.display = 'block';
-
   const now = new Date();
-  document.getElementById('report-meta').textContent =
-    `Generated ${now.toLocaleDateString('en-NZ',{day:'numeric',month:'long',year:'numeric'})} at ${now.toLocaleTimeString('en-NZ',{hour:'2-digit',minute:'2-digit'})}`;
-
+  document.getElementById('report-meta').textContent = `Generated ${now.toLocaleDateString('en-NZ',{day:'numeric',month:'long',year:'numeric'})} at ${now.toLocaleTimeString('en-NZ',{hour:'2-digit',minute:'2-digit'})}`;
   const counts = result.riskCounts || {};
-  const pillsHtml = [
-    counts.critical ? `<div class="risk-pill critical">🚨 ${counts.critical} Critical</div>` : '',
-    counts.high     ? `<div class="risk-pill high">⚠️ ${counts.high} High</div>` : '',
-    counts.medium   ? `<div class="risk-pill medium">⚡ ${counts.medium} Medium</div>` : '',
-    counts.low      ? `<div class="risk-pill low">✅ ${counts.low} Low risk</div>` : '',
+  document.getElementById('risk-summary').innerHTML = [
+    counts.critical?`<div class="risk-pill critical">🚨 ${counts.critical} Critical</div>`:'',
+    counts.high?`<div class="risk-pill high">⚠️ ${counts.high} High</div>`:'',
+    counts.medium?`<div class="risk-pill medium">⚡ ${counts.medium} Medium</div>`:'',
+    counts.low?`<div class="risk-pill low">✅ ${counts.low} Low</div>`:'',
   ].join('');
-  document.getElementById('risk-summary').innerHTML = pillsHtml;
 
-  const verdict = result.verdict || detectVerdict(result.report || '');
-  const verdictEl = document.getElementById('verdict-block');
-  if (verdict === 'safe') {
-    verdictEl.innerHTML = `<div class="verdict-block safe"><span class="verdict-icon">🟢</span><div class="verdict-text"><h3>SAFE TO SIGN</h3><p>${result.verdictReason || 'This contract looks fair and standard for NZ subcontracting.'}</p></div></div>`;
-  } else if (verdict === 'caution') {
-    verdictEl.innerHTML = `<div class="verdict-block caution"><span class="verdict-icon">🟡</span><div class="verdict-text"><h3>PROCEED WITH CAUTION</h3><p>${result.verdictReason || 'A few clauses worth pushing back on before you sign.'}</p></div></div>`;
-  } else {
-    verdictEl.innerHTML = `<div class="verdict-block danger"><span class="verdict-icon">🔴</span><div class="verdict-text"><h3>DO NOT SIGN</h3><p>${result.verdictReason || 'Serious risks detected. Read the full report before proceeding.'}</p></div></div>`;
-  }
+  // Risk score
+  const score = Math.min(100,(counts.critical||0)*25+(counts.high||0)*15+(counts.medium||0)*8+(counts.low||0)*3);
+  document.getElementById('risk-score-block').style.display = 'flex';
+  document.getElementById('risk-score-number').innerHTML = `${score}<span style="font-size:20px;color:var(--muted)">/100</span>`;
+  const bar = document.getElementById('risk-score-bar');
+  bar.style.background = score>=65?'var(--red)':score>=35?'var(--orange)':'var(--green)';
+  setTimeout(()=>bar.style.width=score+'%',100);
+  document.getElementById('risk-score-desc').textContent = score>=65?'High risk — review carefully before signing':score>=35?'Moderate risk — some clauses need attention':'Low risk — minor issues only';
 
-  reportText = result.report || '';
-  document.getElementById('report-body').textContent = reportText;
+  // Verdict
+  currentVerdict = result.verdict || detectVerdict(result.report||'');
+  const vEl = document.getElementById('verdict-block');
+  const vr = escHtml(result.verdictReason||'');
+  if (currentVerdict==='safe') vEl.innerHTML=`<div class="verdict-block safe"><span class="verdict-icon">🟢</span><div class="verdict-text"><h3>SAFE TO SIGN</h3><p>${vr||'This contract looks fair and standard for NZ subcontracting.'}</p></div></div>`;
+  else if (currentVerdict==='caution') vEl.innerHTML=`<div class="verdict-block caution"><span class="verdict-icon">🟡</span><div class="verdict-text"><h3>PROCEED WITH CAUTION</h3><p>${vr||'A few clauses worth pushing back on before you sign.'}</p></div></div>`;
+  else vEl.innerHTML=`<div class="verdict-block danger"><span class="verdict-icon">🔴</span><div class="verdict-text"><h3>DO NOT SIGN</h3><p>${vr||'Serious risks detected. Read the full report before proceeding.'}</p></div></div>`;
 
-  if (wasFree) {
-    document.getElementById('upsell-prompt').style.display = 'block';
-  }
-
-  document.getElementById('report-screen').scrollIntoView({ behavior:'smooth' });
+  reportText = result.report||'';
+  document.getElementById('report-body').innerHTML = renderReport(reportText, currentVerdict);
+  if (wasFree) document.getElementById('upsell-prompt').style.display = 'block';
+  document.getElementById('report-screen').scrollIntoView({behavior:'smooth'});
 }
 
-function detectVerdict(reportText) {
-  const upper = reportText.toUpperCase();
-  if (upper.includes('DO NOT SIGN') || upper.includes('🔴')) return 'danger';
-  if (upper.includes('PROCEED WITH CAUTION') || upper.includes('🟡')) return 'caution';
+function detectVerdict(t) {
+  const u=t.toUpperCase();
+  if(u.includes('DO NOT SIGN')) return 'danger';
+  if(u.includes('PROCEED WITH CAUTION')) return 'caution';
   return 'safe';
 }
 
-// ─── DOWNLOAD PDF ───
+// REPORT RENDERER
+const SECTION_DEFS = [
+  {key:'FINAL VERDICT',         cls:'rs-verdict',   label:'FINAL VERDICT',                 icon:'🏁'},
+  {key:'WHAT THIS COULD COST',  cls:'rs-cost',      label:'WHAT THIS COULD COST YOU',       icon:'💸'},
+  {key:'CRITICAL ISSUES',       cls:'rs-critical',  label:'CRITICAL ISSUES',                icon:'🚨', numbered:true},
+  {key:'THINGS TO WATCH',       cls:'rs-warning',   label:'THINGS TO WATCH',                icon:'⚠️', numbered:true},
+  {key:'LOOKS FINE',            cls:'rs-ok',        label:'LOOKS FINE',                     icon:'✅'},
+  {key:'QUESTIONS TO ASK',      cls:'rs-questions', label:'QUESTIONS TO ASK BEFORE SIGNING',icon:'❓'},
+  {key:'PLAIN ENGLISH SUMMARY', cls:'rs-summary',   label:'PLAIN ENGLISH SUMMARY',          icon:'📋'},
+];
+
+function renderReport(text, verdict) {
+  if (!text) return '<p class="rs-none">No report generated.</p>';
+  const lines = text.split('\n');
+  const sections = []; let cur = null;
+  for (const line of lines) {
+    let matched = false;
+    for (const def of SECTION_DEFS) {
+      if (line.toUpperCase().includes(def.key) && line.trim().length < 100) {
+        if (cur) sections.push(cur);
+        cur = {def, lines:[]}; matched=true; break;
+      }
+    }
+    if (!matched && cur) cur.lines.push(line);
+  }
+  if (cur) sections.push(cur);
+  if (!sections.length) return simpleMarkdown(text) + renderWhatToDoNow(verdict);
+  return sections.map(renderSection).join('') + renderWhatToDoNow(verdict);
+}
+
+function renderSection(section) {
+  const {def, lines} = section;
+  return `<div class="rs-section ${def.cls}"><div class="rs-header">${def.icon} ${def.label}</div><div class="rs-body">${renderBody(lines, def)}</div></div>`;
+}
+
+function renderBody(lines, def) {
+  const blocks = []; let block = [];
+  for (const line of lines) {
+    if (!line.trim()) { if(block.length){blocks.push(block);block=[];} } else block.push(line);
+  }
+  if (block.length) blocks.push(block);
+  if (!blocks.length) return '<p class="rs-none">None identified.</p>';
+
+  let html = '', clauseN = 0;
+  for (const blk of blocks) {
+    const first = blk[0].trim();
+    const hasNeg = blk.some(l=>l.includes('💬')||/say\s*this/i.test(l));
+    if (hasNeg && blk.length===1) { html+=mkNeg(blk); continue; }
+    const isList = /^[-•*]\s/.test(first);
+    const isNumList = /^\d+\.\s/.test(first);
+    if (isList) { html+='<ul class="rs-list">'+blk.filter(l=>l.trim()).map(l=>`<li>${md(l.trim().replace(/^[-•*]\s*/,''))}</li>`).join('')+'</ul>'; continue; }
+    if (isNumList) { html+='<ul class="rs-list">'+blk.filter(l=>l.trim()).map(l=>`<li>${md(l.trim().replace(/^\d+\.\s*/,''))}</li>`).join('')+'</ul>'; continue; }
+    if (def.numbered && blk.length >= 1) {
+      clauseN++;
+      const borderCls = def.cls==='rs-critical'?'critical':def.cls==='rs-warning'?'warning':'default';
+      const title = first.replace(/\*\*/g,'');
+      const rest = blk.slice(1);
+      let bodyLines=[], negLines=[]; let inNeg=false;
+      for (const l of rest) { if(l.includes('💬')||/say\s*this/i.test(l)) inNeg=true; if(inNeg) negLines.push(l); else bodyLines.push(l); }
+      const body = bodyLines.map(l=>md(l.trim())).filter(Boolean).join(' ')
+        .replace(/nothing\s+looks\s+fine/gi,'No low-risk clauses identified in this contract');
+      const neg = negLines.length ? mkNeg(negLines) : '';
+      html+=`<div class="issue-card ${borderCls}"><div class="issue-num">Issue ${clauseN}</div><div class="issue-title">${escHtml(title)}</div><div class="issue-text">${body}</div>${neg}</div>`;
+      continue;
+    }
+    const text = blk.map(l=>md(l.trim())).join(' ').replace(/nothing\s+looks\s+fine/gi,'No low-risk clauses identified in this contract');
+    if (text.trim()) html+=`<p class="rs-p">${text}</p>`;
+  }
+  return html||'<p class="rs-none">None identified.</p>';
+}
+
+let _negCount = 0;
+function mkNeg(lines) {
+  const text = lines.join(' ').replace(/💬/g,'').replace(/say\s*this:?/gi,'').replace(/\*\*/g,'').trim();
+  const id = 'neg-'+(_negCount++);
+  return `<div class="neg-script" id="${id}"><div class="neg-label">💬 Say this:</div><div class="neg-text">${escHtml(text)}</div><button class="copy-btn" onclick="copyScript('${id}')">Copy</button></div>`;
+}
+
+function renderWhatToDoNow(verdict) {
+  const steps = {
+    danger:  ['Do not sign this contract in its current form.','Send the negotiation scripts above to the head contractor and request changes in writing.','If they refuse to negotiate, consider walking away or consulting a construction lawyer.'],
+    caution: ['Raise the flagged issues with the head contractor before signing.','Use the negotiation scripts above as a starting point.','Get any agreed changes confirmed in writing before you sign.'],
+    safe:    ["You're good to proceed — the contract is fair and reasonable.",'Keep a signed copy for your records once both parties have signed.','If anything changes during the job, document it in writing immediately.'],
+  };
+  const list = (steps[verdict]||steps.safe).map((s,i)=>`<li data-n="${i+1}.">${s}</li>`).join('');
+  return `<div class="rs-actions"><div class="rs-actions-title">📌 WHAT TO DO NOW</div><ol class="rs-action-list">${list}</ol></div>`;
+}
+
+function simpleMarkdown(text) {
+  return text.split('\n\n').filter(p=>p.trim()).map(p=>`<p class="rs-p">${md(p.trim())}</p>`).join('');
+}
+
+function md(text) {
+  return escHtml(text).replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>').replace(/\*([^*]+)\*/g,'<em>$1</em>');
+}
+
+function escHtml(t) {
+  return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// COPY BUTTON
+function copyScript(id) {
+  const el=document.getElementById(id); if(!el) return;
+  const text=el.querySelector('.neg-text')?.textContent||'';
+  const btn=el.querySelector('.copy-btn');
+  const done=()=>{ btn.textContent='Copied!'; btn.classList.add('copied'); setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('copied');},2500); };
+  navigator.clipboard?.writeText(text).then(done).catch(()=>{
+    const ta=document.createElement('textarea'); ta.value=text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); done();
+  });
+}
+
+// PDF DOWNLOAD
 async function downloadPDF() {
   const { jsPDF } = window.jspdf;
-  const doc = new jsPDF({ unit:'mm', format:'a4' });
-  const margin = 18;
-  const usable = 210 - margin*2;
-  let y = margin;
+  const doc = new jsPDF({unit:'mm',format:'a4'});
+  const margin=18, pageW=210, usable=pageW-margin*2, pageH=297;
+  let y=0, pageNum=1;
 
-  doc.setFillColor(245,200,0);
-  doc.rect(0,0,210,18,'F');
-  doc.setFont('helvetica','bold');
-  doc.setFontSize(13);
-  doc.setTextColor(20,20,20);
-  doc.text('Before You Sign — Contract Risk Report', margin, 12);
+  function cleanEmoji(t) {
+    return t.replace(/🔴/g,'[DO NOT SIGN]').replace(/🟡/g,'[CAUTION]').replace(/🟢/g,'[SAFE]')
+      .replace(/💸/g,'[COST]').replace(/🚨/g,'[CRITICAL]').replace(/⚠️/g,'[WARNING]')
+      .replace(/✅/g,'[OK]').replace(/❓/g,'[QUESTIONS]').replace(/📋/g,'[SUMMARY]')
+      .replace(/💬/g,'[SAY THIS]').replace(/📌/g,'[ACTION]').replace(/[^\x00-\x7F]/g,'');
+  }
 
-  y = 28;
-  doc.setFontSize(9);
-  doc.setFont('helvetica','normal');
-  doc.setTextColor(100);
-  doc.text(`Generated: ${new Date().toLocaleString('en-NZ')} · beforeyousign.nz`, margin, y);
+  function footer() {
+    doc.setFont('helvetica','normal'); doc.setFontSize(7); doc.setTextColor(150);
+    doc.text('beforeyousign.nz — AI-assisted review only, not legal advice', margin, pageH-8);
+    doc.text(`Page ${pageNum}`, pageW-margin, pageH-8, {align:'right'});
+  }
 
-  y += 10;
-  const lines = doc.splitTextToSize(reportText, usable);
-  doc.setTextColor(30,30,30);
+  function checkPage(need) {
+    if (y+need > pageH-16) { footer(); doc.addPage(); pageNum++; y=margin; }
+  }
 
-  lines.forEach(line => {
-    if (y > 275) { doc.addPage(); y = margin; }
-    const stripped = line.trim().replace(/^[🔴🟡🟢💸🚨⚠️✅❓📋\s]+/, '');
-    const isHeader = /^(FINAL VERDICT|WHAT THIS COULD COST YOU|CRITICAL ISSUES|THINGS TO WATCH|LOOKS FINE|QUESTIONS TO ASK BEFORE SIGNING|PLAIN ENGLISH SUMMARY|DO NOT SIGN|SAFE TO SIGN|PROCEED WITH CAUTION)/i.test(stripped);
-    doc.setFont('helvetica', isHeader ? 'bold' : 'normal');
-    doc.setFontSize(isHeader ? 11 : 9.5);
-    doc.text(line, margin, y);
-    y += isHeader ? 6 : 4.5;
-  });
+  // Header
+  doc.setFillColor(245,200,0); doc.rect(0,0,pageW,22,'F');
+  doc.setFont('helvetica','bold'); doc.setFontSize(14); doc.setTextColor(20,20,20);
+  doc.text('BEFORE YOU SIGN', margin, 10);
+  doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.text('Contract Risk Report', margin, 17);
+  doc.setTextColor(80); doc.text('beforeyousign.nz', pageW-margin, 14, {align:'right'});
+  y=30;
+  doc.setFontSize(8); doc.setTextColor(120); doc.setFont('helvetica','normal');
+  doc.text(`Generated: ${new Date().toLocaleString('en-NZ')}`, margin, y); y+=8;
 
-  doc.setFontSize(7.5);
-  doc.setTextColor(150);
-  doc.text('AI-assisted review only — not legal advice. Always consult a qualified lawyer for complex contracts or disputes.', margin, 290);
+  // Verdict bar
+  const vLabel = currentVerdict==='danger'?'DO NOT SIGN':currentVerdict==='caution'?'PROCEED WITH CAUTION':'SAFE TO SIGN';
+  const vc = currentVerdict==='danger'?[229,62,62]:currentVerdict==='caution'?[237,137,54]:[56,161,105];
+  doc.setFillColor(...vc,0.12); doc.setDrawColor(...vc);
+  doc.roundedRect(margin,y,usable,11,2,2,'FD');
+  doc.setFont('helvetica','bold'); doc.setFontSize(10); doc.setTextColor(...vc);
+  doc.text(`VERDICT: ${vLabel}`, margin+4, y+7); y+=17;
+
+  // Sections
+  const sectionMap = [
+    {pat:/FINAL VERDICT/i, color:[180,140,0], title:'FINAL VERDICT'},
+    {pat:/WHAT THIS COULD COST/i, color:[180,140,0], title:'WHAT THIS COULD COST YOU'},
+    {pat:/CRITICAL ISSUES/i, color:[180,40,40], title:'CRITICAL ISSUES'},
+    {pat:/THINGS TO WATCH/i, color:[170,85,20], title:'THINGS TO WATCH'},
+    {pat:/LOOKS FINE/i, color:[35,120,70], title:'LOOKS FINE'},
+    {pat:/QUESTIONS TO ASK/i, color:[40,100,160], title:'QUESTIONS TO ASK BEFORE SIGNING'},
+    {pat:/PLAIN ENGLISH SUMMARY/i, color:[90,90,90], title:'PLAIN ENGLISH SUMMARY'},
+    {pat:/WHAT TO DO NOW/i, color:[150,110,0], title:'WHAT TO DO NOW'},
+  ];
+
+  for (const rawLine of cleanEmoji(reportText).split('\n')) {
+    const line = rawLine.trim(); if (!line) { y+=2; continue; }
+    let isHeader=false;
+    for (const s of sectionMap) {
+      if (s.pat.test(line) && line.length<80) {
+        checkPage(14);
+        doc.setFillColor(...s.color); doc.rect(margin,y,3,9,'F');
+        doc.setFont('helvetica','bold'); doc.setFontSize(10); doc.setTextColor(...s.color);
+        doc.text(s.title, margin+6, y+6.5); y+=13; isHeader=true; break;
+      }
+    }
+    if (isHeader) continue;
+    if (/\[SAY THIS\]/.test(line)||/say\s*this/i.test(line)) {
+      const t = line.replace(/\[SAY THIS\]/g,'').replace(/say\s*this:?/gi,'').trim();
+      const wl = doc.splitTextToSize(`Say this: "${t}"`, usable-8);
+      checkPage(wl.length*4.5+6);
+      doc.setFillColor(20,20,20); doc.rect(margin+3,y-1,usable-3,wl.length*4.5+4,'F');
+      doc.setDrawColor(200,160,0); doc.line(margin+3,y-1,margin+3,y+wl.length*4.5+2);
+      doc.setFont('helvetica','italic'); doc.setFontSize(8); doc.setTextColor(180,150,20);
+      doc.text(wl,margin+7,y+3); y+=wl.length*4.5+6; continue;
+    }
+    const isBold=/\*\*/.test(line)||/^Issue \d+/.test(line);
+    const clean=line.replace(/\*\*/g,'');
+    const wl=doc.splitTextToSize(clean, usable-(line.startsWith('-')||line.startsWith('[')?8:0));
+    checkPage(wl.length*(isBold?5.5:4.5)+2);
+    doc.setFont('helvetica',isBold?'bold':'normal');
+    doc.setFontSize(isBold?9.5:9);
+    doc.setTextColor(isBold?220:140,isBold?220:140,isBold?220:140);
+    doc.text(wl,margin+(line.startsWith('-')||line.startsWith('[')&&!isBold?5:0),y);
+    y+=wl.length*(isBold?5.5:4.5);
+  }
+
+  footer();
   doc.save('BeforeYouSign-Report.pdf');
 }
 
-// ─── RESET ───
+// RESET
 function resetApp() {
-  document.getElementById('report-screen').style.display = 'none';
-  document.getElementById('upsell-prompt').style.display = 'none';
-  document.getElementById('upload-section').style.display = 'block';
-  document.getElementById('how-section').style.display = 'block';
-  const traps = document.getElementById('traps-section');
-  if (traps) traps.style.display = 'block';
-  document.getElementById('contract-text').value = '';
-  document.getElementById('file-selected').style.display = 'none';
-  document.getElementById('trade-type').value = '';
-  selectedFile = null;
-  reportText = '';
-  const btn = document.getElementById('pay-btn');
-  btn.disabled = false;
-  btn.querySelector('#cta-label').textContent = isFreeUser ? 'Review My Contract — Free' : 'Review My Contract — NZD $29';
-  window.scrollTo({ top: 0, behavior:'smooth' });
+  document.getElementById('report-screen').style.display='none';
+  document.getElementById('upsell-prompt').style.display='none';
+  document.getElementById('upload-section').style.display='block';
+  document.getElementById('how-section').style.display='block';
+  const t=document.getElementById('traps-section'); if(t) t.style.display='block';
+  document.getElementById('contract-text').value='';
+  document.getElementById('file-selected').style.display='none';
+  document.getElementById('trade-type').value='';
+  selectedFile=null; reportText='';
+  const btn=document.getElementById('pay-btn'); btn.disabled=false;
+  btn.querySelector('#cta-label').textContent=isFreeUser?'Review My Contract — Free':'Review My Contract — NZD $29';
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 
-// ─── INIT ───
+// MODAL
+function openSampleModal() { document.getElementById('sample-modal').classList.add('open'); document.body.style.overflow='hidden'; }
+function closeSampleModal() { document.getElementById('sample-modal').classList.remove('open'); document.body.style.overflow=''; }
+function handleModalClick(e) { if(e.target===document.getElementById('sample-modal')) closeSampleModal(); }
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeSampleModal(); });
+
+// INIT
 checkFreeStatus();
 checkPaymentReturn();
 </script>
