@@ -469,7 +469,7 @@ footer{position:relative;z-index:1;border-top:1px solid var(--charcoal-border);p
 
   <div id="upsell-prompt" class="upsell-prompt">
     <h3>Need more checks?</h3>
-    <p>Further reviews are NZD $29 each. <a href="mailto:hello@beforeyousign.nz" style="color:var(--yellow);text-decoration:none">Contact us</a> with any questions.</p>
+    <p>Further reviews are NZD $29 each. <a href="/cdn-cgi/l/email-protection#264e434a4a49664443404954435f4953554f414808485c" style="color:var(--yellow);text-decoration:none">Contact us</a> with any questions.</p>
   </div>
 
   <div class="report-content">
@@ -593,7 +593,7 @@ footer{position:relative;z-index:1;border-top:1px solid var(--charcoal-border);p
   <div class="section-inner">
     <div class="contact-card">
       <div><h3>Questions? Get in touch.</h3><p>Drop us a line any time.</p></div>
-      <a href="mailto:hello@beforeyousign.nz" class="contact-link">✉ hello@beforeyousign.nz</a>
+      <a href="/cdn-cgi/l/email-protection#97fff2fbfbf8d7f5f2f1f8e5f2eef8e2e4fef0f9b9f9ed" class="contact-link">✉ <span class="__cf_email__" data-cfemail="28404d444447684a4d4e475a4d51475d5b414f46064652">[email&#160;protected]</span></a>
     </div>
   </div>
 </div>
@@ -603,7 +603,7 @@ footer{position:relative;z-index:1;border-top:1px solid var(--charcoal-border);p
   <div class="footer-links">
     <span>© 2025 Before You Sign</span>
     <span>·</span>
-    <a href="mailto:hello@beforeyousign.nz" style="color:#555;text-decoration:none">hello@beforeyousign.nz</a>
+    <a href="/cdn-cgi/l/email-protection#dfb7bab3b3b09fbdbab9b0adbaa6b0aaacb6b8b1f1b1a5" style="color:#555;text-decoration:none"><span class="__cf_email__" data-cfemail="a9c1ccc5c5c6e9cbcccfc6dbccd0c6dcdac0cec787c7d3">[email&#160;protected]</span></a>
     <span>·</span>
     <span>beforeyousign.nz</span>
   </div>
@@ -674,7 +674,7 @@ footer{position:relative;z-index:1;border-top:1px solid var(--charcoal-border);p
   </div>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 const CONFIG = { backendUrl: window.location.origin, priceNZD: 2900 };
 const PROMO_CODE = 'BYS2026NZ';
 let activeTab='paste', selectedFile=null, reportText='', isFreeUser=false, currentVerdict='safe', promoValid=false;
@@ -875,7 +875,7 @@ async function startAnalysis(content, type, wasFree, tradeType) {
   try {
     const res = await fetch(`${CONFIG.backendUrl}/api/analyze`, {
       method:'POST', headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({content,type,wasFree,tradeType}),
+      body:JSON.stringify({content,type,wasFree,tradeType,promoCode:promoValid?PROMO_CODE:''}),
       signal: controller.signal,
     });
     clearTimeout(timeoutId);
@@ -1199,14 +1199,4 @@ function resetApp() {
 }
 
 // MODAL
-function openSampleModal(){document.getElementById('sample-modal').classList.add('open');document.body.style.overflow='hidden';}
-function closeSampleModal(){document.getElementById('sample-modal').classList.remove('open');document.body.style.overflow='';}
-function handleModalClick(e){if(e.target===document.getElementById('sample-modal')) closeSampleModal();}
-document.addEventListener('keydown',e=>{if(e.key==='Escape') closeSampleModal();});
-
-// INIT
-checkFreeStatus();
-checkPaymentReturn();
-</script>
-</body>
-</html>
+function openSampleModal(){document.getElementById('sample-modal').classList.add('open
