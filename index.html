@@ -90,6 +90,14 @@ textarea::placeholder{color:#444}
 .trade-selector select{width:100%;background:var(--charcoal);border:2px solid var(--charcoal-border);border-radius:var(--r);color:var(--white);font-family:'DM Sans',sans-serif;font-size:16px;padding:12px 36px 12px 14px;cursor:pointer;outline:none;transition:border-color 0.2s;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;min-height:44px}
 .trade-selector select:focus{border-color:var(--yellow)}
 .trade-selector select option{background:var(--charcoal-mid)}
+/* Terms checkbox */
+.terms-check{margin-top:16px;padding:12px 14px;background:var(--charcoal);border:1px solid var(--charcoal-border);border-radius:var(--r)}
+.terms-label{display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:13px;color:var(--dim);line-height:1.5}
+.terms-label input[type="checkbox"]{appearance:none;-webkit-appearance:none;width:18px;height:18px;min-width:18px;border:2px solid var(--charcoal-border);border-radius:3px;background:var(--charcoal-mid);cursor:pointer;margin-top:1px;transition:all 0.2s;position:relative}
+.terms-label input[type="checkbox"]:checked{background:var(--yellow);border-color:var(--yellow)}
+.terms-label input[type="checkbox"]:checked::after{content:'✓';position:absolute;top:-1px;left:2px;font-size:12px;font-weight:900;color:var(--charcoal)}
+.terms-label a{color:var(--yellow);text-decoration:underline}
+.terms-label a:hover{opacity:0.8}
 /* Urgency line */
 .urgency-line{margin-top:18px;text-align:center;font-size:13px;color:var(--orange);font-weight:600;display:flex;align-items:center;justify-content:center;gap:6px}
 .privacy-line{margin-top:10px;text-align:center;font-size:12px;color:var(--steel);display:flex;align-items:center;justify-content:center;gap:6px}
@@ -404,10 +412,17 @@ footer{position:relative;z-index:1;border-top:1px solid var(--charcoal-border);p
             <option>Other</option>
           </select>
         </div>
+        <!-- Terms of Service checkbox -->
+        <div class="terms-check">
+          <label class="terms-label">
+            <input type="checkbox" id="terms-checkbox" onchange="onTermsChange()">
+            <span>I have read and agree to the <a href="/terms" target="_blank" rel="noopener">Terms of Service</a> and understand this is not legal advice.</span>
+          </label>
+        </div>
         <div class="error-msg" id="error-msg"></div>
         <!-- Urgency line -->
         <div class="urgency-line">⚠️ Most tradies only spot these issues after they've already signed.</div>
-        <button class="cta-btn" id="pay-btn" onclick="startPayment()">
+        <button class="cta-btn" id="pay-btn" onclick="startPayment()" disabled>
           <span>🔒</span>
           <span id="cta-label">Review My Contract — Free</span>
         </button>
@@ -603,7 +618,9 @@ footer{position:relative;z-index:1;border-top:1px solid var(--charcoal-border);p
   <div class="footer-links">
     <span>© 2025 Before You Sign</span>
     <span>·</span>
-    <a href="/cdn-cgi/l/email-protection#dfb7bab3b3b09fbdbab9b0adbaa6b0aaacb6b8b1f1b1a5" style="color:#555;text-decoration:none"><span class="__cf_email__" data-cfemail="a9c1ccc5c5c6e9cbcccfc6dbccd0c6dcdac0cec787c7d3">[email&#160;protected]</span></a>
+    <a href="mailto:hello@beforeyousign.nz" style="color:#555;text-decoration:none">hello@beforeyousign.nz</a>
+    <span>·</span>
+    <a href="/terms" style="color:#555;text-decoration:none">Terms of Service</a>
     <span>·</span>
     <span>beforeyousign.nz</span>
   </div>
@@ -754,6 +771,20 @@ function setStep(id,state) {
   const el=document.getElementById(id);el.classList.remove('active','done');if(state!=='pending')el.classList.add(state);
 }
 
+// TERMS CHECKBOX
+function onTermsChange() {
+  const checked = document.getElementById('terms-checkbox').checked;
+  document.getElementById('pay-btn').disabled = !checked;
+}
+
+// Helper — re-enable button only if terms are still ticked
+function reEnableBtn() {
+  const checked = document.getElementById('terms-checkbox')?.checked || false;
+  const btn = document.getElementById('pay-btn');
+  btn.disabled = !checked;
+  btn.querySelector('#cta-label').textContent = isFreeUser || promoValid ? 'Review My Contract — Free' : 'Review My Contract — NZD $29';
+}
+
 // PROMO CODE (Change 14)
 function togglePromo() {
   const area=document.getElementById('promo-area');
@@ -809,7 +840,7 @@ async function startPayment() {
         sessionStorage.setItem('contractContent',b64);sessionStorage.setItem('contractType','pdf');
       } catch(pdfErr) {
         showError('Unable to process PDF — please try pasting the text instead.');
-        btn.disabled=false;btn.querySelector('#cta-label').textContent=isFreeUser||promoValid?'Review My Contract — Free':'Review My Contract — NZD $29';
+        reEnableBtn();
         return;
       }
     }
@@ -824,13 +855,13 @@ async function startPayment() {
         window.location.href=url;
       } catch(payErr) {
         showError('Payment failed — your card has not been charged. Please try again.');
-        btn.disabled=false;btn.querySelector('#cta-label').textContent='Review My Contract — NZD $29';
+        reEnableBtn();
       }
     }
   } catch(err) {
     console.error(err);
     showError('Something went wrong — please try again.');
-    btn.disabled=false;btn.querySelector('#cta-label').textContent=isFreeUser||promoValid?'Review My Contract — Free':'Review My Contract — NZD $29';
+    reEnableBtn();
   }
 }
 
@@ -896,8 +927,7 @@ async function startAnalysis(content, type, wasFree, tradeType) {
     } else {
       showError(`Analysis failed: ${err.message}`);
     }
-    const btn=document.getElementById('pay-btn');btn.disabled=false;
-    btn.querySelector('#cta-label').textContent=isFreeUser||promoValid?'Review My Contract — Free':'Review My Contract — NZD $29';
+    reEnableBtn();
   }
 }
 
@@ -1193,8 +1223,7 @@ function resetApp() {
   document.getElementById('trade-type').value='';
   document.getElementById('length-hint').style.display='none';
   selectedFile=null;reportText='';
-  const btn=document.getElementById('pay-btn');btn.disabled=false;
-  btn.querySelector('#cta-label').textContent=isFreeUser||promoValid?'Review My Contract — Free':'Review My Contract — NZD $29';
+  reEnableBtn();
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
