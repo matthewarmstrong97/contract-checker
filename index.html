@@ -1199,4 +1199,14 @@ function resetApp() {
 }
 
 // MODAL
-function openSampleModal(){document.getElementById('sample-modal').classList.add('open
+function openSampleModal(){document.getElementById('sample-modal').classList.add('open');document.body.style.overflow='hidden';}
+function closeSampleModal(){document.getElementById('sample-modal').classList.remove('open');document.body.style.overflow='';}
+function handleModalClick(e){if(e.target===document.getElementById('sample-modal')) closeSampleModal();}
+document.addEventListener('keydown',e=>{if(e.key==='Escape') closeSampleModal();});
+
+// INIT
+checkFreeStatus();
+checkPaymentReturn();
+</script>
+</body>
+</html>
