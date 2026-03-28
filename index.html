@@ -6,22 +6,9 @@
 <title>Before You Sign — AI Contract Review for NZ Tradespeople</title>
 <meta name="description" content="Upload your subcontract and get a clear breakdown of where you could lose money, get paid late, or take on unfair risk. Built for NZ subcontractors.">
 
-<!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-MC0ER8M6F2"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-MC0ER8M6F2');
-</script>
-<!-- Microsoft Clarity -->
-<script type="text/javascript">
-  (function(c,l,a,r,i,t,y){
-    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-  })(window, document, "clarity", "script", "w2ij6hwnti");
-</script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-MC0ER8M6F2');</script>
+<script type="text/javascript">(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","w2ij6hwnti");</script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
@@ -29,15 +16,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <style>
-:root {
-  --yellow: #F5C800; --yellow-dark: #D4AC00; --yellow-glow: rgba(245,200,0,0.15);
-  --charcoal: #141414; --charcoal-mid: #1F1F1F; --charcoal-light: #2A2A2A;
-  --charcoal-border: #333; --steel: #555; --muted: #888; --dim: #AAAAAA; --white: #F8F8F8;
-  --red: #E53E3E; --red-bg: rgba(229,62,62,0.12);
-  --orange: #ED8936; --orange-bg: rgba(237,137,54,0.12);
-  --green: #38A169; --green-bg: rgba(56,161,105,0.12);
-  --blue: #4299E1; --blue-bg: rgba(66,153,225,0.12);
-  --r: 4px; --r-lg: 8px; --r-xl: 12px;
+:root{
+  --yellow:#F5C800;--yellow-dark:#D4AC00;--yellow-glow:rgba(245,200,0,0.15);
+  --charcoal:#141414;--charcoal-mid:#1F1F1F;--charcoal-light:#2A2A2A;
+  --charcoal-border:#333;--steel:#555;--muted:#888;--dim:#AAAAAA;--white:#F8F8F8;
+  --red:#E53E3E;--red-bg:rgba(229,62,62,0.12);
+  --orange:#ED8936;--orange-bg:rgba(237,137,54,0.12);
+  --green:#38A169;--green-bg:rgba(56,161,105,0.12);
+  --blue:#4299E1;--blue-bg:rgba(66,153,225,0.12);
+  --r:4px;--r-lg:8px;--r-xl:12px;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
@@ -83,12 +70,14 @@ header{position:sticky;top:0;z-index:100;background:rgba(20,20,20,0.95);backdrop
 .card-step{width:24px;height:24px;border-radius:50%;background:var(--yellow);color:var(--charcoal);font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .card-body{padding:24px}
 .tabs{display:flex;margin-bottom:20px;border:1px solid var(--charcoal-border);border-radius:var(--r);overflow:hidden}
-.tab-btn{flex:1;padding:10px;background:transparent;border:none;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.2s}
+.tab-btn{flex:1;padding:12px 10px;background:transparent;border:none;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.2s;min-height:44px}
 .tab-btn.active{background:var(--yellow);color:var(--charcoal)}
 .tab-panel{display:none}.tab-panel.active{display:block}
 textarea{width:100%;background:var(--charcoal);border:2px solid var(--charcoal-border);border-radius:var(--r);color:var(--white);font-family:'DM Sans',sans-serif;font-size:14px;line-height:1.6;padding:16px;resize:vertical;min-height:180px;transition:border-color 0.2s;outline:none}
 textarea:focus{border-color:var(--yellow)}
 textarea::placeholder{color:#444}
+/* minimum length hint */
+.length-hint{display:none;font-size:12px;color:var(--orange);margin-top:8px;padding:8px 12px;background:var(--orange-bg);border:1px solid rgba(237,137,54,0.25);border-radius:var(--r)}
 .drop-zone{border:2px dashed var(--charcoal-border);border-radius:var(--r);padding:40px 24px;text-align:center;cursor:pointer;transition:all 0.2s;position:relative;background:var(--charcoal)}
 .drop-zone:hover,.drop-zone.dragover{border-color:var(--yellow);background:var(--yellow-glow)}
 .drop-zone input[type="file"]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
@@ -98,15 +87,31 @@ textarea::placeholder{color:#444}
 .file-selected{margin-top:12px;background:rgba(245,200,0,0.08);border:1px solid rgba(245,200,0,0.25);border-radius:var(--r);padding:10px 14px;font-size:13px;color:var(--yellow);display:none;align-items:center;gap:8px}
 .trade-selector{margin-top:16px}
 .trade-selector label{display:block;font-size:12px;font-weight:600;color:var(--muted);letter-spacing:0.5px;margin-bottom:8px;text-transform:uppercase}
-.trade-selector select{width:100%;background:var(--charcoal);border:2px solid var(--charcoal-border);border-radius:var(--r);color:var(--white);font-family:'DM Sans',sans-serif;font-size:14px;padding:12px 36px 12px 14px;cursor:pointer;outline:none;transition:border-color 0.2s;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
+.trade-selector select{width:100%;background:var(--charcoal);border:2px solid var(--charcoal-border);border-radius:var(--r);color:var(--white);font-family:'DM Sans',sans-serif;font-size:16px;padding:12px 36px 12px 14px;cursor:pointer;outline:none;transition:border-color 0.2s;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;min-height:44px}
 .trade-selector select:focus{border-color:var(--yellow)}
 .trade-selector select option{background:var(--charcoal-mid)}
-.privacy-line{margin-top:14px;text-align:center;font-size:12px;color:var(--steel);display:flex;align-items:center;justify-content:center;gap:6px}
-.cta-btn{width:100%;background:var(--yellow);color:var(--charcoal);border:none;border-radius:var(--r);font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;padding:18px;cursor:pointer;transition:all 0.2s;margin-top:20px;display:flex;align-items:center;justify-content:center;gap:10px}
+/* Urgency line */
+.urgency-line{margin-top:18px;text-align:center;font-size:13px;color:var(--orange);font-weight:600;display:flex;align-items:center;justify-content:center;gap:6px}
+.privacy-line{margin-top:10px;text-align:center;font-size:12px;color:var(--steel);display:flex;align-items:center;justify-content:center;gap:6px}
+.error-msg{background:var(--red-bg);border:1px solid rgba(229,62,62,0.3);border-radius:var(--r);padding:12px 16px;font-size:13px;color:#FC8181;margin-top:12px;display:none}
+/* Promo code */
+.promo-toggle-row{margin-top:10px;text-align:center}
+.promo-toggle-btn{background:none;border:none;color:var(--steel);font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;text-decoration:underline;padding:4px}
+.promo-toggle-btn:hover{color:var(--muted)}
+.promo-area{display:none;margin-top:10px;display:none;gap:8px;align-items:center}
+.promo-area.visible{display:flex}
+.promo-input{flex:1;background:var(--charcoal);border:2px solid var(--charcoal-border);border-radius:var(--r);color:var(--white);font-family:'DM Sans',sans-serif;font-size:14px;padding:10px 12px;outline:none;transition:border-color 0.2s;min-height:44px}
+.promo-input:focus{border-color:var(--yellow)}
+.promo-input.valid{border-color:var(--green)}
+.promo-apply-btn{background:var(--charcoal-light);border:1px solid var(--charcoal-border);color:var(--yellow);font-size:12px;font-weight:700;padding:10px 16px;border-radius:var(--r);cursor:pointer;white-space:nowrap;min-height:44px;font-family:'DM Sans',sans-serif}
+.promo-apply-btn:hover{background:var(--yellow);color:var(--charcoal)}
+.promo-feedback{font-size:12px;padding:8px 12px;border-radius:var(--r);display:none;margin-top:6px}
+.promo-feedback.valid{background:var(--green-bg);border:1px solid rgba(56,161,105,0.3);color:#68D391;display:block}
+.promo-feedback.invalid{background:var(--red-bg);border:1px solid rgba(229,62,62,0.3);color:#FC8181;display:block}
+.cta-btn{width:100%;background:var(--yellow);color:var(--charcoal);border:none;border-radius:var(--r);font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;padding:18px;cursor:pointer;transition:all 0.2s;margin-top:16px;display:flex;align-items:center;justify-content:center;gap:10px;min-height:56px}
 .cta-btn:hover:not(:disabled){background:var(--yellow-dark);transform:translateY(-1px);box-shadow:0 8px 28px rgba(245,200,0,0.3)}
 .cta-btn:disabled{opacity:0.45;cursor:not-allowed;transform:none}
 .payment-notice{margin-top:14px;display:flex;align-items:center;justify-content:center;gap:6px;font-size:12px;color:var(--steel)}
-.error-msg{background:var(--red-bg);border:1px solid rgba(229,62,62,0.3);border-radius:var(--r);padding:12px 16px;font-size:13px;color:#FC8181;margin-top:12px;display:none}
 
 /* ANALYSIS */
 #analysis-screen{display:none;position:relative;z-index:1;max-width:680px;margin:0 auto 32px;padding:0 24px}
@@ -135,7 +140,12 @@ textarea::placeholder{color:#444}
 .risk-pill.high{background:var(--orange-bg);color:#F6AD55;border:1px solid rgba(237,137,54,0.3)}
 .risk-pill.medium{background:rgba(245,200,0,0.1);color:var(--yellow);border:1px solid rgba(245,200,0,0.3)}
 .risk-pill.low{background:var(--green-bg);color:#68D391;border:1px solid rgba(56,161,105,0.3)}
-
+/* Risk tier badge */
+.risk-tier-badge{margin-bottom:14px}
+.risk-tier{display:inline-flex;align-items:center;gap:8px;font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:1.5px;padding:10px 20px;border-radius:var(--r-lg)}
+.risk-tier.high-risk{background:var(--red-bg);border:2px solid rgba(229,62,62,0.4);color:#FC8181}
+.risk-tier.medium-risk{background:var(--orange-bg);border:2px solid rgba(237,137,54,0.4);color:#F6AD55}
+.risk-tier.low-risk,.risk-tier.clear{background:var(--green-bg);border:2px solid rgba(56,161,105,0.4);color:#68D391}
 /* Risk score */
 .risk-score-block{background:var(--charcoal-light);border:1px solid var(--charcoal-border);border-radius:var(--r-lg);padding:16px 20px;margin-bottom:16px;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
 .risk-score-label{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
@@ -143,7 +153,6 @@ textarea::placeholder{color:#444}
 .risk-score-bar-wrap{flex:1;min-width:120px;height:8px;background:var(--charcoal-border);border-radius:4px;overflow:hidden}
 .risk-score-bar{height:100%;width:0;border-radius:4px;transition:width 1.2s ease}
 .risk-score-desc{font-size:12px;color:var(--muted);margin-top:6px;flex-basis:100%}
-
 /* Verdict */
 .verdict-block{display:flex;align-items:center;gap:14px;padding:16px 20px;border-radius:var(--r-lg)}
 .verdict-block.safe{background:var(--green-bg);border:1px solid rgba(56,161,105,0.35)}
@@ -155,9 +164,10 @@ textarea::placeholder{color:#444}
 .verdict-block.caution .verdict-text h3{color:#F6AD55}
 .verdict-block.danger .verdict-text h3{color:#FC8181}
 .verdict-text p{font-size:13px;color:var(--dim)}
-
 .report-content{background:var(--charcoal-mid);border:1px solid var(--charcoal-border);border-radius:var(--r-xl);overflow:hidden;margin-bottom:16px}
 .report-body{padding:24px}
+/* Small disclaimer */
+.report-disclaimer{text-align:center;font-size:11px;color:var(--steel);padding:10px 0 4px;margin-bottom:12px}
 
 /* RENDERED REPORT */
 .rs-section{margin-bottom:16px}
@@ -184,10 +194,10 @@ textarea::placeholder{color:#444}
 .issue-num{font-size:10px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
 .issue-title{font-size:14px;font-weight:700;color:var(--white);margin-bottom:8px}
 .issue-text{font-size:13px;color:var(--dim);line-height:1.65}
-.neg-script{background:#0D0D0D;border-left:4px solid var(--yellow);border-radius:0 var(--r) var(--r) 0;padding:14px 56px 14px 16px;margin-top:12px;position:relative}
+.neg-script{background:#0D0D0D;border-left:4px solid var(--yellow);border-radius:0 var(--r) var(--r) 0;padding:14px 14px 14px 16px;margin-top:12px;position:relative}
 .neg-label{font-size:10px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--yellow);margin-bottom:6px}
-.neg-text{font-size:13px;color:#D4B83A;font-style:italic;line-height:1.6}
-.copy-btn{position:absolute;top:10px;right:10px;background:var(--charcoal-light);border:1px solid var(--charcoal-border);color:var(--yellow);font-size:10px;font-weight:700;letter-spacing:0.5px;padding:5px 10px;border-radius:var(--r);cursor:pointer;transition:all 0.2s;text-transform:uppercase;font-family:'DM Sans',sans-serif}
+.neg-text{font-size:13px;color:#D4B83A;font-style:italic;line-height:1.6;padding-right:60px}
+.copy-btn{position:absolute;top:10px;right:10px;background:var(--charcoal-light);border:1px solid var(--charcoal-border);color:var(--yellow);font-size:10px;font-weight:700;letter-spacing:0.5px;padding:8px 12px;border-radius:var(--r);cursor:pointer;transition:all 0.2s;text-transform:uppercase;font-family:'DM Sans',sans-serif;min-height:36px;min-width:52px}
 .copy-btn:hover{background:var(--yellow);color:var(--charcoal);border-color:var(--yellow)}
 .copy-btn.copied{background:var(--green);border-color:var(--green);color:white}
 .rs-actions{background:linear-gradient(135deg,rgba(245,200,0,0.08),rgba(245,200,0,0.03));border:1px solid rgba(245,200,0,0.2);border-radius:var(--r-xl);padding:20px 24px;margin-top:20px}
@@ -195,14 +205,16 @@ textarea::placeholder{color:#444}
 .rs-action-list{list-style:none;display:flex;flex-direction:column;gap:10px;padding:0}
 .rs-action-list li{font-size:14px;color:var(--dim);line-height:1.6;padding-left:28px;position:relative}
 .rs-action-list li::before{content:attr(data-n);position:absolute;left:0;font-family:'Bebas Neue',sans-serif;font-size:16px;color:var(--yellow);line-height:1.3}
-
 /* Upsell */
 .upsell-prompt{display:none;background:linear-gradient(135deg,rgba(245,200,0,0.1),rgba(245,200,0,0.04));border:1px solid rgba(245,200,0,0.25);border-radius:var(--r-xl);padding:24px 28px;margin-bottom:16px;text-align:center}
 .upsell-prompt h3{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;color:var(--yellow);margin-bottom:8px}
 .upsell-prompt p{font-size:14px;color:var(--dim)}
-.download-btn{width:100%;background:transparent;border:2px solid var(--yellow);color:var(--yellow);border-radius:var(--r);font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px;padding:14px;cursor:pointer;transition:all 0.2s;margin-bottom:10px}
+.download-btn{width:100%;background:transparent;border:2px solid var(--yellow);color:var(--yellow);border-radius:var(--r);font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px;padding:14px;cursor:pointer;transition:all 0.2s;margin-bottom:10px;min-height:52px}
 .download-btn:hover{background:var(--yellow);color:var(--charcoal)}
-.new-review-btn{width:100%;background:var(--charcoal-light);border:none;color:var(--muted);border-radius:var(--r);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;padding:12px;cursor:pointer;transition:all 0.2s}
+.copy-report-btn{width:100%;background:var(--charcoal-light);border:1px solid var(--charcoal-border);color:var(--dim);border-radius:var(--r);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;padding:12px;cursor:pointer;transition:all 0.2s;margin-bottom:10px;min-height:48px}
+.copy-report-btn:hover{color:var(--white);background:#444}
+.copy-report-btn.copied{border-color:var(--green);color:#68D391}
+.new-review-btn{width:100%;background:var(--charcoal-light);border:none;color:var(--muted);border-radius:var(--r);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;padding:12px;cursor:pointer;transition:all 0.2s;min-height:48px}
 .new-review-btn:hover{color:var(--white);background:#444}
 
 /* HOME SECTIONS */
@@ -256,7 +268,7 @@ textarea::placeholder{color:#444}
 .pricing-price{font-family:'Bebas Neue',sans-serif;font-size:42px;letter-spacing:1px;color:var(--white);line-height:1;margin-bottom:4px}
 .pricing-price span{font-size:18px;color:var(--muted)}
 .pricing-period{font-size:12px;color:var(--muted);margin-bottom:20px}
-.pricing-cta{width:100%;background:transparent;border:1px solid var(--charcoal-border);color:var(--dim);border-radius:var(--r);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;padding:11px;cursor:pointer;transition:all 0.2s}
+.pricing-cta{width:100%;background:transparent;border:1px solid var(--charcoal-border);color:var(--dim);border-radius:var(--r);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;padding:11px;cursor:pointer;transition:all 0.2s;min-height:44px}
 .pricing-card.featured .pricing-cta{background:var(--yellow);border-color:var(--yellow);color:var(--charcoal);font-weight:700}
 .pricing-cta:hover{background:var(--yellow);border-color:var(--yellow);color:var(--charcoal)}
 .steps-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px}
@@ -271,31 +283,52 @@ textarea::placeholder{color:#444}
 .contact-link:hover{background:var(--yellow);color:var(--charcoal)}
 footer{position:relative;z-index:1;border-top:1px solid var(--charcoal-border);padding:28px 24px;text-align:center}
 .disclaimer{font-size:13px;color:var(--muted);max-width:600px;margin:0 auto 14px;line-height:1.65;background:var(--red-bg);border:1px solid rgba(229,62,62,0.2);border-radius:var(--r);padding:12px 16px}
-.footer-links{display:flex;gap:16px;justify-content:center;font-size:12px;color:#555}
+.footer-links{display:flex;gap:16px;justify-content:center;font-size:12px;color:#555;flex-wrap:wrap}
 
 /* MODAL */
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.87);z-index:500;overflow-y:auto;padding:24px}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.87);z-index:500;overflow-y:auto;padding:16px}
 .modal-overlay.open{display:flex;align-items:flex-start;justify-content:center}
 .modal-content{background:var(--charcoal-mid);border:1px solid var(--charcoal-border);border-radius:var(--r-xl);max-width:780px;width:100%;margin:auto}
 .modal-header{background:var(--charcoal-light);padding:16px 24px;display:flex;justify-content:space-between;align-items:flex-start;border-bottom:1px solid var(--charcoal-border);border-radius:var(--r-xl) var(--r-xl) 0 0;gap:12px}
 .modal-header-title{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;color:var(--yellow)}
 .modal-header-sub{font-size:12px;color:var(--muted);margin-top:3px}
-.modal-close{background:none;border:none;color:var(--muted);font-size:22px;cursor:pointer;line-height:1;padding:0 4px;flex-shrink:0}
+.modal-close{background:none;border:none;color:var(--muted);font-size:22px;cursor:pointer;line-height:1;padding:4px 8px;flex-shrink:0;min-height:44px;min-width:44px;display:flex;align-items:center;justify-content:center}
 .modal-close:hover{color:var(--white)}
-.modal-body{padding:28px;max-height:82vh;overflow-y:auto}
+.modal-body{padding:24px;max-height:80vh;overflow-y:auto}
 
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+/* MOBILE OPTIMISATION */
 @media(max-width:600px){
-  .hero{padding:40px 20px 36px}
+  .hero{padding:40px 16px 32px}
   .section{padding:0 16px}
   .card-body{padding:18px 16px}
-  .report-body{padding:16px}
-  .report-header{padding:20px}
-  .why-card{padding:24px 20px}
+  .report-body{padding:14px}
+  .report-header{padding:18px 16px}
+  .why-card{padding:24px 18px}
   .contact-card{flex-direction:column}
   header{padding:0 16px}
   .free-badge{display:none}
   .risk-score-block{flex-direction:column;align-items:flex-start;gap:10px}
+  .report-top-row{flex-direction:column}
+  .neg-text{padding-right:0;font-size:13px}
+  .copy-btn{position:static;margin-top:10px;width:100%;text-align:center;padding:10px}
+  .neg-script{padding:14px 14px 14px 14px}
+  .issue-card{padding:12px 14px}
+  .rs-header{font-size:13px}
+  .rs-body{padding:12px}
+  .report-title{font-size:26px}
+  .risk-tier{font-size:16px;padding:8px 14px}
+  .promo-area{flex-direction:column}
+  .promo-apply-btn{width:100%}
+  .modal-body{padding:16px}
+  .copy-report-btn,.download-btn,.new-review-btn{font-size:15px}
+  .rs-actions{padding:16px}
+}
+@media(max-width:420px){
+  .logo-before-you{font-size:22px}
+  .logo-sign{font-size:28px}
+  textarea{font-size:16px}
 }
 </style>
 </head>
@@ -332,6 +365,7 @@ footer{position:relative;z-index:1;border-top:1px solid var(--charcoal-border);p
   </div>
 </div>
 
+<!-- UPLOAD SECTION -->
 <div class="section upload-section" id="upload-section">
   <div class="section-inner">
     <div class="card">
@@ -345,7 +379,8 @@ footer{position:relative;z-index:1;border-top:1px solid var(--charcoal-border);p
           <button class="tab-btn" onclick="switchTab('upload')">📄 Upload PDF</button>
         </div>
         <div class="tab-panel active" id="tab-paste">
-          <textarea id="contract-text" placeholder="Paste your contract here — the whole thing, or just the sections you're not sure about..."></textarea>
+          <textarea id="contract-text" placeholder="Paste your contract here — the whole thing, or just the sections you're not sure about..." oninput="onTextInput()"></textarea>
+          <div class="length-hint" id="length-hint">Please paste more of the contract — short excerpts may miss important risks.</div>
         </div>
         <div class="tab-panel" id="tab-upload">
           <div class="drop-zone" id="drop-zone">
@@ -370,22 +405,35 @@ footer{position:relative;z-index:1;border-top:1px solid var(--charcoal-border);p
           </select>
         </div>
         <div class="error-msg" id="error-msg"></div>
+        <!-- Urgency line -->
+        <div class="urgency-line">⚠️ Most tradies only spot these issues after they've already signed.</div>
         <button class="cta-btn" id="pay-btn" onclick="startPayment()">
           <span>🔒</span>
           <span id="cta-label">Review My Contract — Free</span>
         </button>
         <div class="payment-notice" id="payment-notice">✓ First review free · Then NZD $29 · Powered by Stripe</div>
-        <div class="privacy-line">🔒 Your contract is not stored after analysis — deleted immediately once your report is generated.</div>
+        <!-- Promo code -->
+        <div class="promo-toggle-row">
+          <button class="promo-toggle-btn" id="promo-toggle-btn" onclick="togglePromo()">Have a promo code?</button>
+        </div>
+        <div class="promo-area" id="promo-area">
+          <input type="text" id="promo-input" class="promo-input" placeholder="Enter promo code" autocomplete="off">
+          <button class="promo-apply-btn" onclick="applyPromo()">Apply</button>
+        </div>
+        <div class="promo-feedback" id="promo-feedback"></div>
+        <!-- Privacy line -->
+        <div class="privacy-line">🔒 Your contract is processed securely and deleted immediately after your report is generated.</div>
       </div>
     </div>
   </div>
 </div>
 
+<!-- ANALYSIS SCREEN -->
 <div id="analysis-screen">
   <div class="progress-card">
     <div class="spinner"></div>
     <div class="progress-title">Reviewing Your Contract</div>
-    <div class="progress-subtitle">This takes about 60–90 seconds...</div>
+    <div class="progress-subtitle">This takes around 60–90 seconds — hang tight.</div>
     <ul class="progress-steps">
       <li class="progress-step" id="step-extract"><div class="step-dot"></div>Extracting clauses from contract</li>
       <li class="progress-step" id="step-risk"><div class="step-dot"></div>Assessing risks, costs &amp; NZ law</li>
@@ -394,6 +442,7 @@ footer{position:relative;z-index:1;border-top:1px solid var(--charcoal-border);p
   </div>
 </div>
 
+<!-- REPORT SCREEN -->
 <div id="report-screen">
   <div class="report-header">
     <div class="report-top-row">
@@ -403,6 +452,8 @@ footer{position:relative;z-index:1;border-top:1px solid var(--charcoal-border);p
       </div>
       <div class="risk-summary" id="risk-summary"></div>
     </div>
+    <!-- Risk tier badge -->
+    <div class="risk-tier-badge" id="risk-tier-badge"></div>
     <div class="risk-score-block" id="risk-score-block" style="display:none">
       <div>
         <div class="risk-score-label">Risk Score</div>
@@ -425,7 +476,11 @@ footer{position:relative;z-index:1;border-top:1px solid var(--charcoal-border);p
     <div class="report-body" id="report-body"></div>
   </div>
 
+  <!-- Small unobtrusive disclaimer -->
+  <div class="report-disclaimer">AI-assisted review — not a substitute for legal advice · beforeyousign.nz</div>
+
   <button class="download-btn" onclick="downloadPDF()">⬇ Download PDF Report</button>
+  <button class="copy-report-btn" id="copy-report-btn" onclick="copyReportText()">📋 Copy Report Text</button>
   <button class="new-review-btn" onclick="resetApp()">Start a new review</button>
 </div>
 
@@ -448,9 +503,9 @@ footer{position:relative;z-index:1;border-top:1px solid var(--charcoal-border);p
   <div class="section-inner">
     <div class="section-label">What your verdict looks like</div>
     <div class="verdict-cards">
-      <div class="verdict-card verdict-safe"><span class="verdict-emoji">🟢</span><div class="verdict-label">SAFE TO SIGN</div><p class="verdict-desc">Standard clauses, fair payment terms. Sign with confidence.</p></div>
-      <div class="verdict-card verdict-caution"><span class="verdict-emoji">🟡</span><div class="verdict-label">PROCEED WITH CAUTION</div><p class="verdict-desc">A few clauses worth pushing back on. We give you the exact words to use.</p></div>
-      <div class="verdict-card verdict-no"><span class="verdict-emoji">🔴</span><div class="verdict-label">DO NOT SIGN</div><p class="verdict-desc">Serious risk to your money or liability. We'll tell you exactly what to do.</p></div>
+      <div class="verdict-card verdict-safe"><span class="verdict-emoji">🟢</span><div class="verdict-label">LOW RISK</div><p class="verdict-desc">Standard clauses, fair payment terms. Appears reasonable to proceed.</p></div>
+      <div class="verdict-card verdict-caution"><span class="verdict-emoji">🟡</span><div class="verdict-label">MEDIUM RISK</div><p class="verdict-desc">A few clauses worth raising before you sign. We give you suggested questions.</p></div>
+      <div class="verdict-card verdict-no"><span class="verdict-emoji">🔴</span><div class="verdict-label">HIGH RISK</div><p class="verdict-desc">Significant concerns. You may want to avoid signing this as it stands.</p></div>
     </div>
   </div>
 </div>
@@ -469,27 +524,18 @@ footer{position:relative;z-index:1;border-top:1px solid var(--charcoal-border);p
         </div>
       </div>
       <div class="example-body">
-        <div class="ex-verdict">🔴 DO NOT SIGN — two clauses expose you to unlimited liability</div>
+        <div class="ex-verdict">🔴 HIGH RISK — you may want to avoid signing this as it stands</div>
         <div class="ex-section">
           <div class="ex-section-title">🚨 Critical Issues</div>
           <div class="ex-item">
             <strong>1. Unlimited Liability Clause (Clause 14.3)</strong>
-            You're personally liable with no cap — even for damage caused by other trades.
-            <div class="negotiation">"I'm happy to accept liability for my own work, but I need a cap — let's set it at the value of my subcontract. Can we add that to clause 14.3?"</div>
+            You could be personally liable with no cap — even for damage caused by other trades.
+            <div class="negotiation">"Could we cap liability at the value of my subcontract? I'm happy to accept responsibility for my own work, but an open-ended clause may put me at risk for issues outside my control."</div>
           </div>
           <div class="ex-item">
             <strong>2. Pay When Paid (Clause 8.1)</strong>
-            You only get paid when the head contractor gets paid. May be unenforceable under CCA 2002 — but you'd have to fight for it.
-            <div class="negotiation">"Clause 8.1 conflicts with my rights under the CCA 2002. Can we change it to net-30 from invoice date?"</div>
-          </div>
-        </div>
-        <div class="ex-section">
-          <div class="ex-section-title">💸 What This Could Cost You</div>
-          <div class="ex-cost">
-            <ul>
-              <li>Liability clause: potentially unlimited — could exceed contract value</li>
-              <li>Late payment: up to 90 days on a $80k job = $3,600+ in financing costs</li>
-            </ul>
+            This may mean you don't get paid until the head contractor does, which could delay your payment indefinitely.
+            <div class="negotiation">"Could we agree on a fixed payment date of 20 working days from invoice regardless of upstream payment? This may conflict with CCA 2002."</div>
           </div>
         </div>
       </div>
@@ -537,7 +583,7 @@ footer{position:relative;z-index:1;border-top:1px solid var(--charcoal-border);p
       <div class="step-card"><div class="step-num">01</div><h3>Paste or upload</h3><p>Your contract text or PDF.</p></div>
       <div class="step-card"><div class="step-num">02</div><h3>First one's free</h3><p>No payment on your first review. $29 NZD via Stripe after that.</p></div>
       <div class="step-card"><div class="step-num">03</div><h3>AI reads it</h3><p>Three-pass analysis: extract, risk-score, plain-English report.</p></div>
-      <div class="step-card"><div class="step-num">04</div><h3>Get your verdict</h3><p>Green, yellow, or red — with negotiation scripts and cost estimates.</p></div>
+      <div class="step-card"><div class="step-num">04</div><h3>Get your verdict</h3><p>Green, yellow, or red — with suggested questions and risk flags.</p></div>
     </div>
   </div>
 </div>
@@ -563,97 +609,76 @@ footer{position:relative;z-index:1;border-top:1px solid var(--charcoal-border);p
   </div>
 </footer>
 
-<!-- SAMPLE REPORT MODAL -->
+<!-- SAMPLE REPORT MODAL — updated content per Change 8 -->
 <div class="modal-overlay" id="sample-modal" onclick="handleModalClick(event)">
   <div class="modal-content">
     <div class="modal-header">
       <div>
-        <div class="modal-header-title">Sample Report — Commercial Fit-Out Subcontract</div>
-        <div class="modal-header-sub">Builder · This is what you'll receive. Generated 28 March 2025.</div>
+        <div class="modal-header-title">Sample Report — Residential Build Subcontract</div>
+        <div class="modal-header-sub">Builder · This is what you'll receive · Example only</div>
       </div>
       <button class="modal-close" onclick="closeSampleModal()">✕</button>
     </div>
     <div class="modal-body">
-      <div class="risk-score-block" style="margin-bottom:20px">
-        <div><div class="risk-score-label">Risk Score</div><div class="risk-score-number">72<span style="font-size:20px;color:var(--muted)">/100</span></div></div>
-        <div style="flex:1;min-width:140px">
-          <div class="risk-score-bar-wrap"><div class="risk-score-bar" style="width:72%;background:var(--red)"></div></div>
-          <div class="risk-score-desc" style="margin-top:6px">High risk — 2 critical clauses, 3 high-risk clauses</div>
-        </div>
+      <!-- Risk tier -->
+      <div style="margin-bottom:16px">
+        <span class="risk-tier high-risk">🔴 HIGH RISK</span>
       </div>
+      <!-- Verdict -->
       <div class="verdict-block danger" style="margin-bottom:20px">
         <span class="verdict-icon">🔴</span>
-        <div class="verdict-text"><h3>DO NOT SIGN</h3><p>Two clauses expose you to unlimited personal liability and the payment terms likely violate the Construction Contracts Act 2002.</p></div>
+        <div class="verdict-text">
+          <h3>YOU MAY WANT TO AVOID SIGNING THIS AS IT STANDS</h3>
+          <p>This contract contains clauses that could delay your payment indefinitely and expose you to unlimited liability.</p>
+        </div>
       </div>
+      <!-- Critical issues -->
       <div class="rs-section rs-critical">
         <div class="rs-header">🚨 CRITICAL ISSUES</div>
         <div class="rs-body">
           <div class="issue-card critical">
             <div class="issue-num">Issue 1</div>
-            <div class="issue-title">Unlimited Liability Clause (Clause 14.3)</div>
-            <div class="issue-text">If anything goes wrong on site, you're personally liable with no cap. The head contractor can pursue you for the full project value — even for damage caused by other trades. On a $500k project, this clause could wipe you out.<br><br><strong>Financial impact:</strong> Potentially unlimited — could exceed the value of your subcontract many times over.<br><strong>NZ law:</strong> Contract and Commercial Law Act 2017.</div>
-            <div class="neg-script" id="sample-neg-1"><div class="neg-label">💬 Say this:</div><div class="neg-text">"I'm happy to accept liability for my own work, but I need a cap on clause 14.3 — let's set it at the value of my subcontract. That's standard practice. Can we add that wording?"</div><button class="copy-btn" onclick="copyScript('sample-neg-1')">Copy</button></div>
+            <div class="issue-title">Pay When Paid Clause</div>
+            <div class="issue-text">This may mean you don't get paid until the main contractor does, which could delay your payment indefinitely. If the main contractor has cashflow problems or the client disputes payment, you could be left waiting months with no clear recourse.</div>
+            <div class="neg-script" id="samp-1">
+              <div class="neg-label">💬 Suggested question to raise:</div>
+              <div class="neg-text">"Could we agree on a fixed payment date of 20 working days from invoice regardless of upstream payment?"</div>
+              <button class="copy-btn" onclick="copyScript('samp-1')">Copy</button>
+            </div>
           </div>
           <div class="issue-card critical">
             <div class="issue-num">Issue 2</div>
-            <div class="issue-title">Pay When Paid (Clause 8.1)</div>
-            <div class="issue-text">You only get paid when the head contractor receives payment from the client. The NZ Construction Contracts Act 2002 makes pay-when-paid clauses unenforceable in most cases — but you'd need to challenge it.<br><br><strong>Financial impact:</strong> On a $60k job with 90-day client terms, you could be out of pocket for 3+ months — roughly $3,500 in financing costs.</div>
-            <div class="neg-script" id="sample-neg-2"><div class="neg-label">💬 Say this:</div><div class="neg-text">"Clause 8.1 looks like a pay-when-paid clause, which conflicts with my rights under the CCA 2002. I need payment within 20 working days of my invoice, regardless of when you're paid. Can we change this?"</div><button class="copy-btn" onclick="copyScript('sample-neg-2')">Copy</button></div>
+            <div class="issue-title">Unlimited Liability Clause</div>
+            <div class="issue-text">You could be held responsible for defects outside your control for up to 10 years. This may expose you to claims well beyond the value of your work, including issues caused by other trades or design problems outside your scope.</div>
+            <div class="neg-script" id="samp-2">
+              <div class="neg-label">💬 Suggested question to raise:</div>
+              <div class="neg-text">"Could we cap liability at the contract value and limit it to defects caused by my workmanship?"</div>
+              <button class="copy-btn" onclick="copyScript('samp-2')">Copy</button>
+            </div>
           </div>
         </div>
       </div>
-      <div class="rs-section rs-warning" style="margin-top:12px">
-        <div class="rs-header">⚠️ THINGS TO WATCH</div>
-        <div class="rs-body">
-          <div class="issue-card warning">
-            <div class="issue-num">Issue 3</div>
-            <div class="issue-title">Retention — No Release Date (Clause 11.2)</div>
-            <div class="issue-text">5% retention with no specified release date beyond "practical completion at the head contractor's discretion."<br><br><strong>Financial impact:</strong> On a $60k subcontract, that's $3,000 held indefinitely.</div>
-            <div class="neg-script" id="sample-neg-3"><div class="neg-label">💬 Say this:</div><div class="neg-text">"Can we add a specific release date to clause 11.2? I'd like 50% at practical completion and the remainder 12 months after."</div><button class="copy-btn" onclick="copyScript('sample-neg-3')">Copy</button></div>
-          </div>
-        </div>
-      </div>
-      <div class="rs-section rs-ok" style="margin-top:12px">
-        <div class="rs-header">✅ LOOKS FINE</div>
-        <div class="rs-body">
-          <ul class="rs-list">
-            <li>Scope of work is clearly defined in Schedule A — no ambiguity</li>
-            <li>Insurance requirements are standard (public liability $2M, Building Act 2004)</li>
-            <li>Dispute resolution follows standard NZ construction practice</li>
-            <li>H&amp;S obligations align with WorkSafe NZ guidelines</li>
-          </ul>
-        </div>
-      </div>
-      <div class="rs-section rs-questions" style="margin-top:12px">
-        <div class="rs-header">❓ QUESTIONS TO ASK BEFORE SIGNING</div>
-        <div class="rs-body">
-          <ul class="rs-list">
-            <li>Who is the end client and what are their payment terms to you?</li>
-            <li>Can we agree a specific practical completion date in writing?</li>
-            <li>Has clause 14.3 been negotiated with other subcontractors on this project?</li>
-          </ul>
-        </div>
-      </div>
-      <div class="rs-section rs-summary" style="margin-top:12px">
-        <div class="rs-header">📋 PLAIN ENGLISH SUMMARY</div>
-        <div class="rs-body"><p class="rs-p">This contract has two serious problems. The liability clause has no cap and the payment clause likely violates the CCA 2002. The scope and insurance sections are fine. Push back on clauses 14.3 and 8.1 before proceeding.</p></div>
-      </div>
-      <div class="rs-actions" style="margin-top:12px">
+      <!-- What to do now -->
+      <div class="rs-actions" style="margin-top:16px">
         <div class="rs-actions-title">📌 WHAT TO DO NOW</div>
         <ol class="rs-action-list">
-          <li data-n="1.">Do not sign this contract in its current form.</li>
-          <li data-n="2.">Send the negotiation scripts above to the head contractor and request changes in writing.</li>
-          <li data-n="3.">If they refuse to negotiate, consider walking away or consulting a construction lawyer before proceeding.</li>
+          <li data-n="1.">You may want to avoid signing this contract as it stands.</li>
+          <li data-n="2.">Raise these concerns with the contractor using the suggested questions above.</li>
+          <li data-n="3.">If they're unwilling to negotiate, consider walking away or speaking with a construction lawyer.</li>
         </ol>
       </div>
-      <div style="margin-top:20px;padding:12px 16px;background:var(--red-bg);border:1px solid rgba(229,62,62,0.2);border-radius:var(--r);font-size:12px;color:var(--muted);text-align:center">⚠️ AI-assisted review only — not legal advice. Always consult a qualified lawyer for complex contracts or disputes.</div>
+      <div style="margin-top:20px;text-align:center;font-size:11px;color:var(--steel)">
+        AI-assisted review — not a substitute for legal advice · beforeyousign.nz
+      </div>
     </div>
   </div>
 </div>
 
 <script>
 const CONFIG = { backendUrl: window.location.origin, priceNZD: 2900 };
-let activeTab = 'paste', selectedFile = null, reportText = '', isFreeUser = false, currentVerdict = 'safe';
+const PROMO_CODE = 'BYS2026NZ';
+let activeTab='paste', selectedFile=null, reportText='', isFreeUser=false, currentVerdict='safe', promoValid=false;
+let stepTimers = [];
 
 // FREE CHECK
 async function checkFreeStatus() {
@@ -662,373 +687,496 @@ async function checkFreeStatus() {
     if (!res.ok) throw new Error();
     const { hasFree } = await res.json();
     isFreeUser = hasFree;
-  } catch(e) {
-    isFreeUser = true; // fail open
-  }
+  } catch(e) { isFreeUser = true; }
   updateCTAForFreeStatus();
 }
 
 function updateCTAForFreeStatus() {
-  const label = document.getElementById('cta-label');
-  const notice = document.getElementById('payment-notice');
-  const banner = document.getElementById('free-banner');
-  if (isFreeUser) {
-    label.textContent = 'Review My Contract — Free';
-    notice.textContent = '✓ First review free · No payment needed';
-    banner.style.display = 'flex';
+  const label=document.getElementById('cta-label');
+  const notice=document.getElementById('payment-notice');
+  const banner=document.getElementById('free-banner');
+  if (isFreeUser || promoValid) {
+    label.textContent='Review My Contract — Free';
+    notice.textContent='✓ First review free · No payment needed';
+    banner.style.display='flex';
   } else {
-    label.textContent = 'Review My Contract — NZD $29';
-    notice.textContent = '🔐 Powered by Stripe · Secure checkout · NZD $29';
-    banner.style.display = 'none';
+    label.textContent='Review My Contract — NZD $29';
+    notice.textContent='🔐 Powered by Stripe · Secure checkout · NZD $29';
+    banner.style.display='none';
   }
 }
 
 // TABS
 function switchTab(tab) {
-  activeTab = tab;
-  document.querySelectorAll('.tab-btn').forEach((b,i) => b.classList.toggle('active',(i===0&&tab==='paste')||(i===1&&tab==='upload')));
-  document.getElementById('tab-paste').classList.toggle('active', tab==='paste');
-  document.getElementById('tab-upload').classList.toggle('active', tab==='upload');
+  activeTab=tab;
+  document.querySelectorAll('.tab-btn').forEach((b,i)=>b.classList.toggle('active',(i===0&&tab==='paste')||(i===1&&tab==='upload')));
+  document.getElementById('tab-paste').classList.toggle('active',tab==='paste');
+  document.getElementById('tab-upload').classList.toggle('active',tab==='upload');
+  onTextInput(); // re-evaluate length check
+}
+
+// MINIMUM LENGTH CHECK (Change 12)
+function onTextInput() {
+  if (activeTab !== 'paste') { document.getElementById('length-hint').style.display='none'; return; }
+  const len = document.getElementById('contract-text').value.trim().length;
+  const hint = document.getElementById('length-hint');
+  if (len > 0 && len < 200) {
+    hint.style.display='block';
+  } else {
+    hint.style.display='none';
+  }
 }
 
 // FILE
 function handleFileSelect(e) {
-  const file = e.target.files[0]; if (!file) return;
-  if (file.size > 10*1024*1024) { showError('File too large. Max 10MB.'); return; }
-  selectedFile = file;
-  document.getElementById('file-name').textContent = file.name;
-  document.getElementById('file-selected').style.display = 'flex';
+  const file=e.target.files[0]; if (!file) return;
+  if (file.size>10*1024*1024) { showError('File too large. Max 10MB.'); return; }
+  selectedFile=file;
+  document.getElementById('file-name').textContent=file.name;
+  document.getElementById('file-selected').style.display='flex';
 }
-const dz = document.getElementById('drop-zone');
-dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('dragover'); });
-dz.addEventListener('dragleave', () => dz.classList.remove('dragover'));
-dz.addEventListener('drop', e => {
-  e.preventDefault(); dz.classList.remove('dragover');
-  const f = e.dataTransfer.files[0];
-  if (f && f.type==='application/pdf') { selectedFile=f; document.getElementById('file-name').textContent=f.name; document.getElementById('file-selected').style.display='flex'; }
+const dz=document.getElementById('drop-zone');
+dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('dragover');});
+dz.addEventListener('dragleave',()=>dz.classList.remove('dragover'));
+dz.addEventListener('drop',e=>{
+  e.preventDefault();dz.classList.remove('dragover');
+  const f=e.dataTransfer.files[0];
+  if(f&&f.type==='application/pdf'){selectedFile=f;document.getElementById('file-name').textContent=f.name;document.getElementById('file-selected').style.display='flex';}
 });
 async function readFileAsBase64(file) {
-  return new Promise((res,rej) => { const r=new FileReader(); r.onload=()=>res(r.result.split(',')[1]); r.onerror=rej; r.readAsDataURL(file); });
+  return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result.split(',')[1]);r.onerror=rej;r.readAsDataURL(file);});
 }
-function showError(msg) { const el=document.getElementById('error-msg'); el.textContent=msg; el.style.display='block'; setTimeout(()=>el.style.display='none',7000); }
-function setStep(id,state) { const el=document.getElementById(id); el.classList.remove('active','done'); if(state!=='pending') el.classList.add(state); }
+function showError(msg) {
+  const el=document.getElementById('error-msg');el.textContent=msg;el.style.display='block';
+  setTimeout(()=>el.style.display='none',8000);
+}
+function setStep(id,state) {
+  const el=document.getElementById(id);el.classList.remove('active','done');if(state!=='pending')el.classList.add(state);
+}
 
-// PAYMENT
+// PROMO CODE (Change 14)
+function togglePromo() {
+  const area=document.getElementById('promo-area');
+  const btn=document.getElementById('promo-toggle-btn');
+  if(area.classList.contains('visible')){area.classList.remove('visible');btn.textContent='Have a promo code?';}
+  else{area.classList.add('visible');btn.textContent='Hide promo code';document.getElementById('promo-input').focus();}
+}
+
+function applyPromo() {
+  const code=document.getElementById('promo-input').value.trim().toUpperCase();
+  const fb=document.getElementById('promo-feedback');
+  const input=document.getElementById('promo-input');
+  fb.className='promo-feedback';
+  if(code===PROMO_CODE){
+    promoValid=true;
+    fb.textContent='✓ Promo code applied — this review is free!';
+    fb.classList.add('valid');
+    input.classList.add('valid');
+    updateCTAForFreeStatus();
+  } else {
+    promoValid=false;
+    fb.textContent='That code isn\'t valid. Please check and try again.';
+    fb.classList.add('invalid');
+    input.classList.remove('valid');
+  }
+}
+
+// Allow Enter key on promo input
+document.addEventListener('DOMContentLoaded',()=>{
+  document.getElementById('promo-input').addEventListener('keydown',e=>{if(e.key==='Enter')applyPromo();});
+});
+
+// PAYMENT FLOW
 async function startPayment() {
-  const text = document.getElementById('contract-text').value.trim();
+  const text=document.getElementById('contract-text').value.trim();
+  // Minimum length check
+  if (activeTab==='paste' && text.length > 0 && text.length < 200) {
+    showError('Contract text too short — please paste more of the contract.');
+    return;
+  }
   if (activeTab==='paste' && !text) { showError('Please paste your contract text first.'); return; }
   if (activeTab==='upload' && !selectedFile) { showError('Please select a PDF file.'); return; }
-  const btn = document.getElementById('pay-btn');
-  btn.disabled = true;
-  btn.querySelector('#cta-label').textContent = 'Getting started...';
-  const tradeType = document.getElementById('trade-type').value || 'General subcontractor';
+
+  const btn=document.getElementById('pay-btn');
+  btn.disabled=true;
+  btn.querySelector('#cta-label').textContent='Getting started...';
+  const tradeType=document.getElementById('trade-type').value||'General subcontractor';
   try {
-    if (activeTab==='paste') { sessionStorage.setItem('contractContent', text); sessionStorage.setItem('contractType','text'); }
-    else { const b64=await readFileAsBase64(selectedFile); sessionStorage.setItem('contractContent',b64); sessionStorage.setItem('contractType','pdf'); }
-    sessionStorage.setItem('tradeType', tradeType);
-    if (isFreeUser) {
-      startAnalysis(sessionStorage.getItem('contractContent'), sessionStorage.getItem('contractType'), true, tradeType);
+    if(activeTab==='paste'){sessionStorage.setItem('contractContent',text);sessionStorage.setItem('contractType','text');}
+    else{
+      try {
+        const b64=await readFileAsBase64(selectedFile);
+        sessionStorage.setItem('contractContent',b64);sessionStorage.setItem('contractType','pdf');
+      } catch(pdfErr) {
+        showError('Unable to process PDF — please try pasting the text instead.');
+        btn.disabled=false;btn.querySelector('#cta-label').textContent=isFreeUser||promoValid?'Review My Contract — Free':'Review My Contract — NZD $29';
+        return;
+      }
+    }
+    sessionStorage.setItem('tradeType',tradeType);
+    if (isFreeUser || promoValid) {
+      startAnalysis(sessionStorage.getItem('contractContent'),sessionStorage.getItem('contractType'),true,tradeType);
     } else {
-      const res = await fetch(`${CONFIG.backendUrl}/api/create-checkout`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({returnUrl:window.location.href}) });
-      if (!res.ok) throw new Error('Checkout failed');
-      const { url } = await res.json();
-      window.location.href = url;
+      try {
+        const res=await fetch(`${CONFIG.backendUrl}/api/create-checkout`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({returnUrl:window.location.href})});
+        if(!res.ok) throw new Error('payment');
+        const {url}=await res.json();
+        window.location.href=url;
+      } catch(payErr) {
+        showError('Payment failed — your card has not been charged. Please try again.');
+        btn.disabled=false;btn.querySelector('#cta-label').textContent='Review My Contract — NZD $29';
+      }
     }
   } catch(err) {
-    console.error(err); showError('Something went wrong. Please try again.');
-    btn.disabled=false; btn.querySelector('#cta-label').textContent = isFreeUser ? 'Review My Contract — Free' : 'Review My Contract — NZD $29';
+    console.error(err);
+    showError('Something went wrong — please try again.');
+    btn.disabled=false;btn.querySelector('#cta-label').textContent=isFreeUser||promoValid?'Review My Contract — Free':'Review My Contract — NZD $29';
   }
 }
 
 async function checkPaymentReturn() {
-  const params = new URLSearchParams(window.location.search);
-  const sessionId = params.get('session_id'), cancelled = params.get('cancelled');
-  if (cancelled) { window.history.replaceState({},'',window.location.pathname); return; }
-  if (!sessionId) return;
+  const params=new URLSearchParams(window.location.search);
+  const sessionId=params.get('session_id'),cancelled=params.get('cancelled');
+  if(cancelled){window.history.replaceState({},'',window.location.pathname);return;}
+  if(!sessionId) return;
   window.history.replaceState({},'',window.location.pathname);
-  const content=sessionStorage.getItem('contractContent'), type=sessionStorage.getItem('contractType'), tradeType=sessionStorage.getItem('tradeType')||'';
-  if (!content) { showError('Session expired. Please paste your contract again.'); return; }
+  const content=sessionStorage.getItem('contractContent'),type=sessionStorage.getItem('contractType'),tradeType=sessionStorage.getItem('tradeType')||'';
+  if(!content){showError('Session expired. Please paste your contract again.');return;}
   try {
     const res=await fetch(`${CONFIG.backendUrl}/api/verify-payment?session_id=${sessionId}`);
-    if (!res.ok) throw new Error(); const { paid }=await res.json(); if (!paid) throw new Error();
+    if(!res.ok) throw new Error();const{paid}=await res.json();if(!paid) throw new Error();
   } catch { showError('Could not verify payment. Contact hello@beforeyousign.nz'); return; }
-  sessionStorage.removeItem('contractContent'); sessionStorage.removeItem('contractType'); sessionStorage.removeItem('tradeType');
-  startAnalysis(content, type, false, tradeType);
+  sessionStorage.removeItem('contractContent');sessionStorage.removeItem('contractType');sessionStorage.removeItem('tradeType');
+  startAnalysis(content,type,false,tradeType);
 }
 
-// ANALYSIS
+// ANALYSIS — real-time step simulation (Change 11)
 function showAnalysisScreen() {
-  document.getElementById('upload-section').style.display = 'none';
-  document.getElementById('how-section').style.display = 'none';
-  const t=document.getElementById('traps-section'); if(t) t.style.display='none';
-  document.getElementById('analysis-screen').style.display = 'block';
-  setStep('step-extract','active'); setStep('step-risk','pending'); setStep('step-report','pending');
+  document.getElementById('upload-section').style.display='none';
+  document.getElementById('how-section').style.display='none';
+  const t=document.getElementById('traps-section');if(t) t.style.display='none';
+  document.getElementById('analysis-screen').style.display='block';
+  setStep('step-extract','active');setStep('step-risk','pending');setStep('step-report','pending');
 }
+
+function clearStepTimers() { stepTimers.forEach(clearTimeout); stepTimers=[]; }
 
 async function startAnalysis(content, type, wasFree, tradeType) {
   showAnalysisScreen();
+  clearStepTimers();
+
+  // Simulate real-time step progression
+  stepTimers.push(setTimeout(()=>{ setStep('step-extract','done'); setStep('step-risk','active'); }, 14000));
+  stepTimers.push(setTimeout(()=>{ setStep('step-risk','done'); setStep('step-report','active'); }, 38000));
+
+  const controller = new AbortController();
+  const timeoutId = setTimeout(()=>controller.abort(), 120000);
+
   try {
     const res = await fetch(`${CONFIG.backendUrl}/api/analyze`, {
       method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ content, type, wasFree, tradeType }),
+      body:JSON.stringify({content,type,wasFree,tradeType}),
+      signal: controller.signal,
     });
-    if (!res.ok) { const e=await res.json(); throw new Error(e.error||'Analysis failed'); }
-    const result = await res.json();
-    setStep('step-extract','done'); setStep('step-risk','done'); setStep('step-report','done');
-    setTimeout(() => showReport(result, wasFree), 500);
+    clearTimeout(timeoutId);
+    if(!res.ok){const e=await res.json();throw new Error(e.error||'analysis');}
+    const result=await res.json();
+    clearStepTimers();
+    setStep('step-extract','done');setStep('step-risk','done');setStep('step-report','done');
+    setTimeout(()=>showReport(result,wasFree),500);
   } catch(err) {
+    clearTimeout(timeoutId);clearStepTimers();
     console.error(err);
-    document.getElementById('analysis-screen').style.display = 'none';
-    document.getElementById('upload-section').style.display = 'block';
-    document.getElementById('how-section').style.display = 'block';
-    const t=document.getElementById('traps-section'); if(t) t.style.display='block';
-    showError(`Analysis failed: ${err.message}`);
-    const btn=document.getElementById('pay-btn'); btn.disabled=false;
-    btn.querySelector('#cta-label').textContent = isFreeUser ? 'Review My Contract — Free' : 'Review My Contract — NZD $29';
+    document.getElementById('analysis-screen').style.display='none';
+    document.getElementById('upload-section').style.display='block';
+    document.getElementById('how-section').style.display='block';
+    const t=document.getElementById('traps-section');if(t) t.style.display='block';
+    if(err.name==='AbortError'||err.message==='analysis timed out') {
+      showError('Analysis timed out — please try again.');
+    } else {
+      showError(`Analysis failed: ${err.message}`);
+    }
+    const btn=document.getElementById('pay-btn');btn.disabled=false;
+    btn.querySelector('#cta-label').textContent=isFreeUser||promoValid?'Review My Contract — Free':'Review My Contract — NZD $29';
   }
 }
 
 // SHOW REPORT
 function showReport(result, wasFree) {
-  document.getElementById('analysis-screen').style.display = 'none';
-  document.getElementById('report-screen').style.display = 'block';
-  const now = new Date();
-  document.getElementById('report-meta').textContent = `Generated ${now.toLocaleDateString('en-NZ',{day:'numeric',month:'long',year:'numeric'})} at ${now.toLocaleTimeString('en-NZ',{hour:'2-digit',minute:'2-digit'})}`;
-  const counts = result.riskCounts || {};
-  document.getElementById('risk-summary').innerHTML = [
+  document.getElementById('analysis-screen').style.display='none';
+  document.getElementById('report-screen').style.display='block';
+  const now=new Date();
+  document.getElementById('report-meta').textContent=`Generated ${now.toLocaleDateString('en-NZ',{day:'numeric',month:'long',year:'numeric'})} at ${now.toLocaleTimeString('en-NZ',{hour:'2-digit',minute:'2-digit'})}`;
+  const counts=result.riskCounts||{};
+  document.getElementById('risk-summary').innerHTML=[
     counts.critical?`<div class="risk-pill critical">🚨 ${counts.critical} Critical</div>`:'',
     counts.high?`<div class="risk-pill high">⚠️ ${counts.high} High</div>`:'',
     counts.medium?`<div class="risk-pill medium">⚡ ${counts.medium} Medium</div>`:'',
     counts.low?`<div class="risk-pill low">✅ ${counts.low} Low</div>`:'',
   ].join('');
 
+  // Risk tier badge (Change 4)
+  const tierEl=document.getElementById('risk-tier-badge');
+  if(counts.critical>0){
+    tierEl.innerHTML='<span class="risk-tier high-risk">🔴 HIGH RISK</span>';
+  } else if(counts.high>0){
+    tierEl.innerHTML='<span class="risk-tier medium-risk">🟡 MEDIUM RISK</span>';
+  } else if((counts.medium||0)+(counts.low||0)>0){
+    tierEl.innerHTML='<span class="risk-tier low-risk">🟢 LOW RISK</span>';
+  } else {
+    tierEl.innerHTML='<span class="risk-tier clear">🟢 CLEAR</span>';
+  }
+
   // Risk score
-  const score = Math.min(100,(counts.critical||0)*25+(counts.high||0)*15+(counts.medium||0)*8+(counts.low||0)*3);
-  document.getElementById('risk-score-block').style.display = 'flex';
-  document.getElementById('risk-score-number').innerHTML = `${score}<span style="font-size:20px;color:var(--muted)">/100</span>`;
-  const bar = document.getElementById('risk-score-bar');
-  bar.style.background = score>=65?'var(--red)':score>=35?'var(--orange)':'var(--green)';
+  const score=Math.min(100,(counts.critical||0)*25+(counts.high||0)*15+(counts.medium||0)*8+(counts.low||0)*3);
+  document.getElementById('risk-score-block').style.display='flex';
+  document.getElementById('risk-score-number').innerHTML=`${score}<span style="font-size:20px;color:var(--muted)">/100</span>`;
+  const bar=document.getElementById('risk-score-bar');
+  bar.style.background=score>=65?'var(--red)':score>=35?'var(--orange)':'var(--green)';
   setTimeout(()=>bar.style.width=score+'%',100);
-  document.getElementById('risk-score-desc').textContent = score>=65?'High risk — review carefully before signing':score>=35?'Moderate risk — some clauses need attention':'Low risk — minor issues only';
+  document.getElementById('risk-score-desc').textContent=score>=65?'High risk — review carefully before signing':score>=35?'Moderate risk — some clauses may need attention':'Low risk — minor issues only';
 
   // Verdict
-  currentVerdict = result.verdict || detectVerdict(result.report||'');
-  const vEl = document.getElementById('verdict-block');
-  const vr = escHtml(result.verdictReason||'');
-  if (currentVerdict==='safe') vEl.innerHTML=`<div class="verdict-block safe"><span class="verdict-icon">🟢</span><div class="verdict-text"><h3>SAFE TO SIGN</h3><p>${vr||'This contract looks fair and standard for NZ subcontracting.'}</p></div></div>`;
-  else if (currentVerdict==='caution') vEl.innerHTML=`<div class="verdict-block caution"><span class="verdict-icon">🟡</span><div class="verdict-text"><h3>PROCEED WITH CAUTION</h3><p>${vr||'A few clauses worth pushing back on before you sign.'}</p></div></div>`;
-  else vEl.innerHTML=`<div class="verdict-block danger"><span class="verdict-icon">🔴</span><div class="verdict-text"><h3>DO NOT SIGN</h3><p>${vr||'Serious risks detected. Read the full report before proceeding.'}</p></div></div>`;
+  currentVerdict=result.verdict||detectVerdict(result.report||'');
+  const vEl=document.getElementById('verdict-block');
+  const vr=escHtml(result.verdictReason||'');
+  if(currentVerdict==='safe') vEl.innerHTML=`<div class="verdict-block safe"><span class="verdict-icon">🟢</span><div class="verdict-text"><h3>LOW RISK</h3><p>${vr||'This contract appears reasonable to proceed with.'}</p></div></div>`;
+  else if(currentVerdict==='caution') vEl.innerHTML=`<div class="verdict-block caution"><span class="verdict-icon">🟡</span><div class="verdict-text"><h3>MEDIUM RISK — RAISE BEFORE SIGNING</h3><p>${vr||'Some clauses may be worth raising with the contractor before you sign.'}</p></div></div>`;
+  else vEl.innerHTML=`<div class="verdict-block danger"><span class="verdict-icon">🔴</span><div class="verdict-text"><h3>HIGH RISK</h3><p>${vr||'You may want to avoid signing this as it stands. Review the issues below.'}</p></div></div>`;
 
-  reportText = result.report||'';
-  document.getElementById('report-body').innerHTML = renderReport(reportText, currentVerdict);
-  if (wasFree) document.getElementById('upsell-prompt').style.display = 'block';
+  reportText=result.report||'';
+  document.getElementById('report-body').innerHTML=renderReport(reportText,currentVerdict);
+  if(wasFree) document.getElementById('upsell-prompt').style.display='block';
   document.getElementById('report-screen').scrollIntoView({behavior:'smooth'});
 }
 
 function detectVerdict(t) {
   const u=t.toUpperCase();
-  if(u.includes('DO NOT SIGN')) return 'danger';
-  if(u.includes('PROCEED WITH CAUTION')) return 'caution';
+  if(u.includes('DO NOT SIGN')||u.includes('HIGH RISK')) return 'danger';
+  if(u.includes('PROCEED WITH CAUTION')||u.includes('MEDIUM RISK')) return 'caution';
   return 'safe';
 }
 
+// LANGUAGE SOFTENER — Change 5
+function softenLegal(text) {
+  return text
+    .replace(/\bdo not sign\b/gi,'you may want to avoid signing this as it stands')
+    .replace(/\bDO NOT SIGN\b/g,'YOU MAY WANT TO AVOID SIGNING THIS AS IT STANDS')
+    .replace(/\bwon't\b/gi,'may not')
+    .replace(/\bwill be held\b/gi,'could be held')
+    .replace(/\bwill lose\b/gi,'may lose')
+    .replace(/\bwill expose\b/gi,'could expose')
+    .replace(/\bwill owe\b/gi,'may owe')
+    .replace(/\bwill result\b/gi,'could result')
+    .replace(/\bwill delay\b/gi,'could delay')
+    .replace(/\bwill mean\b/gi,'could mean')
+    .replace(/\bwill not be paid\b/gi,'may not be paid')
+    .replace(/\byou are liable\b/gi,'you could be liable')
+    .replace(/\byou are responsible\b/gi,'you could be responsible');
+}
+
 // REPORT RENDERER
-const SECTION_DEFS = [
-  {key:'FINAL VERDICT',         cls:'rs-verdict',   label:'FINAL VERDICT',                 icon:'🏁'},
-  {key:'WHAT THIS COULD COST',  cls:'rs-cost',      label:'WHAT THIS COULD COST YOU',       icon:'💸'},
-  {key:'CRITICAL ISSUES',       cls:'rs-critical',  label:'CRITICAL ISSUES',                icon:'🚨', numbered:true},
-  {key:'THINGS TO WATCH',       cls:'rs-warning',   label:'THINGS TO WATCH',                icon:'⚠️', numbered:true},
-  {key:'LOOKS FINE',            cls:'rs-ok',        label:'LOOKS FINE',                     icon:'✅'},
-  {key:'QUESTIONS TO ASK',      cls:'rs-questions', label:'QUESTIONS TO ASK BEFORE SIGNING',icon:'❓'},
-  {key:'PLAIN ENGLISH SUMMARY', cls:'rs-summary',   label:'PLAIN ENGLISH SUMMARY',          icon:'📋'},
+const SECTION_DEFS=[
+  {key:'FINAL VERDICT',        cls:'rs-verdict',  label:'FINAL VERDICT',                 icon:'🏁'},
+  {key:'WHAT THIS COULD COST', cls:'rs-cost',     label:'WHAT THIS COULD COST YOU',      icon:'💸'},
+  {key:'CRITICAL ISSUES',      cls:'rs-critical', label:'CRITICAL ISSUES',               icon:'🚨', numbered:true},
+  {key:'THINGS TO WATCH',      cls:'rs-warning',  label:'THINGS TO WATCH',               icon:'⚠️', numbered:true},
+  {key:'LOOKS FINE',           cls:'rs-ok',       label:'LOOKS FINE',                    icon:'✅'},
+  {key:'QUESTIONS TO ASK',     cls:'rs-questions',label:'QUESTIONS TO ASK BEFORE SIGNING',icon:'❓'},
+  {key:'PLAIN ENGLISH SUMMARY',cls:'rs-summary',  label:'PLAIN ENGLISH SUMMARY',         icon:'📋'},
 ];
 
 function renderReport(text, verdict) {
-  if (!text) return '<p class="rs-none">No report generated.</p>';
-  const lines = text.split('\n');
-  const sections = []; let cur = null;
-  for (const line of lines) {
-    let matched = false;
-    for (const def of SECTION_DEFS) {
-      if (line.toUpperCase().includes(def.key) && line.trim().length < 100) {
-        if (cur) sections.push(cur);
-        cur = {def, lines:[]}; matched=true; break;
+  if(!text) return '<p class="rs-none">No report generated.</p>';
+  const softened = softenLegal(text);
+  const lines=softened.split('\n');
+  const sections=[];let cur=null;
+  for(const line of lines){
+    let matched=false;
+    for(const def of SECTION_DEFS){
+      if(line.toUpperCase().includes(def.key)&&line.trim().length<100){
+        if(cur) sections.push(cur);
+        cur={def,lines:[]};matched=true;break;
       }
     }
-    if (!matched && cur) cur.lines.push(line);
+    if(!matched&&cur) cur.lines.push(line);
   }
-  if (cur) sections.push(cur);
-  if (!sections.length) return simpleMarkdown(text) + renderWhatToDoNow(verdict);
-  return sections.map(renderSection).join('') + renderWhatToDoNow(verdict);
+  if(cur) sections.push(cur);
+  if(!sections.length) return simpleMarkdown(softened)+renderWhatToDoNow(verdict);
+  return sections.map(renderSection).join('')+renderWhatToDoNow(verdict);
 }
 
 function renderSection(section) {
-  const {def, lines} = section;
-  return `<div class="rs-section ${def.cls}"><div class="rs-header">${def.icon} ${def.label}</div><div class="rs-body">${renderBody(lines, def)}</div></div>`;
+  const{def,lines}=section;
+  return `<div class="rs-section ${def.cls}"><div class="rs-header">${def.icon} ${def.label}</div><div class="rs-body">${renderBody(lines,def)}</div></div>`;
 }
 
 function renderBody(lines, def) {
-  const blocks = []; let block = [];
-  for (const line of lines) {
-    if (!line.trim()) { if(block.length){blocks.push(block);block=[];} } else block.push(line);
-  }
-  if (block.length) blocks.push(block);
-  if (!blocks.length) return '<p class="rs-none">None identified.</p>';
-
-  let html = '', clauseN = 0;
-  for (const blk of blocks) {
-    const first = blk[0].trim();
-    const hasNeg = blk.some(l=>l.includes('💬')||/say\s*this/i.test(l));
-    if (hasNeg && blk.length===1) { html+=mkNeg(blk); continue; }
-    const isList = /^[-•*]\s/.test(first);
-    const isNumList = /^\d+\.\s/.test(first);
-    if (isList) { html+='<ul class="rs-list">'+blk.filter(l=>l.trim()).map(l=>`<li>${md(l.trim().replace(/^[-•*]\s*/,''))}</li>`).join('')+'</ul>'; continue; }
-    if (isNumList) { html+='<ul class="rs-list">'+blk.filter(l=>l.trim()).map(l=>`<li>${md(l.trim().replace(/^\d+\.\s*/,''))}</li>`).join('')+'</ul>'; continue; }
-    if (def.numbered && blk.length >= 1) {
+  const blocks=[];let block=[];
+  for(const line of lines){if(!line.trim()){if(block.length){blocks.push(block);block=[];}}else block.push(line);}
+  if(block.length) blocks.push(block);
+  if(!blocks.length) return '<p class="rs-none">None identified.</p>';
+  let html='',clauseN=0;
+  for(const blk of blocks){
+    const first=blk[0].trim();
+    const hasNeg=blk.some(l=>l.includes('💬')||/suggested\s+question/i.test(l)||/say\s*this/i.test(l));
+    if(hasNeg&&blk.length===1){html+=mkNeg(blk);continue;}
+    const isList=/^[-•*]\s/.test(first);
+    const isNumList=/^\d+\.\s/.test(first);
+    if(isList){html+='<ul class="rs-list">'+blk.filter(l=>l.trim()).map(l=>`<li>${md(l.trim().replace(/^[-•*]\s*/,''))}</li>`).join('')+'</ul>';continue;}
+    if(isNumList){html+='<ul class="rs-list">'+blk.filter(l=>l.trim()).map(l=>`<li>${md(l.trim().replace(/^\d+\.\s*/,''))}</li>`).join('')+'</ul>';continue;}
+    if(def.numbered&&blk.length>=1){
       clauseN++;
-      const borderCls = def.cls==='rs-critical'?'critical':def.cls==='rs-warning'?'warning':'default';
-      const title = first.replace(/\*\*/g,'');
-      const rest = blk.slice(1);
-      let bodyLines=[], negLines=[]; let inNeg=false;
-      for (const l of rest) { if(l.includes('💬')||/say\s*this/i.test(l)) inNeg=true; if(inNeg) negLines.push(l); else bodyLines.push(l); }
-      const body = bodyLines.map(l=>md(l.trim())).filter(Boolean).join(' ')
+      const borderCls=def.cls==='rs-critical'?'critical':def.cls==='rs-warning'?'warning':'default';
+      const title=first.replace(/\*\*/g,'');
+      const rest=blk.slice(1);
+      let bodyLines=[],negLines=[];let inNeg=false;
+      for(const l of rest){if(l.includes('💬')||/suggested\s+question/i.test(l)||/say\s*this/i.test(l)) inNeg=true;if(inNeg) negLines.push(l);else bodyLines.push(l);}
+      const body=bodyLines.map(l=>md(l.trim())).filter(Boolean).join(' ')
         .replace(/nothing\s+looks\s+fine/gi,'No low-risk clauses identified in this contract');
-      const neg = negLines.length ? mkNeg(negLines) : '';
+      const neg=negLines.length?mkNeg(negLines):'';
       html+=`<div class="issue-card ${borderCls}"><div class="issue-num">Issue ${clauseN}</div><div class="issue-title">${escHtml(title)}</div><div class="issue-text">${body}</div>${neg}</div>`;
       continue;
     }
-    const text = blk.map(l=>md(l.trim())).join(' ').replace(/nothing\s+looks\s+fine/gi,'No low-risk clauses identified in this contract');
-    if (text.trim()) html+=`<p class="rs-p">${text}</p>`;
+    const text=blk.map(l=>md(l.trim())).join(' ').replace(/nothing\s+looks\s+fine/gi,'No low-risk clauses identified in this contract');
+    if(text.trim()) html+=`<p class="rs-p">${text}</p>`;
   }
   return html||'<p class="rs-none">None identified.</p>';
 }
 
-let _negCount = 0;
+let _negCount=0;
 function mkNeg(lines) {
-  const text = lines.join(' ').replace(/💬/g,'').replace(/say\s*this:?/gi,'').replace(/\*\*/g,'').trim();
-  const id = 'neg-'+(_negCount++);
-  return `<div class="neg-script" id="${id}"><div class="neg-label">💬 Say this:</div><div class="neg-text">${escHtml(text)}</div><button class="copy-btn" onclick="copyScript('${id}')">Copy</button></div>`;
+  const text=lines.join(' ')
+    .replace(/💬/g,'').replace(/say\s*this:?/gi,'').replace(/suggested\s+question\s*(to\s+raise)?:?/gi,'').replace(/\*\*/g,'').trim();
+  const id='neg-'+(_negCount++);
+  // Change 5 — rename "Say this:" to "Suggested question to raise:"
+  return `<div class="neg-script" id="${id}"><div class="neg-label">💬 Suggested question to raise:</div><div class="neg-text">${escHtml(text)}</div><button class="copy-btn" onclick="copyScript('${id}')">Copy</button></div>`;
 }
 
 function renderWhatToDoNow(verdict) {
-  const steps = {
-    danger:  ['Do not sign this contract in its current form.','Send the negotiation scripts above to the head contractor and request changes in writing.','If they refuse to negotiate, consider walking away or consulting a construction lawyer.'],
-    caution: ['Raise the flagged issues with the head contractor before signing.','Use the negotiation scripts above as a starting point.','Get any agreed changes confirmed in writing before you sign.'],
-    safe:    ["You're good to proceed — the contract is fair and reasonable.",'Keep a signed copy for your records once both parties have signed.','If anything changes during the job, document it in writing immediately.'],
+  // Change 5 — updated language to match HIGH RISK / MEDIUM RISK / LOW RISK
+  const steps={
+    danger:  ['You may want to avoid signing this contract as it stands.','Use the suggested questions above to raise your concerns with the contractor.','If they\'re unwilling to negotiate, consider walking away or speaking with a construction lawyer.'],
+    caution: ['Raise the flagged issues with the contractor before signing.','Use the suggested questions above as a starting point.','Get any agreed changes confirmed in writing before you sign.'],
+    safe:    ['This contract appears reasonable to proceed with.','Keep a signed copy for your records once both parties have signed.','If anything changes during the job, document it in writing.'],
   };
-  const list = (steps[verdict]||steps.safe).map((s,i)=>`<li data-n="${i+1}.">${s}</li>`).join('');
+  const list=(steps[verdict]||steps.safe).map((s,i)=>`<li data-n="${i+1}.">${s}</li>`).join('');
   return `<div class="rs-actions"><div class="rs-actions-title">📌 WHAT TO DO NOW</div><ol class="rs-action-list">${list}</ol></div>`;
 }
 
 function simpleMarkdown(text) {
   return text.split('\n\n').filter(p=>p.trim()).map(p=>`<p class="rs-p">${md(p.trim())}</p>`).join('');
 }
+function md(text){return escHtml(text).replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>').replace(/\*([^*]+)\*/g,'<em>$1</em>');}
+function escHtml(t){return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 
-function md(text) {
-  return escHtml(text).replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>').replace(/\*([^*]+)\*/g,'<em>$1</em>');
-}
-
-function escHtml(t) {
-  return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
-// COPY BUTTON
+// COPY SUGGESTION SCRIPT
 function copyScript(id) {
-  const el=document.getElementById(id); if(!el) return;
+  const el=document.getElementById(id);if(!el) return;
   const text=el.querySelector('.neg-text')?.textContent||'';
   const btn=el.querySelector('.copy-btn');
-  const done=()=>{ btn.textContent='Copied!'; btn.classList.add('copied'); setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('copied');},2500); };
+  const done=()=>{btn.textContent='Copied!';btn.classList.add('copied');setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('copied');},2500);};
   navigator.clipboard?.writeText(text).then(done).catch(()=>{
-    const ta=document.createElement('textarea'); ta.value=text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); done();
+    const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);done();
   });
 }
 
-// PDF DOWNLOAD
+// COPY FULL REPORT (Change 15)
+function copyReportText() {
+  const body=document.getElementById('report-body');
+  const btn=document.getElementById('copy-report-btn');
+  const text=body?body.innerText||body.textContent:'';
+  const done=()=>{btn.textContent='✓ Report Copied!';btn.classList.add('copied');setTimeout(()=>{btn.textContent='📋 Copy Report Text';btn.classList.remove('copied');},3000);};
+  navigator.clipboard?.writeText(text).then(done).catch(()=>{
+    const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);done();
+  });
+}
+
+// PDF DOWNLOAD — Changes 2 & 3
 async function downloadPDF() {
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF({unit:'mm',format:'a4'});
-  const margin=18, pageW=210, usable=pageW-margin*2, pageH=297;
-  let y=0, pageNum=1;
+  const{jsPDF}=window.jspdf;
+  const doc=new jsPDF({unit:'mm',format:'a4'});
+  const margin=18,pageW=210,usable=pageW-margin*2,pageH=297;
+  let y=0,pageNum=1;
 
   function cleanEmoji(t) {
-    return t.replace(/🔴/g,'[DO NOT SIGN]').replace(/🟡/g,'[CAUTION]').replace(/🟢/g,'[SAFE]')
+    return t
+      .replace(/🔴/g,'[HIGH RISK]').replace(/🟡/g,'[MEDIUM RISK]').replace(/🟢/g,'[LOW RISK / CLEAR]')
       .replace(/💸/g,'[COST]').replace(/🚨/g,'[CRITICAL]').replace(/⚠️/g,'[WARNING]')
       .replace(/✅/g,'[OK]').replace(/❓/g,'[QUESTIONS]').replace(/📋/g,'[SUMMARY]')
-      .replace(/💬/g,'[SAY THIS]').replace(/📌/g,'[ACTION]').replace(/[^\x00-\x7F]/g,'');
+      .replace(/💬/g,'[SUGGESTED QUESTION]').replace(/📌/g,'[ACTION]').replace(/[^\x00-\x7F]/g,'');
   }
 
   function footer() {
-    doc.setFont('helvetica','normal'); doc.setFontSize(7); doc.setTextColor(150);
-    doc.text('beforeyousign.nz — AI-assisted review only, not legal advice', margin, pageH-8);
-    doc.text(`Page ${pageNum}`, pageW-margin, pageH-8, {align:'right'});
+    doc.setFont('helvetica','normal');doc.setFontSize(7);doc.setTextColor(150);
+    doc.text('AI-assisted review — not a substitute for legal advice · beforeyousign.nz',margin,pageH-8);
+    doc.text(`Page ${pageNum}`,pageW-margin,pageH-8,{align:'right'});
   }
 
   function checkPage(need) {
-    if (y+need > pageH-16) { footer(); doc.addPage(); pageNum++; y=margin; }
+    if(y+need>pageH-16){footer();doc.addPage();pageNum++;y=margin;}
   }
 
-  // Header
-  doc.setFillColor(245,200,0); doc.rect(0,0,pageW,22,'F');
-  doc.setFont('helvetica','bold'); doc.setFontSize(14); doc.setTextColor(20,20,20);
-  doc.text('BEFORE YOU SIGN', margin, 10);
-  doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.text('Contract Risk Report', margin, 17);
-  doc.setTextColor(80); doc.text('beforeyousign.nz', pageW-margin, 14, {align:'right'});
+  // Header (page 1 only)
+  doc.setFillColor(245,200,0);doc.rect(0,0,pageW,22,'F');
+  doc.setFont('helvetica','bold');doc.setFontSize(14);doc.setTextColor(20,20,20);
+  doc.text('BEFORE YOU SIGN',margin,10);
+  doc.setFont('helvetica','normal');doc.setFontSize(9);doc.text('Contract Risk Report',margin,17);
+  doc.setTextColor(80);doc.text('beforeyousign.nz',pageW-margin,14,{align:'right'});
   y=30;
-  doc.setFontSize(8); doc.setTextColor(120); doc.setFont('helvetica','normal');
-  doc.text(`Generated: ${new Date().toLocaleString('en-NZ')}`, margin, y); y+=8;
+  doc.setFontSize(8);doc.setTextColor(120);doc.setFont('helvetica','normal');
+  doc.text(`Generated: ${new Date().toLocaleString('en-NZ')}`,margin,y);y+=8;
 
   // Verdict bar
-  const vLabel = currentVerdict==='danger'?'DO NOT SIGN':currentVerdict==='caution'?'PROCEED WITH CAUTION':'SAFE TO SIGN';
-  const vc = currentVerdict==='danger'?[229,62,62]:currentVerdict==='caution'?[237,137,54]:[56,161,105];
-  doc.setFillColor(...vc,0.12); doc.setDrawColor(...vc);
+  const vLabel=currentVerdict==='danger'?'HIGH RISK — YOU MAY WANT TO AVOID SIGNING':currentVerdict==='caution'?'MEDIUM RISK — RAISE BEFORE SIGNING':'LOW RISK';
+  const vc=currentVerdict==='danger'?[229,62,62]:currentVerdict==='caution'?[237,137,54]:[56,161,105];
+  doc.setFillColor(...vc);doc.setDrawColor(...vc);
   doc.roundedRect(margin,y,usable,11,2,2,'FD');
-  doc.setFont('helvetica','bold'); doc.setFontSize(10); doc.setTextColor(...vc);
-  doc.text(`VERDICT: ${vLabel}`, margin+4, y+7); y+=17;
+  doc.setFont('helvetica','bold');doc.setFontSize(9);doc.setTextColor(255,255,255);
+  doc.text(vLabel,margin+4,y+7);y+=17;
 
-  // Sections
-  const sectionMap = [
-    {pat:/FINAL VERDICT/i, color:[180,140,0], title:'FINAL VERDICT'},
-    {pat:/WHAT THIS COULD COST/i, color:[180,140,0], title:'WHAT THIS COULD COST YOU'},
-    {pat:/CRITICAL ISSUES/i, color:[180,40,40], title:'CRITICAL ISSUES'},
-    {pat:/THINGS TO WATCH/i, color:[170,85,20], title:'THINGS TO WATCH'},
-    {pat:/LOOKS FINE/i, color:[35,120,70], title:'LOOKS FINE'},
-    {pat:/QUESTIONS TO ASK/i, color:[40,100,160], title:'QUESTIONS TO ASK BEFORE SIGNING'},
-    {pat:/PLAIN ENGLISH SUMMARY/i, color:[90,90,90], title:'PLAIN ENGLISH SUMMARY'},
-    {pat:/WHAT TO DO NOW/i, color:[150,110,0], title:'WHAT TO DO NOW'},
+  const sectionMap=[
+    {pat:/FINAL VERDICT/i,color:[160,120,0],title:'FINAL VERDICT'},
+    {pat:/WHAT THIS COULD COST/i,color:[160,120,0],title:'WHAT THIS COULD COST YOU'},
+    {pat:/CRITICAL ISSUES/i,color:[180,40,40],title:'CRITICAL ISSUES'},
+    {pat:/THINGS TO WATCH/i,color:[170,85,20],title:'THINGS TO WATCH'},
+    {pat:/LOOKS FINE/i,color:[35,120,70],title:'LOOKS FINE'},
+    {pat:/QUESTIONS TO ASK/i,color:[40,100,160],title:'QUESTIONS TO ASK BEFORE SIGNING'},
+    {pat:/PLAIN ENGLISH SUMMARY/i,color:[90,90,90],title:'PLAIN ENGLISH SUMMARY'},
+    {pat:/WHAT TO DO NOW/i,color:[140,100,0],title:'WHAT TO DO NOW'},
   ];
 
-  for (const rawLine of cleanEmoji(reportText).split('\n')) {
-    const line = rawLine.trim(); if (!line) { y+=2; continue; }
+  for(const rawLine of cleanEmoji(reportText).split('\n')){
+    const line=rawLine.trim();if(!line){y+=2;continue;}
     let isHeader=false;
-    for (const s of sectionMap) {
-      if (s.pat.test(line) && line.length<80) {
+    for(const s of sectionMap){
+      if(s.pat.test(line)&&line.length<80){
         checkPage(14);
-        doc.setFillColor(...s.color); doc.rect(margin,y,3,9,'F');
-        doc.setFont('helvetica','bold'); doc.setFontSize(10); doc.setTextColor(...s.color);
-        doc.text(s.title, margin+6, y+6.5); y+=13; isHeader=true; break;
+        doc.setFillColor(...s.color);doc.rect(margin,y,3,9,'F');
+        doc.setFont('helvetica','bold');doc.setFontSize(10);doc.setTextColor(...s.color);
+        doc.text(s.title,margin+6,y+6.5);y+=13;isHeader=true;break;
       }
     }
-    if (isHeader) continue;
-    if (/\[SAY THIS\]/.test(line)||/say\s*this/i.test(line)) {
-      const t = line.replace(/\[SAY THIS\]/g,'').replace(/say\s*this:?/gi,'').trim();
-      const wl = doc.splitTextToSize(`Say this: "${t}"`, usable-8);
+    if(isHeader) continue;
+    if(/\[SUGGESTED QUESTION\]/.test(line)||/suggested\s+question/i.test(line)){
+      const t=line.replace(/\[SUGGESTED QUESTION\]/g,'').replace(/suggested\s+question\s*(to\s+raise)?:?/gi,'').trim();
+      const wl=doc.splitTextToSize(`Suggested question: "${t}"`,usable-8);
       checkPage(wl.length*4.5+6);
-      doc.setFillColor(20,20,20); doc.rect(margin+3,y-1,usable-3,wl.length*4.5+4,'F');
-      doc.setDrawColor(200,160,0); doc.line(margin+3,y-1,margin+3,y+wl.length*4.5+2);
-      doc.setFont('helvetica','italic'); doc.setFontSize(8); doc.setTextColor(180,150,20);
-      doc.text(wl,margin+7,y+3); y+=wl.length*4.5+6; continue;
+      doc.setFillColor(20,20,20);doc.rect(margin+3,y-1,usable-3,wl.length*4.5+4,'F');
+      doc.setDrawColor(200,160,0);doc.line(margin+3,y-1,margin+3,y+wl.length*4.5+2);
+      doc.setFont('helvetica','italic');doc.setFontSize(8);doc.setTextColor(180,150,20);
+      doc.text(wl,margin+7,y+3);y+=wl.length*4.5+6;continue;
     }
     const isBold=/\*\*/.test(line)||/^Issue \d+/.test(line);
     const clean=line.replace(/\*\*/g,'');
-    const wl=doc.splitTextToSize(clean, usable-(line.startsWith('-')||line.startsWith('[')?8:0));
+    const wl=doc.splitTextToSize(clean,usable-(line.startsWith('-')||line.startsWith('[')?8:0));
     checkPage(wl.length*(isBold?5.5:4.5)+2);
     doc.setFont('helvetica',isBold?'bold':'normal');
     doc.setFontSize(isBold?9.5:9);
-    doc.setTextColor(isBold?220:140,isBold?220:140,isBold?220:140);
-    doc.text(wl,margin+(line.startsWith('-')||line.startsWith('[')&&!isBold?5:0),y);
+    doc.setTextColor(isBold?210:140,isBold?210:140,isBold?210:140);
+    doc.text(wl,margin+(line.startsWith('-')?5:0),y);
     y+=wl.length*(isBold?5.5:4.5);
   }
-
   footer();
   doc.save('BeforeYouSign-Report.pdf');
 }
@@ -1039,21 +1187,22 @@ function resetApp() {
   document.getElementById('upsell-prompt').style.display='none';
   document.getElementById('upload-section').style.display='block';
   document.getElementById('how-section').style.display='block';
-  const t=document.getElementById('traps-section'); if(t) t.style.display='block';
+  const t=document.getElementById('traps-section');if(t) t.style.display='block';
   document.getElementById('contract-text').value='';
   document.getElementById('file-selected').style.display='none';
   document.getElementById('trade-type').value='';
-  selectedFile=null; reportText='';
-  const btn=document.getElementById('pay-btn'); btn.disabled=false;
-  btn.querySelector('#cta-label').textContent=isFreeUser?'Review My Contract — Free':'Review My Contract — NZD $29';
+  document.getElementById('length-hint').style.display='none';
+  selectedFile=null;reportText='';
+  const btn=document.getElementById('pay-btn');btn.disabled=false;
+  btn.querySelector('#cta-label').textContent=isFreeUser||promoValid?'Review My Contract — Free':'Review My Contract — NZD $29';
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
 // MODAL
-function openSampleModal() { document.getElementById('sample-modal').classList.add('open'); document.body.style.overflow='hidden'; }
-function closeSampleModal() { document.getElementById('sample-modal').classList.remove('open'); document.body.style.overflow=''; }
-function handleModalClick(e) { if(e.target===document.getElementById('sample-modal')) closeSampleModal(); }
-document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeSampleModal(); });
+function openSampleModal(){document.getElementById('sample-modal').classList.add('open');document.body.style.overflow='hidden';}
+function closeSampleModal(){document.getElementById('sample-modal').classList.remove('open');document.body.style.overflow='';}
+function handleModalClick(e){if(e.target===document.getElementById('sample-modal')) closeSampleModal();}
+document.addEventListener('keydown',e=>{if(e.key==='Escape') closeSampleModal();});
 
 // INIT
 checkFreeStatus();
