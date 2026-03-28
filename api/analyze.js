@@ -1,258 +1,176 @@
 // api/analyze.js
-// Three-pass AI analysis of a subcontract.
-//
-// Pass 1 — Extract clauses into structured JSON
-// Pass 2 — Risk-score each clause (financial impact, NZ law, negotiation tips)
-// Pass 3 — Write plain-English report in the required section structure
-//
-// Handles both plain-text contracts and base64-encoded PDFs.
-// Records IP in KV after a free review to prevent double-dipping.
+// Three-pass contract analysis via Claude API.
+// A valid promo code completely bypasses the cookie-based free-check.
 
-const Anthropic = require('@anthropic-ai/sdk');
+import Anthropic from '@anthropic-ai/sdk';
 
-module.exports = async function handler(req, res) {
+const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+
+const VALID_PROMO = 'BYS2026NZ';
+
+export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { content, type, wasFree, tradeType } = req.body;
+  const { content, type, wasFree, tradeType, promoCode } = req.body;
 
   if (!content) {
     return res.status(400).json({ error: 'No contract content provided' });
   }
 
-  if (!process.env.ANTHROPIC_API_KEY) {
-    console.error('[analyze] ANTHROPIC_API_KEY is not set');
-    return res.status(500).json({ error: 'AI service not configured' });
-  }
+  // ── FREE / PAYMENT GATE ───────────────────────────────────────────────────
+  // Valid promo code: skip ALL free-check and cookie logic entirely.
+  // No promo: enforce cookie-based free-check as normal.
+  const hasValidPromo = typeof promoCode === 'string' && promoCode.trim() === VALID_PROMO;
 
-  const trade = tradeType || 'General subcontractor';
+  if (!hasValidPromo) {
+    const cookieHeader = req.headers.cookie || '';
+    const alreadyUsedFree = cookieHeader.split(';').some(c => c.trim().startsWith('bys_free_used='));
 
-  // ── Guard: prevent free double-use via cookie ────────────────────
-  if (wasFree) {
-    const cookies = parseCookies(req.headers.cookie || '');
-    if (cookies['bys_free_used'] === '1') {
-      return res.status(402).json({
-        error: 'Free review already used for this device. Payment required.',
+    if (wasFree && alreadyUsedFree) {
+      return res.status(403).json({
+        error: 'Free review already used for this device. Payment required.'
       });
     }
   }
 
-  const client = new Anthropic.default({ apiKey: process.env.ANTHROPIC_API_KEY });
+  const tradeContext = tradeType ? `The subcontractor is a ${tradeType}.` : 'Trade type not specified.';
 
   try {
-    // ── PASS 1: Extract clauses ────────────────────────────────────
-    const pass1Response = await client.messages.create({
-      model: 'claude-opus-4-5',
-      max_tokens: 4096,
-      system: `You are a NZ construction contract analyst specialising in subcontractor agreements.
-Extract all significant clauses from the contract provided and return them as a JSON array.
-Each item must have exactly these fields:
-  { "id": "clause_1", "title": "Short clause title", "text": "Full clause text" }
-Return ONLY a valid JSON array. No markdown, no explanation, no code fences.`,
-      messages: [
-        {
+    // ── PASS 1: Extract clauses ───────────────────────────────────────────────
+    const pass1Messages = type === 'pdf'
+      ? [{
           role: 'user',
-          content: buildMessageContent(
-            type,
-            content,
-            'Extract all significant clauses from this contract as a JSON array.'
-          ),
-        },
-      ],
+          content: [
+            { type: 'document', source: { type: 'base64', media_type: 'application/pdf', data: content } },
+            { type: 'text', text: `Extract all clauses from this subcontract relating to payment, liability, scope, retention, insurance, termination, or disputes. Return a JSON array only — no other text. Each item: { id: string, title: string, text: string }. ${tradeContext}` },
+          ],
+        }]
+      : [{
+          role: 'user',
+          content: `Extract all clauses from this subcontract relating to payment, liability, scope, retention, insurance, termination, or disputes. Return a JSON array only — no other text. Each item: { id: string, title: string, text: string }. ${tradeContext}\n\nCONTRACT:\n${content}`,
+        }];
+
+    const pass1 = await client.messages.create({
+      model: 'claude-opus-4-5',
+      max_tokens: 4000,
+      messages: pass1Messages,
     });
 
     let clauses = [];
     try {
-      const raw = stripCodeFences(pass1Response.content[0].text);
-      clauses = JSON.parse(raw);
-      if (!Array.isArray(clauses)) throw new Error('Not an array');
-    } catch (err) {
-      console.error('[analyze] Pass 1 parse error:', err.message);
-      return res.status(500).json({
-        error: 'Could not extract clauses from the contract. Please check your contract text and try again.',
-      });
-    }
+      clauses = JSON.parse(pass1.content[0].text.replace(/```json|```/g, '').trim());
+    } catch { clauses = []; }
 
-    if (clauses.length === 0) {
-      return res.status(400).json({
-        error: 'No clauses found in the contract. Please paste more of the contract text.',
-      });
-    }
-
-    // ── PASS 2: Risk-score each clause ────────────────────────────
-    const pass2Response = await client.messages.create({
+    // ── PASS 2: Risk-score each clause ────────────────────────────────────────
+    const pass2 = await client.messages.create({
       model: 'claude-opus-4-5',
-      max_tokens: 6144,
-      system: `You are a NZ construction contract risk analyst specialising in subcontractor protection.
-You are reviewing a contract for a ${trade}.
+      max_tokens: 4000,
+      messages: [{
+        role: 'user',
+        content: `You are a NZ construction contract risk analyst. ${tradeContext}
 
-Always prioritise identifying risks that could cost the subcontractor money, delay payment, or increase liability.
-Consider risks related to: unfair contract terms, liability exposure, scope ambiguity, payment delays or withholding, retention misuse, and common NZ construction industry practices.
+For each clause, return a JSON array only — no other text. Each item must include:
+- id (string — same as input)
+- risk_level: "critical" | "high" | "medium" | "low"
+- summary: 1–2 sentences using "may/could" language
+- financial_impact: estimated dollar impact where possible
+- negotiation_tip: exact wording the subcontractor could use
+- tradie_impact: real-world consequence on site or cashflow
+- legal_context: relevant NZ legislation (CCA 2002, CCLA 2017, Fair Trading Act, Building Act 2004)
 
-For each clause return a JSON object with these exact fields:
-{
-  "id": "clause_1",
-  "risk_level": "critical" | "high" | "medium" | "low" | "ok",
-  "summary": "One sentence describing what this clause does",
-  "financial_impact": "Plain English estimate of what this clause could cost the subcontractor (include $ estimates where possible)",
-  "negotiation_tip": "Exact wording the tradie can use to push back on this clause in conversation",
-  "tradie_impact": "Real-world consequence explained in plain English — what actually happens on site or in practice",
-  "legal_context": "Which NZ law is most relevant: CCA 2002 (Construction Contracts Act), Contract and Commercial Law Act 2017, Fair Trading Act 1986, or Building Act 2004. State clearly if none apply."
-}
+Prioritise: payment delays, unlimited liability, scope creep, retention misuse, unfair obligations.
 
-Return ONLY a valid JSON array. No markdown, no explanation, no code fences.`,
-      messages: [
-        {
-          role: 'user',
-          content: `Analyse these clauses for risk. Trade type: ${trade}.\n\n${JSON.stringify(clauses, null, 2)}`,
-        },
-      ],
+CLAUSES:
+${JSON.stringify(clauses, null, 2)}`,
+      }],
     });
 
     let risks = [];
     try {
-      const raw = stripCodeFences(pass2Response.content[0].text);
-      risks = JSON.parse(raw);
-      if (!Array.isArray(risks)) throw new Error('Not an array');
-    } catch (err) {
-      console.error('[analyze] Pass 2 parse error:', err.message);
-      return res.status(500).json({
-        error: 'Risk analysis failed. Please try again.',
-      });
-    }
+      risks = JSON.parse(pass2.content[0].text.replace(/```json|```/g, '').trim());
+    } catch { risks = []; }
 
-    // Count risks
-    const riskCounts = { critical: 0, high: 0, medium: 0, low: 0 };
-    risks.forEach((r) => {
-      if (r.risk_level && riskCounts[r.risk_level] !== undefined) {
-        riskCounts[r.risk_level]++;
-      }
-    });
+    // Risk counts & verdict
+    const riskCounts = risks.reduce((acc, r) => {
+      const lvl = r.risk_level || 'low';
+      acc[lvl] = (acc[lvl] || 0) + 1;
+      return acc;
+    }, {});
 
-    // ── PASS 3: Write plain-English report ────────────────────────
-    const pass3Response = await client.messages.create({
+    let verdict = 'safe';
+    if (riskCounts.critical > 0) verdict = 'danger';
+    else if (riskCounts.high > 0) verdict = 'caution';
+
+    // ── PASS 3: Plain-English report ──────────────────────────────────────────
+    const verdictEmoji = verdict === 'danger' ? '🔴' : verdict === 'caution' ? '🟡' : '🟢';
+    const verdictLabel = verdict === 'danger'
+      ? 'HIGH RISK — you may want to avoid signing this as it stands'
+      : verdict === 'caution'
+      ? 'MEDIUM RISK — raise these issues before signing'
+      : 'LOW RISK — this contract appears reasonable to proceed with';
+
+    const pass3 = await client.messages.create({
       model: 'claude-opus-4-5',
-      max_tokens: 4096,
-      system: `You are a plain-English contract adviser for NZ tradespeople. Write a clear, honest risk report for a ${trade}.
-Use plain English — no legal jargon. Be direct and specific. If there are no critical issues, say so clearly.
+      max_tokens: 4000,
+      messages: [{
+        role: 'user',
+        content: `Write a plain-English contract risk report for a NZ subcontractor. ${tradeContext}
 
-Structure the report EXACTLY as follows, using these exact headings and emoji:
+Use "may", "could", "might" — avoid definitive statements. Never say "do not sign" — say "you may want to avoid signing this as it stands" instead.
 
-🔴/🟡/🟢 FINAL VERDICT
-[Write one of: SAFE TO SIGN / PROCEED WITH CAUTION / DO NOT SIGN] — [one plain-English sentence explaining why]
+Use this exact structure:
+
+${verdictEmoji} FINAL VERDICT
+${verdictLabel}
+[One sentence explaining the key reason]
 
 💸 WHAT THIS COULD COST YOU
-[Bullet points of financial risks. Include dollar estimates where possible. If no significant financial risk, say so.]
+[Bullet points with dollar estimates where possible]
 
 🚨 CRITICAL ISSUES
-[For each critical or high-risk issue, write the issue name, a plain-English explanation, and a 💬 negotiation script with the exact words the tradie can say. If none, write "None identified."]
+[Each critical/high clause numbered as Issue N:
+**Issue title (Clause reference)**
+Plain explanation
+💬 Suggested question to raise: "exact wording"]
 
 ⚠️ THINGS TO WATCH
-[Medium-risk items worth being aware of, but not blocking. If none, write "Nothing significant."]
+[Medium-risk items numbered, with 💬 Suggested question to raise where useful]
 
 ✅ LOOKS FINE
-[Standard or low-risk clauses that are acceptable. Be brief.]
+[Low-risk items as bullets]
 
 ❓ QUESTIONS TO ASK BEFORE SIGNING
-[3–5 specific questions the tradie should ask the head contractor before signing]
+[3–5 practical questions]
 
 📋 PLAIN ENGLISH SUMMARY
-[2–3 sentences summarising the overall picture and what the tradie should do next]`,
-      messages: [
-        {
-          role: 'user',
-          content: `Write the report based on these clause risk assessments. Trade: ${trade}.\n\n${JSON.stringify(risks, null, 2)}`,
-        },
-      ],
+[2–3 sentence overview]
+
+RISK DATA:
+${JSON.stringify(risks, null, 2)}`,
+      }],
     });
 
-    const report = pass3Response.content[0].text;
+    const report = pass3.content.map(b => b.type === 'text' ? b.text : '').filter(Boolean).join('\n');
 
-    // ── Detect verdict from report text ───────────────────────────
-    const verdict = detectVerdict(report);
-    const verdictReason = extractVerdictReason(report);
+    // Extract verdictReason from line after FINAL VERDICT heading
+    const lines = report.split('\n').filter(l => l.trim());
+    const vi = lines.findIndex(l => /FINAL VERDICT/i.test(l));
+    const verdictReason = vi >= 0 && lines[vi + 2] ? lines[vi + 2].trim() : '';
 
-    // ── Record free use via HttpOnly cookie ──────────────────────
-    if (wasFree) {
-      const oneYear = 60 * 60 * 24 * 365;
-      res.setHeader(
-        'Set-Cookie',
-        `bys_free_used=1; Max-Age=${oneYear}; Path=/; HttpOnly; Secure; SameSite=Strict`
-      );
+    // ── SET FREE-USED COOKIE ──────────────────────────────────────────────────
+    // Don't consume the free review if a promo code was used — promo is its own bypass.
+    if (wasFree && !hasValidPromo) {
+      res.setHeader('Set-Cookie', [
+        'bys_free_used=1; HttpOnly; Secure; SameSite=Strict; Max-Age=31536000; Path=/'
+      ]);
     }
 
-    return res.status(200).json({
-      report,
-      verdict,
-      verdictReason,
-      riskCounts,
-    });
+    return res.status(200).json({ report, verdict, verdictReason, riskCounts, clauses: clauses.length });
+
   } catch (err) {
-    console.error('[analyze] Unexpected error:', err.message);
-    // Surface Anthropic rate-limit errors helpfully
-    if (err.status === 429) {
-      return res.status(429).json({ error: 'AI service is busy — please try again in a moment.' });
-    }
-    return res.status(500).json({ error: 'Analysis failed. Please try again.' });
+    console.error('Analysis error:', err);
+    return res.status(500).json({ error: 'Analysis failed — please try again.' });
   }
-};
-
-// ── Helpers ──────────────────────────────────────────────────────
-
-/**
- * Builds the message content array for Claude.
- * PDFs are sent as base64 document blocks; plain text is appended to the prompt.
- */
-function buildMessageContent(type, content, prompt) {
-  if (type === 'pdf') {
-    return [
-      {
-        type: 'document',
-        source: {
-          type: 'base64',
-          media_type: 'application/pdf',
-          data: content,
-        },
-      },
-      { type: 'text', text: prompt },
-    ];
-  }
-  // Plain text — append to prompt
-  return `${prompt}\n\n---CONTRACT TEXT---\n${content}`;
-}
-
-/** Strips markdown code fences from JSON responses. */
-function stripCodeFences(text) {
-  return text.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '').trim();
-}
-
-/** Returns 'danger' | 'caution' | 'safe' based on report text. */
-function detectVerdict(report) {
-  const upper = report.toUpperCase();
-  if (upper.includes('DO NOT SIGN')) return 'danger';
-  if (upper.includes('PROCEED WITH CAUTION')) return 'caution';
-  return 'safe';
-}
-
-/** Extracts the one-line reason from the FINAL VERDICT section. */
-function extractVerdictReason(report) {
-  // Match the line immediately after FINAL VERDICT heading
-  const match = report.match(/FINAL VERDICT\s*\n([^\n]+)/i);
-  if (!match) return '';
-  // Strip leading emoji and verdict words to leave just the reason
-  return match[1]
-    .replace(/^[🔴🟡🟢\s]*/u, '')
-    .replace(/^(SAFE TO SIGN|PROCEED WITH CAUTION|DO NOT SIGN)\s*[—–-]?\s*/i, '')
-    .trim();
-}
-
-/** Parses a Cookie header string into a key-value object. */
-function parseCookies(cookieHeader) {
-  const cookies = {};
-  cookieHeader.split(';').forEach((part) => {
-    const [key, ...val] = part.trim().split('=');
-    if (key) cookies[key.trim()] = val.join('=').trim();
-  });
-  return cookies;
 }
