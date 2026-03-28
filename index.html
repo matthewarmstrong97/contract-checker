@@ -155,12 +155,7 @@ textarea::placeholder{color:#444}
 .risk-tier.medium-risk{background:var(--orange-bg);border:2px solid rgba(237,137,54,0.4);color:#F6AD55}
 .risk-tier.low-risk,.risk-tier.clear{background:var(--green-bg);border:2px solid rgba(56,161,105,0.4);color:#68D391}
 /* Risk score */
-.risk-score-block{background:var(--charcoal-light);border:1px solid var(--charcoal-border);border-radius:var(--r-lg);padding:16px 20px;margin-bottom:16px;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
-.risk-score-label{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
-.risk-score-number{font-family:'Bebas Neue',sans-serif;font-size:42px;line-height:1}
-.risk-score-bar-wrap{flex:1;min-width:120px;height:8px;background:var(--charcoal-border);border-radius:4px;overflow:hidden}
-.risk-score-bar{height:100%;width:0;border-radius:4px;transition:width 1.2s ease}
-.risk-score-desc{font-size:12px;color:var(--muted);margin-top:6px;flex-basis:100%}
+
 /* Verdict */
 .verdict-block{display:flex;align-items:center;gap:14px;padding:16px 20px;border-radius:var(--r-lg)}
 .verdict-block.safe{background:var(--green-bg);border:1px solid rgba(56,161,105,0.35)}
@@ -317,7 +312,6 @@ footer{position:relative;z-index:1;border-top:1px solid var(--charcoal-border);p
   .contact-card{flex-direction:column}
   header{padding:0 16px}
   .free-badge{display:none}
-  .risk-score-block{flex-direction:column;align-items:flex-start;gap:10px}
   .report-top-row{flex-direction:column}
   .neg-text{padding-right:0;font-size:13px}
   .copy-btn{position:static;margin-top:10px;width:100%;text-align:center;padding:10px}
@@ -469,16 +463,6 @@ footer{position:relative;z-index:1;border-top:1px solid var(--charcoal-border);p
     </div>
     <!-- Risk tier badge -->
     <div class="risk-tier-badge" id="risk-tier-badge"></div>
-    <div class="risk-score-block" id="risk-score-block" style="display:none">
-      <div>
-        <div class="risk-score-label">Risk Score</div>
-        <div class="risk-score-number" id="risk-score-number">0<span style="font-size:20px;color:var(--muted)">/100</span></div>
-      </div>
-      <div style="flex:1;min-width:140px">
-        <div class="risk-score-bar-wrap"><div class="risk-score-bar" id="risk-score-bar"></div></div>
-        <div class="risk-score-desc" id="risk-score-desc"></div>
-      </div>
-    </div>
     <div id="verdict-block"></div>
   </div>
 
@@ -1011,15 +995,6 @@ function showReport(result, wasFree) {
   } else {
     tierEl.innerHTML='<span class="risk-tier clear">🟢 CLEAR</span>';
   }
-
-  // Risk score
-  const score=Math.min(100,(counts.critical||0)*25+(counts.high||0)*15+(counts.medium||0)*8+(counts.low||0)*3);
-  document.getElementById('risk-score-block').style.display='flex';
-  document.getElementById('risk-score-number').innerHTML=`${score}<span style="font-size:20px;color:var(--muted)">/100</span>`;
-  const bar=document.getElementById('risk-score-bar');
-  bar.style.background=score>=65?'var(--red)':score>=35?'var(--orange)':'var(--green)';
-  setTimeout(()=>bar.style.width=score+'%',100);
-  document.getElementById('risk-score-desc').textContent=score>=65?'High risk — review carefully before signing':score>=35?'Moderate risk — some clauses may need attention':'Low risk — minor issues only';
 
   // Verdict
   currentVerdict=result.verdict||detectVerdict(result.report||'');
